@@ -1,0 +1,25 @@
+body {
+    background-color: #0d1116;
+    color: rgb(241, 241, 241);
+}
+
+#mainGame {
+    background-image: linear-gradient(90deg, rgba(13,17,22,0.7) 0%, rgba(13,17,22,0.7) 100%), url('../images/bg2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(90deg, rgba(13,17,22,0.68) 0%, #0D1116 100%);
+}
+
+canvas {
+    background-color: #0d1116;
+    border-radius: 5px;
+}
