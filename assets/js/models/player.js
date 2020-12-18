@@ -95,7 +95,7 @@ class Player {
     }
 
     shot() {
-        if(this.shootingCount >= this.shootingInterval){
+        if(this.shootingCount >= this.shootingInterval && this.nearestEnemy){
             // Calcular angulo para el disparo
             let dx = this.nearestEnemy.x - this.x - 15
             let dy = this.nearestEnemy.y - this.y + 15

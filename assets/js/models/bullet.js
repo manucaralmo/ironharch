@@ -1,14 +1,21 @@
 class Bullet {
     constructor(ctx, x, y, vx, vy){
+        // CTX
         this.ctx = ctx
 
+        // Position & speed
         this.x = x
         this.y = y
         this.vy = vy
         this.vx = vx
 
+        // Dimensions
         this.width = 9
         this.height = 9
+
+        // Extra
+        this.collides = undefined // no se
+        this.power = 10
     }
 
     draw() {

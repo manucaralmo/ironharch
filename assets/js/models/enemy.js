@@ -18,7 +18,7 @@ class Enemy {
         this.bullets = []
         this.shooting = false
         this.shootingCount = 0
-        this.shootingInterval = 85
+        this.shootingInterval = 115
 
         // Current player position - game:39:40
         this.playerX = 300
@@ -57,7 +57,7 @@ class Enemy {
             let angle = Math.atan2(dx, dy)
 
             // Crear nuevo bullet
-            this.bullets.push(new EnemyBullet(this.ctx, this.x+(this.width/2), this.y, Math.sin(angle)*4, Math.cos(angle)*4))
+            this.bullets.push(new EnemyBullet(this.ctx, this.x+(this.width/2), this.y+(this.height/2), Math.sin(angle)*4, Math.cos(angle)*4))
             this.shootingCount = 0
         }
         this.shootingCount++
@@ -69,5 +69,12 @@ class Enemy {
         this.bullets = this.bullets.filter(bullet => {
             return bullet.x + bullet.width >= 0 && bullet.x <= CANVAS_WIDTH && bullet.y + bullet.height >= 0 && bullet.y <= CANVAS_HEIGHT
         })
+    }
+
+    collidesWith(element) {
+        return  this.x < element.x + element.width &&
+                this.x + this.width > element.x &&
+                this.y < element.y + element.height &&
+                this.y + this.height > element.y
     }
 }
