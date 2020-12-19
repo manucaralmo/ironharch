@@ -62,6 +62,10 @@ class IronHarch {
 
     stop() {
         clearInterval(this.intervalId)
+            this.ctx.save()
+            this.ctx.fillStyle = 'rgba(0, 0, 0, 0.4)'
+            this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
+        this.ctx.restore()
     }
 
     win() {

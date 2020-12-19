@@ -26,6 +26,14 @@ canvas {
     background-size: cover;
 }
 
+.resumeBtn{
+    display: none;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
 .startBtn:hover {
     background-image: url('../images/buttons/btn-play-hover.png');
 }
