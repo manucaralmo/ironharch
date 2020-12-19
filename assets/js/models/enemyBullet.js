@@ -1,6 +1,6 @@
 class EnemyBullet extends Bullet {
-    constructor(ctx, x, y, vx, vy){
-        super(ctx, x, y, vx, vy)
+    constructor(ctx, x, y, vx, vy, bulletPower){
+        super(ctx, x, y, vx, vy, bulletPower)
     }
 
     draw() {

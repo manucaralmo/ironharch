@@ -14,29 +14,60 @@ class IronHarch {
         this.player = new Player(this.ctx)
 
         // Enemies
-        this.enemies = [ 
-            new Enemy(this.ctx, 80, 350), 
-            new Enemy(this.ctx, 270, 350),
-            new Enemy(this.ctx, 80, 150),
-            new Enemy(this.ctx, 270, 150)
-        ]
+        this.enemies = []
+        this.level = 1
+        this.changingLevel = false
+
+        this.topBar = new TopBar(this.ctx)
     }
 
     start() {
         if(!this.intervalId){
             this.intervalId = setInterval(() => {
+
                 this.checkTheNearest() // Comprobar enemigo más cercano
                 this.clear() // Limpiar canvas
                 this.draw() // Dibujar elementos en el canvas
+                this.checkHealth() // Comprobar vidas
                 this.checkCollisions() // Comprobar colisiones
+                this.filterBullets() // Eliminar balas una vez colisonan
                 this.move() // Mover elementos del canvas
                 this.clearEnemies() // Eliminar enemigos si su health < 0
+
+                // Pasamos al siguiente nivel
+                if(this.enemies.length <= 0 && !this.changingLevel){
+                    this.nextLevel()
+                }
+
             }, this.fps)
+        }
+    }
+
+    createLevel() {
+        LEVELS[this.level].enemies.forEach(newEnemy => {
+            this.enemies.push(new Enemy(this.ctx, newEnemy[0], newEnemy[1], newEnemy[2], newEnemy[3], newEnemy[4]))
+        })
+        this.changingLevel = false
+    }
+
+    nextLevel() {
+        if(this.level === Object.keys(LEVELS).length){
+            this.win()
+        } else {
+            this.changingLevel = true
+            this.level += 1
+            setTimeout(() => this.createLevel(), 2000)
         }
     }
 
     stop() {
         clearInterval(this.intervalId)
+    }
+
+    win() {
+        this.enemies = []
+        clearInterval(this.intervalId)
+        console.log('Has ganado')
     }
 
     draw() {
@@ -48,6 +79,8 @@ class IronHarch {
             enemy.playerY = this.player.y
             enemy.draw()
         })
+
+        this.topBar.draw(this.player.health)
     }
 
     move() {
@@ -84,11 +117,50 @@ class IronHarch {
     }
 
     checkCollisions() {
-        this.enemies.forEach(enemy =>{
-            if(this.player.bullets.some(bullet => enemy.collidesWith(bullet))) {
-                console.log('colision')
-                enemy.health -= 5 // Prueba
+        // Comprobar colisiones de Player con Enemy (Cuerpo a cuerpo)
+        this.enemies.forEach(enemy => {
+            if(enemy.collidesWith(this.player)){
+                if(this.player.health > 0){
+                    this.player.health -= enemy.collisionPower
+                }
+                enemy.health -= this.player.collisionPower
             }
+        })
+
+        // Comprobar colisiones de Bullets
+        this.enemies.forEach(enemy => {
+            // Comprobar colisiones de balas (Player) con enemigos
+            this.player.bullets.forEach(playerBullet => {
+                if(enemy.collidesWith(playerBullet)){
+                    enemy.health -= playerBullet.power
+                    playerBullet.collides = true
+                }
+            })
+            // Comprobar colisiones de balas (Enemigo) con player
+            enemy.bullets.forEach(enemyBullet => {
+                if(this.player.collidesWith(enemyBullet)){
+                    if(this.player.health > 0){
+                        this.player.health -= enemyBullet.power
+                    }
+                    enemyBullet.collides = true
+                }
+            })
+        })
+    }
+
+    checkHealth() {
+        if(this.player.health <= 0){
+            this.stop()
+        }
+    }
+
+    filterBullets() {
+        // Eliminar bala (Player) una vez ha colisionado
+        this.player.bullets = this.player.bullets.filter(playerBullet => !playerBullet.collides)
+        
+        // Eliminar bala (Enemy) una vez ha colisionado
+        this.enemies.forEach(enemy => {
+            enemy.bullets = enemy.bullets.filter(enemyBullet => !enemyBullet.collides)
         })
     }
 

@@ -4,7 +4,7 @@ class Player {
 
         // Player position
         this.x = CANVAS_WIDTH / 2 - PLAYER_WIDTH / 2
-        this.y = PLAYER_Y
+        this.y = PLAYER_Y 
 
         // Player dimensions
         this.width = PLAYER_WIDTH
@@ -29,8 +29,16 @@ class Player {
         this.shootingCount = 0
         this.shootingInterval = 25
 
+        this.extras = {
+            doubleShot: false,
+            doubleSpeed: false
+        }
+
         // Health
+        this.maxHealth = 1000
         this.health = 1000
+        this.collisionPower = 0.5
+        this.shotPower = 10
 
         // Nearest Enemy
         this.nearestEnemy = undefined
@@ -39,8 +47,13 @@ class Player {
     draw() {
         // *** Código provisional ***
         this.ctx.save()
-            this.ctx.fillStyle = 'green'
+            this.ctx.fillStyle = 'lightblue'
             this.ctx.fillRect(this.x, this.y, this.width, this.height)
+        this.ctx.restore()
+
+        this.ctx.save()
+            this.ctx.fillStyle = 'green'
+            this.ctx.fillRect(this.x, this.y + this.height + 6, this.healthPercent(), 5)
         this.ctx.restore()
         // *** Código provisional ***
 
@@ -51,6 +64,11 @@ class Player {
         if(this.shooting){
             this.shot()
         }
+    }
+
+    healthPercent(){
+        let percent = (this.health * 100)/this.maxHealth
+        return percent * this.width / 100
     }
 
     move() {
@@ -102,7 +120,11 @@ class Player {
             let angle = Math.atan2(dx, dy)
 
             // Crear nuevo bullet
-            this.bullets.push(new Bullet(this.ctx, this.x+(this.width/2), this.y, Math.sin(angle)*4, Math.cos(angle)*4))
+            this.bullets.push(new Bullet(this.ctx, this.x+(this.width/2), this.y, Math.sin(angle)*4, Math.cos(angle)*4, this.shotPower))
+            // Crear nuevo bullet si tiene doble disparo
+            if(this.extras.doubleShot){
+                this.bullets.push(new Bullet(this.ctx, this.x+(this.width/2)- 10, this.y, Math.sin(angle)*4, Math.cos(angle)*4, this.shotPower))
+            }
             this.shootingCount = 0
         }
         this.shootingCount++
@@ -137,6 +159,13 @@ class Player {
             this.movements.left = status
             break
         }
+    }
+
+    collidesWith(element) {
+        return  this.x < element.x + element.width &&
+                this.x + this.width > element.x &&
+                this.y < element.y + element.height &&
+                this.y + this.height > element.y
     }
 
 }

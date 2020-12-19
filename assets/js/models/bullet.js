@@ -1,5 +1,5 @@
 class Bullet {
-    constructor(ctx, x, y, vx, vy){
+    constructor(ctx, x, y, vx, vy, bulletPower){
         // CTX
         this.ctx = ctx
 
@@ -15,7 +15,7 @@ class Bullet {
 
         // Extra
         this.collides = undefined // no se
-        this.power = 10
+        this.power = bulletPower
     }
 
     draw() {

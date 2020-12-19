@@ -9,6 +9,8 @@
     
     <!-- IronHarch CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
 
     <title>IronHarch</title>
   </head>
@@ -18,10 +20,24 @@
       <div class="container">
         <div class="row">
             <div class="col-sm-6">
-                <img src="assets/images/logo.png" width="200px" alt="">
+                <img src="assets/images/logo.png" width="250px" alt="">
+                <br><br>
             </div>
             <div class="col-sm-6">
-                <canvas id="ironHarchCanvas"></canvas>
+                  <div id="GameBoard">
+                    
+                    <div id="canvasBoard">
+                      <canvas id="ironHarchCanvas"></canvas>
+                      <button class="btn btn-dark btn-sm" id="pauseGame"><i class="fas fa-pause"></i></button>
+                      <button class="btn btn-dark btn-sm" id="restartGame"><i class="fas fa-play"></i></button>
+                    </div>
+
+                    <div id="homeScreen">
+                      <a href="#" class="startBtn" id="startGame"></a>
+                      <img src="assets/images/hero.png" class="hero-img" alt="">
+                    </div>
+
+                  </div>
             </div>
         </div>
       </div>
@@ -32,12 +48,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 
     <!-- IronHarch JS -->
+    <script src="assets/js/models/levels.js"></script>
     <script src="assets/js/constants.js"></script>
     <script src="assets/js/models/bullet.js"></script>
     <script src="assets/js/models/enemyBullet.js"></script>
     <script src="assets/js/models/enemy.js"></script>
     <script src="assets/js/models/player.js"></script>
     <script src="assets/js/models/game.js"></script>
+    <script src="assets/js/models/topBar.js"></script>
     <script src="assets/js/index.js"></script>
   </body>
 </html>
