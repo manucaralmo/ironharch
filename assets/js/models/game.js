@@ -10,8 +10,9 @@ class IronHarch {
         this.fps = 1000/60
         this.intervalId = undefined
 
-        // Background
+        // Background && Obstacles
         this.background = new Background(this.ctx)
+        this.obstacles = []
 
         // Player
         this.player = new Player(this.ctx)
@@ -27,6 +28,11 @@ class IronHarch {
         this.sounds = {
             home: new Audio('assets/sounds/home.mp3')
         }
+
+
+        // PRUEBAS
+        this.touchStartX = undefined
+        this.touchStartY = undefined
     }
 
     homeMusic(play) {
@@ -101,6 +107,7 @@ class IronHarch {
     draw() {
         // Draw Background
         this.background.draw()
+        this.obstacles.forEach(obstacle => obstacle.draw())
         // Draw Player
         this.player.draw()
         // Draw Enemies
@@ -176,6 +183,19 @@ class IronHarch {
                 }
             })
         })
+
+        // Comprobar colisiones con obstaculos en el canvas
+        if(this.obstacles.length > 0){
+            this.obstacles.forEach(obstacle => {
+                if(this.player.collidesWithObstacle(obstacle) === 'derecha'){
+                    console.log('colision')
+                    this.player.x = obstacle.x + obstacle.width
+                } else if(this.player.collidesWithObstacle(obstacle) === 'abajo'){
+                    console.log('colision bajo')
+                    this.player.y = obstacle.y + obstacle.height
+                }
+            })
+        }
     }
 
     checkHealth() {
@@ -200,6 +220,40 @@ class IronHarch {
     }
 
     onKeyEvent(event) {
+        event.preventDefault()
         this.player.onKeyEvent(event)
+    }
+    
+
+    // Mobile events
+    onTouchEvent(event) {
+        event.preventDefault()
+        if(event.type === 'touchend'){
+            console.log('levanta el dedo')
+            this.player.onTouchEvent('stop')
+        }
+
+        if(event.type === 'touchstart'){
+            this.touchStartX = event.targetTouches[0].pageX
+            this.touchStartY = event.targetTouches[0].pageY
+        }
+        
+        if(event.type === 'touchmove'){
+            if(this.touchStartX < event.targetTouches[0].pageX){
+                console.log('vamo a la derecha')
+                this.player.onTouchEvent('right')
+            } else if (this.touchStartX > event.targetTouches[0].pageX){
+                console.log('vamo a la izquierda')
+                this.player.onTouchEvent('left')
+            }
+
+            if(this.touchStartY < event.targetTouches[0].pageY){
+                console.log('vamo abajo')
+                this.player.onTouchEvent('bottom')
+            } else if (this.touchStartY > event.targetTouches[0].pageY){
+                console.log('vamo arriba')
+                this.player.onTouchEvent('top')
+            }
+        }
     }
 }

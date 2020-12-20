@@ -184,11 +184,53 @@ class Player {
         }
     }
 
+
+    // Mobile events
+    onTouchEvent(event) {
+        // seteamos el status de shooting
+        this.shooting = !status
+
+        switch(event) {
+        case 'top':
+            this.movements.up = true
+            this.shooting = false
+            break
+        case 'right':
+            this.movements.right = true
+            this.shooting = false
+            break
+        case 'bottom':
+            this.movements.down = true
+            this.shooting = false
+            break
+        case 'left':
+            this.movements.left = true
+            this.shooting = false
+            break
+        case 'stop':
+            this.movements.up = false
+            this.movements.right = false
+            this.movements.down = false
+            this.movements.left = false
+            this.shooting = true
+            break
+        }
+    }
+
     collidesWith(element) {
         return  this.x < element.x + element.width &&
                 this.x + this.width > element.x &&
                 this.y < element.y + element.height &&
                 this.y + this.height > element.y
+    }
+
+    collidesWithObstacle(element) {
+        if(this.x < element.x + element.width &&
+        this.x + this.width > element.x &&
+        this.y < element.y + element.height &&
+        this.y + this.height > element.y){
+            return 'derecha'
+        }
     }
 
 }

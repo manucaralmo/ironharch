@@ -24,6 +24,18 @@ window.addEventListener('load', () => {
     })
 
 
+    // MOBILE EVENTS
+    canvasBoard.addEventListener('touchstart', event => {
+        Game.onTouchEvent(event)
+    })
+    canvasBoard.addEventListener('touchmove', event => {
+        Game.onTouchEvent(event)
+    })
+    canvasBoard.addEventListener('touchend', event => {
+        Game.onTouchEvent(event)
+    })
+
+
     // Pause Game
     pauseGame.addEventListener('click', () => pauseGameFunc())
     // Resume Game btn1
