@@ -1,6 +1,9 @@
 window.addEventListener('load', () => {
     const Game = new IronHarch('ironHarchCanvas')
 
+    // Home music
+    Game.homeMusic(true)
+
     const canvasBoard = document.getElementById('canvasBoard')
     const restartBtn = document.getElementById('restartGame')
     const pauseGame = document.getElementById('pauseGame')

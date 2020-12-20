@@ -25,9 +25,10 @@ class Player {
 
         // Bullets
         this.bullets = []
-        this.shooting = false
+        this.shooting = true
         this.shootingCount = 0
         this.shootingInterval = 25
+        this.shotSpeed = 4
 
         this.extras = {
             doubleShot: false,
@@ -42,17 +43,34 @@ class Player {
 
         // Nearest Enemy
         this.nearestEnemy = undefined
+
+        // Image
+        this.img = new Image()
+        this.img.src = './assets/images/player/1.png'
+        this.img.isReady = false
+        this.img.onload = () => {
+            this.img.isReady = true
+        }
+    }
+
+    isReady() {
+        return this.img.isReady
     }
 
     draw() {
         // *** Código provisional ***
         this.ctx.save()
-            this.ctx.fillStyle = 'lightblue'
+            this.ctx.fillStyle = '#000'
             this.ctx.fillRect(this.x, this.y, this.width, this.height)
         this.ctx.restore()
 
         this.ctx.save()
-            this.ctx.fillStyle = 'green'
+            this.ctx.fillStyle = '#1F7E08'
+            this.ctx.fillRect(this.x, this.y + this.height + 6, this.width, 5)
+        this.ctx.restore()
+
+        this.ctx.save()
+            this.ctx.fillStyle = '#46CA25'
             this.ctx.fillRect(this.x, this.y + this.height + 6, this.healthPercent(), 5)
         this.ctx.restore()
         // *** Código provisional ***
@@ -91,14 +109,14 @@ class Player {
         }
 
         // Check
-        if (this.x <= 0){
-            this.x = 0
-        } else if (this.x + this.width >= CANVAS_WIDTH){
-            this.x = CANVAS_WIDTH - this.width
+        if (this.x <= 30){
+            this.x = 30
+        } else if (this.x + this.width >= CANVAS_WIDTH - 30){
+            this.x = CANVAS_WIDTH - this.width - 30
         }
 
-        if (this.y <= 0){
-            this.y = 0
+        if (this.y <= 130){
+            this.y = 130
         } else if (this.y + this.height >= CANVAS_HEIGHT){
             this.y = CANVAS_HEIGHT - this.height
         }
@@ -119,11 +137,16 @@ class Player {
             let dy = this.nearestEnemy.y - this.y + 15
             let angle = Math.atan2(dx, dy)
 
+            let speed = this.shotSpeed
+            if(this.extras.doubleSpeed){
+                speed = this.shotSpeed + 2
+            } 
+
             // Crear nuevo bullet
-            this.bullets.push(new Bullet(this.ctx, this.x+(this.width/2), this.y, Math.sin(angle)*4, Math.cos(angle)*4, this.shotPower))
+            this.bullets.push(new Bullet(this.ctx, this.x+(this.width/2), this.y, Math.sin(angle)*speed, Math.cos(angle)*speed, this.shotPower))
             // Crear nuevo bullet si tiene doble disparo
             if(this.extras.doubleShot){
-                this.bullets.push(new Bullet(this.ctx, this.x+(this.width/2)- 10, this.y, Math.sin(angle)*4, Math.cos(angle)*4, this.shotPower))
+                this.bullets.push(new Bullet(this.ctx, this.x+(this.width/2)- 25, this.y, Math.sin(angle)*speed, Math.cos(angle)*speed, this.shotPower))
             }
             this.shootingCount = 0
         }
@@ -134,7 +157,7 @@ class Player {
 
     clearBullets() {
         this.bullets = this.bullets.filter(bullet => {
-            return bullet.x + bullet.width >= 0 && bullet.x <= CANVAS_WIDTH && bullet.y + bullet.height >= 0 && bullet.y <= CANVAS_HEIGHT
+            return bullet.x + bullet.width >= 0 && bullet.x <= CANVAS_WIDTH && bullet.y + bullet.height >= 100 && bullet.y <= CANVAS_HEIGHT
         })
     }
 

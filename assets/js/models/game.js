@@ -10,6 +10,9 @@ class IronHarch {
         this.fps = 1000/60
         this.intervalId = undefined
 
+        // Background
+        this.background = new Background(this.ctx)
+
         // Player
         this.player = new Player(this.ctx)
 
@@ -19,9 +22,25 @@ class IronHarch {
         this.changingLevel = false
 
         this.topBar = new TopBar(this.ctx)
+
+        // Music
+        this.sounds = {
+            home: new Audio('assets/sounds/home.mp3')
+        }
+    }
+
+    homeMusic(play) {
+        if(play){
+            this.sounds.home.loop = true;
+            this.sounds.home.play()
+        } else {
+            this.sounds.home.pause()
+        }
     }
 
     start() {
+        this.homeMusic(false)
+
         if(!this.intervalId){
             this.intervalId = setInterval(() => {
 
@@ -45,7 +64,7 @@ class IronHarch {
 
     createLevel() {
         LEVELS[this.level].enemies.forEach(newEnemy => {
-            this.enemies.push(new Enemy(this.ctx, newEnemy[0], newEnemy[1], newEnemy[2], newEnemy[3], newEnemy[4]))
+            this.enemies.push(new Enemy(this.ctx, newEnemy[0], newEnemy[1], newEnemy[2], newEnemy[3], newEnemy[4], newEnemy[5], newEnemy[6], newEnemy[7], newEnemy[8]))
         })
         this.changingLevel = false
     }
@@ -70,11 +89,18 @@ class IronHarch {
 
     win() {
         this.enemies = []
-        clearInterval(this.intervalId)
+        this.stop()
         console.log('Has ganado')
     }
 
+    lose() {
+        this.stop()
+        console.log('Has perdido')
+    }
+
     draw() {
+        // Draw Background
+        this.background.draw()
         // Draw Player
         this.player.draw()
         // Draw Enemies
@@ -154,7 +180,7 @@ class IronHarch {
 
     checkHealth() {
         if(this.player.health <= 0){
-            this.stop()
+            this.lose()
         }
     }
 
