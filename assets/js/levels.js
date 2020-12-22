@@ -17,10 +17,7 @@ const LEVELS = {
     1: {
         enemies: [
             [80, 130, false, 90, 50, 1, 50, 'redBallSprite', 16],
-            [160, 130, false, 115, 50, 1, 50, 'redBallSprite', 16],
-            [240, 130, false, 115, 150, 1, 50, 'redBallSprite', 16],
-            [150, 130, true, 155, 50, 1, 50, 'redBallSprite', 16],
-            [250, 130, true, 155, 50, 1, 50, 'redBallSprite', 16],
+            
         ]
     },
     // NIVEL 2

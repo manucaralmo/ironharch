@@ -7,6 +7,10 @@ canvas {
     border-radius: 5px;
 }
 
+#mainGame {
+    display: none;
+}
+
 #GameBoard{
     width: 400px;
     height: 700px;
@@ -61,5 +65,13 @@ canvas {
 }
 
 #canvasBoard{
+    display: none;
+}
+
+#selectAdvantage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
     display: none;
 }

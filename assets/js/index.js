@@ -1,15 +1,25 @@
 window.addEventListener('load', () => {
     const Game = new IronHarch('ironHarchCanvas')
 
-    // Home music
-    Game.homeMusic(true)
-
     const canvasBoard = document.getElementById('canvasBoard')
     const restartBtn = document.getElementById('restartGame')
     const pauseGame = document.getElementById('pauseGame')
     const startGame = document.getElementById('startGame')
     const resumeGame = document.getElementById('resumeGame')
     const archeroImg = document.querySelector('.hero-img')
+
+    let mainGameBlock = document.getElementById('mainGame')
+    let openCanvasBtn = document.getElementById('openCanvas')
+    let introGame = document.getElementById('intro')
+
+    // Open game canvas
+    openCanvasBtn.addEventListener('click', () => {
+        introGame.style.display = "none"
+        mainGameBlock.style.display = "block"
+        // Home music
+        Game.homeMusic(true)
+    })
+
 
     // Game Start
     startGame.addEventListener('click', () => startGameFunc())

@@ -32,7 +32,8 @@ class Player {
 
         this.extras = {
             doubleShot: false,
-            doubleSpeed: false
+            doubleSpeed: false,
+            extraLife: false
         }
 
         // Health
@@ -225,11 +226,28 @@ class Player {
     }
 
     collidesWithObstacle(element) {
-        if(this.x < element.x + element.width &&
-        this.x + this.width > element.x &&
-        this.y < element.y + element.height &&
-        this.y + this.height > element.y){
-            return 'derecha'
+        if( this.y <= element.y + element.height && 
+            this.y >= element.y && 
+            this.x + this.width >= element.x && 
+            this.x <= element.x + element.width &&
+            this.y + this.height > element.y + element.height ){
+            return 'down'
+        } else if ( this.y + this.height >= element.y &&
+            this.y + this.height <= element.y + element.height &&
+            this.x + this.width >= element.x &&
+            this.x <= element.x + element.width &&
+            this.y < element.y){
+            return 'up'
+        }else if ( this.y + this.height >= element.y &&
+            this.y <= element.y + element.height &&
+            this.x + this.width >= element.x &&
+            this.x < element.x){
+            return 'left'
+        } else if ( this.y + this.height >= element.y &&
+            this.y <= element.y + element.height &&
+            this.x <= element.x + element.width &&
+            this.x + this.width > element.x + element.width ){
+            return 'right'
         }
     }
 

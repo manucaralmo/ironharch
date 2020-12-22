@@ -11,8 +11,11 @@ class IronHarch {
         this.intervalId = undefined
 
         // Background && Obstacles
-        this.background = new Background(this.ctx)
-        this.obstacles = []
+        this.background = new Background(this.ctx, 2)
+        this.obstacles = [
+            new Obstacle(this.ctx, 80, 325),
+            new Obstacle(this.ctx, 275, 325)
+        ]
 
         // Player
         this.player = new Player(this.ctx)
@@ -29,8 +32,7 @@ class IronHarch {
             home: new Audio('assets/sounds/home.mp3')
         }
 
-
-        // PRUEBAS
+        // MOBILE JOYSTIC
         this.touchStartX = undefined
         this.touchStartY = undefined
     }
@@ -75,19 +77,40 @@ class IronHarch {
         this.changingLevel = false
     }
 
+    selectAdvantage() {
+
+        let selectAdvantageDisplay = document.getElementById('selectAdvantage')
+        setTimeout(() => {selectAdvantageDisplay.style.display = 'block'}, 1500)
+
+        let doubleArrowBtn = document.getElementById('doubleArrow')
+        let doubleArrowSpeedBtn = document.getElementById('doubleArrowSpeed')
+
+        doubleArrowBtn.addEventListener('click', () => {
+            this.player.extras.doubleShot = true
+            selectAdvantageDisplay.style.display = 'none'
+            setTimeout(() => this.createLevel(), 2000)
+        })
+
+        doubleArrowSpeedBtn.addEventListener('click', () => {
+            this.player.extras.doubleSpeed = true
+            selectAdvantageDisplay.style.display = 'none'
+            setTimeout(() => this.createLevel(), 2000)
+        })
+    }
+
     nextLevel() {
         if(this.level === Object.keys(LEVELS).length){
             this.win()
         } else {
             this.changingLevel = true
             this.level += 1
-            setTimeout(() => this.createLevel(), 2000)
+            this.selectAdvantage()
         }
     }
 
     stop() {
         clearInterval(this.intervalId)
-            this.ctx.save()
+        this.ctx.save()
             this.ctx.fillStyle = 'rgba(0, 0, 0, 0.4)'
             this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
         this.ctx.restore()
@@ -187,13 +210,38 @@ class IronHarch {
         // Comprobar colisiones con obstaculos en el canvas
         if(this.obstacles.length > 0){
             this.obstacles.forEach(obstacle => {
-                if(this.player.collidesWithObstacle(obstacle) === 'derecha'){
-                    console.log('colision')
-                    this.player.x = obstacle.x + obstacle.width
-                } else if(this.player.collidesWithObstacle(obstacle) === 'abajo'){
-                    console.log('colision bajo')
+                if(this.player.collidesWithObstacle(obstacle) === 'up'){
+                    this.player.y = obstacle.y - this.player.height
+                } else if(this.player.collidesWithObstacle(obstacle) === 'down'){
                     this.player.y = obstacle.y + obstacle.height
+                } else if(this.player.collidesWithObstacle(obstacle) === 'left'){
+                    this.player.x = obstacle.x - this.player.width
+                } else if(this.player.collidesWithObstacle(obstacle) === 'right'){
+                    this.player.x = obstacle.x + obstacle.width
                 }
+            })
+        }
+
+        // TODO: FALTA COLISIONES DE OBSTACULOS Y ENEMY
+
+        // Comprobar colisiones de balas con obstaculos
+        if(this.obstacles.length > 0){
+            this.obstacles.forEach(obstacle => {
+
+                // Comprobar colisiones de balas (Player) con obstaculos
+                this.player.bullets.forEach(playerBullet => {
+                    if(obstacle.collidesWith(playerBullet)){
+                        playerBullet.collides = true
+                    }
+                })
+                // Comprobar colisiones de balas (Enemy) con obstaculos
+                this.enemies.forEach(enemy => {
+                    enemy.bullets.forEach(enemyBullet => {
+                        if(obstacle.collidesWith(enemyBullet)){
+                            enemyBullet.collides = true
+                        }
+                    })
+                })
             })
         }
     }

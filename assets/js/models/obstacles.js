@@ -1,8 +1,8 @@
 class Obstacle {
-    constructor(ctx){
+    constructor(ctx, x, y){
         this.ctx = ctx
-        this.x = 105
-        this.y = 325
+        this.x = x
+        this.y = y
 
         this.height = 60
         this.width = 45
@@ -29,5 +29,12 @@ class Obstacle {
                 this.height
             )
         }
+    }
+
+    collidesWith(element) {
+        return  this.x < element.x + element.width &&
+                this.x + this.width > element.x &&
+                this.y < element.y + element.height &&
+                this.y + this.height > element.y
     }
 }

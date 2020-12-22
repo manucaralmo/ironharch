@@ -1,5 +1,5 @@
 class Background {
-    constructor(ctx){
+    constructor(ctx, bgimg = 1){
         this.ctx = ctx
 
         this.x = 0
@@ -7,8 +7,10 @@ class Background {
         this.height = this.ctx.canvas.height
         this.width = this.ctx.canvas.width
 
+        this.bgimg = bgimg
+
         this.img = new Image()
-        this.img.src = './assets/images/backgrounds/level-2.jpg'
+        this.img.src = `./assets/images/backgrounds/level-${bgimg}.jpg`
         this.img.isReady = false
         this.img.onload = () => {
             this.img.isReady = true
