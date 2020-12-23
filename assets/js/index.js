@@ -1,4 +1,7 @@
 window.addEventListener('load', () => {
+    // ==========================================
+    // START GAME
+    // ==========================================
     const Game = new IronHarch('ironHarchCanvas')
 
     const canvasBoard = document.getElementById('canvasBoard')
@@ -7,19 +10,53 @@ window.addEventListener('load', () => {
     const startGame = document.getElementById('startGame')
     const resumeGame = document.getElementById('resumeGame')
     const archeroImg = document.querySelector('.hero-img')
+    const mainGameBlock = document.getElementById('mainGame')
+    const openCanvasBtn = document.getElementById('openCanvas')
+    const introGame = document.getElementById('intro')
 
-    let mainGameBlock = document.getElementById('mainGame')
-    let openCanvasBtn = document.getElementById('openCanvas')
-    let introGame = document.getElementById('intro')
+
+    // ==========================================
+    // Background Selector
+    // ==========================================
+    const map1 = document.getElementById('map-1')
+    const map2 = document.getElementById('map-2')
+    const map3 = document.getElementById('map-3')
+    let bg = 1 // Default background
+
+    map1.addEventListener('click', () => {
+        map1.classList.remove('opacity-img');
+        map2.classList.add('opacity-img');
+        map3.classList.add('opacity-img');
+        bg = 1
+    })
+
+    map2.addEventListener('click', () => {
+        map1.classList.add('opacity-img');
+        map2.classList.remove('opacity-img');
+        map3.classList.add('opacity-img');
+        bg = 2
+    })
+
+    map3.addEventListener('click', () => {
+        map1.classList.add('opacity-img');
+        map2.classList.add('opacity-img');
+        map3.classList.remove('opacity-img');
+        bg = 3
+    })
+
+    // Create background
+    const createBackground = () => {
+        Game.createBackground(bg)
+    }
 
     // Open game canvas
     openCanvasBtn.addEventListener('click', () => {
         introGame.style.display = "none"
         mainGameBlock.style.display = "block"
         // Home music
+        createBackground()
         Game.homeMusic(true)
     })
-
 
     // Game Start
     startGame.addEventListener('click', () => startGameFunc())
@@ -34,7 +71,9 @@ window.addEventListener('load', () => {
     })
 
 
+    // ==========================================
     // MOBILE EVENTS
+    // ==========================================
     canvasBoard.addEventListener('touchstart', event => {
         Game.onTouchEvent(event)
     })
@@ -54,8 +93,10 @@ window.addEventListener('load', () => {
     resumeGame.addEventListener('click', () => resumeGameFunc())
     
 
+    // ==========================================
     // Start, Pause & Resume functions
-    let startGameFunc = () => {
+    // ==========================================
+    const startGameFunc = () => {
         canvasBoard.style.display = 'block'
         startGame.style.display = 'none'
         Game.start()
@@ -63,13 +104,13 @@ window.addEventListener('load', () => {
         pauseGame.style.display = 'inline'
         archeroImg.style.display = 'none'
     }
-    let resumeGameFunc = () => {
+    const resumeGameFunc = () => {
         Game.start()
         pauseGame.style.display = 'inline'
         restartBtn.style.display = 'none'
         resumeGame.style.display = 'none'
     }
-    let pauseGameFunc = () => {
+    const pauseGameFunc = () => {
         Game.stop()
         Game.intervalId = undefined
         pauseGame.style.display = 'none'

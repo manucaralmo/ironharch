@@ -10,7 +10,7 @@ class Background {
         this.bgimg = bgimg
 
         this.img = new Image()
-        this.img.src = `./assets/images/backgrounds/level-${bgimg}.jpg`
+        this.img.src = `./assets/images/backgrounds/level-${this.bgimg}.jpg`
         this.img.isReady = false
         this.img.onload = () => {
             this.img.isReady = true

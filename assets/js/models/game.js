@@ -11,10 +11,10 @@ class IronHarch {
         this.intervalId = undefined
 
         // Background && Obstacles
-        this.background = new Background(this.ctx, 2)
+        this.background = undefined
         this.obstacles = [
-            new Obstacle(this.ctx, 80, 325),
-            new Obstacle(this.ctx, 275, 325)
+            // new Obstacle(this.ctx, 80, 325),
+            // new Obstacle(this.ctx, 275, 325)
         ]
 
         // Player
@@ -44,6 +44,10 @@ class IronHarch {
         } else {
             this.sounds.home.pause()
         }
+    }
+
+    createBackground(bg) {
+        this.background = new Background(this.ctx, bg)
     }
 
     start() {

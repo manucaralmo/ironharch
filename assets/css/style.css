@@ -1,3 +1,7 @@
+* {
+    transition: 0.3s;
+}
+
 body {
     background-color: rgb(5, 7, 8);
 }
@@ -19,15 +23,11 @@ canvas {
     border-radius: 5px;
 }
 
-.startBtn {
+#startGame {
     position: absolute;
     top: 35%;
     left: 50%;
     transform: translate(-50%,-50%);
-    height: 72px;
-    width: 156px;
-    background-image: url('../images/buttons/btn-play.png');
-    background-size: cover;
 }
 
 .resumeBtn{
@@ -36,10 +36,6 @@ canvas {
     top: 35%;
     left: 50%;
     transform: translate(-50%,-50%);
-}
-
-.startBtn:hover {
-    background-image: url('../images/buttons/btn-play-hover.png');
 }
 
 #pauseGame {
@@ -70,8 +66,48 @@ canvas {
 
 #selectAdvantage {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
     display: none;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.opacity-img {
+    opacity: 0.4;
+}
+
+.backgroundSelectBtn:hover {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+.img-fluid {
+    cursor: pointer;
+}
+
+.game-btn {
+    height: 70px;
+}
+
+.game-btn:hover {
+    transform: scale(0.95);
+}
+
+.game-advantage {
+    height: 85px;
+    margin-right: 1rem;
+}
+
+.game-btn-animation:hover {
+    transform: scale(0.95);
+}
+
+.noStyle {
+    text-decoration: none;
+}
+
+.noStyle:hover {
+    text-decoration: none;
 }

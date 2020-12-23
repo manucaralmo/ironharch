@@ -19,21 +19,36 @@
     <div class="text-center mt-5 mx-auto" id="intro" style="max-width: 700px;">
         <img src="assets/images/logo.png" width="250px" alt="">
         <br><br>
-        <p class="text-light fs-5">Bienvenido a IronHarch, un juego hecho en JavaScript por Manuel Carrillo. Para disfrutar al máximo te recomendamos que actives el sonido de tu dispositivo. Puedes jugar desde tu ordenador o tu dispositivo móvil.</p>
+        <p class="text-light fs-5 px-2">Para disfrutar al máximo te recomendamos que actives el sonido de tu dispositivo. Puedes jugar desde tu ordenador o tu dispositivo móvil.</p>
+        <br>
+        <h2 class="text-light font-weight-bold">Selecciona un escenario</h2>
+        <br>
+        <div class="row">
+          <div class="col-4">
+            <img src="assets/images/backgrounds/1.png" id="map-1" class="img-fluid backgroundSelectBtn">
+          </div>
+          <div class="col-4">
+            <img src="assets/images/backgrounds/2.png" id="map-2" class="img-fluid opacity-img backgroundSelectBtn">
+          </div>
+          <div class="col-4">
+            <img src="assets/images/backgrounds/3.png" id="map-3" class="img-fluid opacity-img backgroundSelectBtn">
+          </div>
+        </div>
+        <br>
         <br>
         <a href="#" id="openCanvas">
-            <img src="assets/images/buttons/comenzar.png" height="70px" alt="">
+            <img src="assets/images/buttons/comenzar.png" class="game-btn">
         </a>
     </div>
 
-    <main id="mainGame" class="py-5">
+    <main id="mainGame" class="py-md-5">
       <div class="container">
-        <div class="row">
-            <div class="col-sm-6">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-sm-6 d-none d-md-block text-center">
                 <img src="assets/images/logo.png" width="250px" alt="">
                 <br><br>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 px-0">
                   <div id="GameBoard">
                     
                     <div id="canvasBoard">
@@ -43,7 +58,9 @@
                     </div>
 
                     <div id="homeScreen">
-                      <a href="#" class="startBtn" id="startGame"></a>
+                      <a href="#" id="startGame">
+                        <img src="assets/images/buttons/btn-play.png" class="game-btn" alt="">
+                      </a>
                       <img src="assets/images/hero.png" class="hero-img" alt="">
                     </div>
 
@@ -53,16 +70,22 @@
                       </a>
                     </div>
 
-                    <div id="selectAdvantage">
-                      <a href="#" class="doubleArrow" id="doubleArrow">
-                        <img src="assets/images/extras/doubleArrow.png" height="75px" alt="">
-                      </a>
-                      <a href="#" class="doubleArrowSpeed" id="doubleArrowSpeed">
-                        <img src="assets/images/extras/doubleSpeed.png" height="75px" alt="">
-                      </a>
-                      <a href="#" class="doubleArrowSpeed" id="doubleArrowSpeed">
-                        <img src="assets/images/extras/fillHealth.png" height="75px" alt="">
-                      </a>
+                    <div id="selectAdvantage" class="w-100 mx-auto text-center">
+                      <div class="row h-100 w-100 align-items-center justify-content-center" style="--bs-gutter-x: 0;">
+                        <div class="col px-0 mx-0">
+                          <img src="assets/images/icons/habilidad.png" height="55px" alt="">
+                          <br><br>
+                          <a href="#" class="doubleArrow noStyle" id="doubleArrow">
+                            <img src="assets/images/extras/doubleArrow.png" class="game-advantage game-btn-animation" alt="">
+                          </a>
+                          <a href="#" class="doubleArrowSpeed noStyle" id="doubleArrowSpeed">
+                            <img src="assets/images/extras/doubleSpeed.png" class="game-advantage game-btn-animation" alt="">
+                          </a>
+                          <a href="#" class="doubleArrowSpeed noStyle" id="doubleArrowSpeed">
+                            <img src="assets/images/extras/fillHealth.png" class="game-btn-animation" height="85px" alt="">
+                          </a>
+                        </div>
+                      </div>
                     </div>
 
                   </div>
