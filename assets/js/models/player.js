@@ -52,6 +52,10 @@ class Player {
         this.img.onload = () => {
             this.img.isReady = true
         }
+
+        this.sounds = {
+            playerWalk: new Audio('./assets/sounds/walk.mp3')
+        }
     }
 
     isReady() {
@@ -165,6 +169,11 @@ class Player {
     onKeyEvent(event) {
         // If keydown --> status = True / else status = false
         const status = event.type === 'keydown'
+
+        if(status){
+            this.sounds.playerWalk.volume = 0.2
+            this.sounds.playerWalk.play()
+        }
 
         // seteamos el status de shooting
         this.shooting = !status

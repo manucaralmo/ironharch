@@ -56,6 +56,11 @@ class Enemy {
         this.img2.onload = () => {
             this.img2.isReady = true
         }
+
+        // Sounds
+        this.sounds = {
+            enemyShot: new Audio('assets/sounds/disparo-enemigo.mp3')
+        }
     }
 
     isReady() {
@@ -159,6 +164,11 @@ class Enemy {
             // Crear nuevo bullet
             this.bullets.push(new EnemyBullet(this.ctx, this.x+(this.width/2), this.y+(this.height/2), this.vx*4, this.vy*4, this.shotPower, this.weapon, this.bulletSize))
             this.shootingCount = 0
+
+            // Play sound
+            this.sounds.enemyShot.volume = 0.05
+            this.sounds.enemyShot.currentTime = 0
+            this.sounds.enemyShot.play()
         }
         this.shootingCount++
         // Clean bullets

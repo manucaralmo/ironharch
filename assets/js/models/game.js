@@ -29,7 +29,9 @@ class IronHarch {
 
         // Music
         this.sounds = {
-            home: new Audio('assets/sounds/home.mp3')
+            home: new Audio('assets/sounds/home.mp3'),
+            collisionBalaEnemy: new Audio('assets/sounds/impacto-bala-enemigo.mp3'),
+            selector: new Audio('assets/sounds/selector.mp3')
         }
 
         // MOBILE JOYSTIC
@@ -84,7 +86,10 @@ class IronHarch {
     selectAdvantage() {
 
         let selectAdvantageDisplay = document.getElementById('selectAdvantage')
-        setTimeout(() => {selectAdvantageDisplay.style.display = 'block'}, 1500)
+        setTimeout(() => {
+            this.sounds.selector.play()
+            selectAdvantageDisplay.style.display = 'block'
+        }, 1500)
 
         let doubleArrowBtn = document.getElementById('doubleArrow')
         let doubleArrowSpeedBtn = document.getElementById('doubleArrowSpeed')
@@ -196,6 +201,11 @@ class IronHarch {
             // Comprobar colisiones de balas (Player) con enemigos
             this.player.bullets.forEach(playerBullet => {
                 if(enemy.collidesWith(playerBullet)){
+                    // Play audio
+                    this.sounds.collisionBalaEnemy.volume = 0.05
+                    this.sounds.collisionBalaEnemy.currentTime = 0
+                    this.sounds.collisionBalaEnemy.play()
+                    // Health
                     enemy.health -= playerBullet.power
                     playerBullet.collides = true
                 }
