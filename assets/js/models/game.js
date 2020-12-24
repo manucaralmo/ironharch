@@ -13,8 +13,8 @@ class IronHarch {
         // Background && Obstacles
         this.background = undefined
         this.obstacles = [
-            // new Obstacle(this.ctx, 80, 325),
-            // new Obstacle(this.ctx, 275, 325)
+            new Obstacle(this.ctx, 80, 325),
+            new Obstacle(this.ctx, 275, 325)
         ]
 
         // Player
@@ -201,10 +201,10 @@ class IronHarch {
             // Comprobar colisiones de balas (Player) con enemigos
             this.player.bullets.forEach(playerBullet => {
                 if(enemy.collidesWith(playerBullet)){
-                    // Play audio
+                    /* Play audio
                     this.sounds.collisionBalaEnemy.volume = 0.05
                     this.sounds.collisionBalaEnemy.currentTime = 0
-                    this.sounds.collisionBalaEnemy.play()
+                    this.sounds.collisionBalaEnemy.play() */
                     // Health
                     enemy.health -= playerBullet.power
                     playerBullet.collides = true

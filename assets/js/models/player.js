@@ -171,8 +171,8 @@ class Player {
         const status = event.type === 'keydown'
 
         if(status){
-            this.sounds.playerWalk.volume = 0.2
-            this.sounds.playerWalk.play()
+            //this.sounds.playerWalk.volume = 0.2
+            //this.sounds.playerWalk.play()
         }
 
         // seteamos el status de shooting
