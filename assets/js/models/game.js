@@ -12,18 +12,13 @@ class IronHarch {
 
         // Background && Obstacles
         this.background = undefined
-        this.obstacles = [
-            new Obstacle(this.ctx, 80, 325),
-            new Obstacle(this.ctx, 275, 325)
-        ]
+        this.obstacles = []
 
         // Player
         this.player = new Player(this.ctx)
 
         // Enemies
         this.enemies = []
-        this.level = 1
-        this.changingLevel = false
 
         this.topBar = new TopBar(this.ctx)
 
@@ -37,6 +32,11 @@ class IronHarch {
         // MOBILE JOYSTIC
         this.touchStartX = undefined
         this.touchStartY = undefined
+
+        // LEVEL & RECORD
+        this.level = 1
+        this.changingLevel = false
+        this.record = localStorage.getItem("IronHarchRecord");
     }
 
     homeMusic(play) {
@@ -77,9 +77,19 @@ class IronHarch {
     }
 
     createLevel() {
+        // Limpiamos los obstáculos anteriores
+        this.obstacles = []
+
+        // Creamos los enemigos
         LEVELS[this.level].enemies.forEach(newEnemy => {
             this.enemies.push(new Enemy(this.ctx, newEnemy[0], newEnemy[1], newEnemy[2], newEnemy[3], newEnemy[4], newEnemy[5], newEnemy[6], newEnemy[7], newEnemy[8]))
         })
+
+        // Creamos los obstáculos
+        LEVELS[this.level].obstacles.forEach(obs => {
+            this.obstacles.push(new Obstacle(this.ctx, obs[0], obs[1], obs[2]))
+        })
+
         this.changingLevel = false
     }
 
@@ -112,7 +122,7 @@ class IronHarch {
             this.win()
         } else {
             this.changingLevel = true
-            this.level += 1
+            this.level++
             this.selectAdvantage()
         }
     }
@@ -131,9 +141,41 @@ class IronHarch {
         console.log('Has ganado')
     }
 
+    checkRecord() {
+        if (this.level > this.record){
+            localStorage.setItem("IronHarchRecord", this.level);
+            this.record = this.level
+        }
+    }
+
     lose() {
+        // Stop game
         this.stop()
-        console.log('Has perdido')
+        // Set record
+        this.checkRecord()
+
+        // Game over screen
+        this.ctx.save()
+        this.ctx.font = '35px Arial Bold'
+        this.ctx.fillStyle = 'white'
+        this.ctx.textAlign = 'center'
+        this.ctx.fillText(
+            'Game over!',
+            this.ctx.canvas.width / 2,
+            (this.ctx.canvas.height / 2) - 25,
+        )
+        this.ctx.font = '25px Arial'
+        this.ctx.fillText(
+            `Your level: ${this.level}`,
+            (this.ctx.canvas.width / 2),
+            (this.ctx.canvas.height / 2) + 15,
+        )
+        this.ctx.fillText(
+            `Record: ${this.record}`,
+            (this.ctx.canvas.width / 2),
+            (this.ctx.canvas.height / 2) + 45,
+        )
+        this.ctx.restore()
     }
 
     draw() {
@@ -201,13 +243,12 @@ class IronHarch {
             // Comprobar colisiones de balas (Player) con enemigos
             this.player.bullets.forEach(playerBullet => {
                 if(enemy.collidesWith(playerBullet)){
-                    /* Play audio
-                    this.sounds.collisionBalaEnemy.volume = 0.05
-                    this.sounds.collisionBalaEnemy.currentTime = 0
-                    this.sounds.collisionBalaEnemy.play() */
                     // Health
                     enemy.health -= playerBullet.power
                     playerBullet.collides = true
+                    // Play audio
+                    this.playAudio('enemyCollision')
+
                 }
             })
             // Comprobar colisiones de balas (Enemigo) con player
@@ -260,6 +301,14 @@ class IronHarch {
         }
     }
 
+    playAudio(type) {
+        if(type === 'enemyCollision'){
+            this.sounds.collisionBalaEnemy.volume = 0.05
+            this.sounds.collisionBalaEnemy.currentTime = 0
+            this.sounds.collisionBalaEnemy.play()
+        }
+    }
+
     checkHealth() {
         if(this.player.health <= 0){
             this.lose()
@@ -285,7 +334,6 @@ class IronHarch {
         event.preventDefault()
         this.player.onKeyEvent(event)
     }
-    
 
     // Mobile events
     onTouchEvent(event) {

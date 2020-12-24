@@ -1,14 +1,16 @@
 class Obstacle {
-    constructor(ctx, x, y){
+    constructor(ctx, x, y, type){
         this.ctx = ctx
         this.x = x
         this.y = y
 
-        this.height = 60
-        this.width = 45
+        this.height = 50
+        this.width = 35
+
+        this.type = type
 
         this.img = new Image()
-        this.img.src = './assets/images/obstacles/obstacle.png'
+        this.img.src = `./assets/images/obstacles/${this.type}.png`
         this.img.isReady = false
         this.img.onload = () => {
             this.img.isReady = true

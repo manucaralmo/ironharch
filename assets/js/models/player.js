@@ -6,6 +6,10 @@ class Player {
         this.x = CANVAS_WIDTH / 2 - PLAYER_WIDTH / 2
         this.y = PLAYER_Y 
 
+        // Previous X & Y for obstacle collision
+        this.previousX = this.x
+        this.previousY = this.y
+
         // Player dimensions
         this.width = PLAYER_WIDTH
         this.height = PLAYER_HEIGHT
@@ -95,6 +99,9 @@ class Player {
     }
 
     move() {
+        this.previousX = this.x
+        this.previousY = this.y
+        
         // Set up & down speed
         if (this.movements.up){
             this.vy = -this.speed
@@ -140,7 +147,7 @@ class Player {
             // Calcular angulo para el disparo
             let dx = this.nearestEnemy.x - this.x - 15
             let dy = this.nearestEnemy.y - this.y + 15
-            let angle = Math.atan2(dx, dy)
+            let angle = Math.atan2(dx, dy) 
 
             let speed = this.shotSpeed
             if(this.extras.doubleSpeed){
@@ -171,8 +178,8 @@ class Player {
         const status = event.type === 'keydown'
 
         if(status){
-            //this.sounds.playerWalk.volume = 0.2
-            //this.sounds.playerWalk.play()
+            this.sounds.playerWalk.volume = 0.2
+            this.sounds.playerWalk.play()
         }
 
         // seteamos el status de shooting
@@ -239,23 +246,35 @@ class Player {
             this.y >= element.y && 
             this.x + this.width >= element.x && 
             this.x <= element.x + element.width &&
-            this.y + this.height > element.y + element.height ){
+            this.y + this.height > element.y + element.height && 
+            this.previousY > element.y + element.height){
+                this.y = element.y + element.height + 1
+                this.vy = 0
             return 'down'
         } else if ( this.y + this.height >= element.y &&
             this.y + this.height <= element.y + element.height &&
             this.x + this.width >= element.x &&
             this.x <= element.x + element.width &&
-            this.y < element.y){
+            this.y < element.y &&
+            this.previousY + this.height <= element.y){
+                this.y = element.y - this.height - 1
+                this.vy = 0
             return 'up'
         }else if ( this.y + this.height >= element.y &&
             this.y <= element.y + element.height &&
             this.x + this.width >= element.x &&
-            this.x < element.x){
+            this.x < element.x &&
+            this.previousX +  this.width < element.x){
+                this.x  = element.x - this.width - 1
+                this.vx = 0
             return 'left'
         } else if ( this.y + this.height >= element.y &&
             this.y <= element.y + element.height &&
             this.x <= element.x + element.width &&
-            this.x + this.width > element.x + element.width ){
+            this.x + this.width > element.x + element.width &&
+            this.previousX > element.x + element.width){
+                    this.x  = element.x + element.width + 1
+                    this.vx = 0
             return 'right'
         }
     }
