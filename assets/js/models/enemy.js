@@ -31,7 +31,7 @@ class Enemy {
 
         this.dx = 0
         this.dy = 0
-        this.ange = undefined
+        this.angle = undefined
 
         // Image
         this.sprite = new Image()
@@ -197,5 +197,43 @@ class Enemy {
                 this.x + this.width > element.x &&
                 this.y < element.y + element.height &&
                 this.y + this.height > element.y
+    }
+
+    collidesWithObstacle(element) {
+        if( this.y <= element.y + element.height && 
+            this.y >= element.y && 
+            this.x + this.width >= element.x && 
+            this.x <= element.x + element.width &&
+            this.y + this.height >= element.y + element.height && 
+            this.previousY >= element.y + element.height){
+                this.y = element.y + element.height + 1
+                this.vy = 0
+            return 'down'
+        } else if ( this.y + this.height >= element.y &&
+            this.y + this.height <= element.y + element.height &&
+            this.x + this.width >= element.x &&
+            this.x <= element.x + element.width &&
+            this.y <= element.y &&
+            this.previousY + this.height <= element.y){
+                this.y = element.y - this.height - 1
+                this.vy = 0
+            return 'up'
+        }else if ( this.y + this.height >= element.y &&
+            this.y <= element.y + element.height &&
+            this.x + this.width >= element.x &&
+            this.x <= element.x &&
+            this.previousX +  this.width <= element.x){
+                this.x  = element.x - this.width - 1
+                this.vx = 0
+            return 'left'
+        } else if ( this.y + this.height >= element.y &&
+            this.y <= element.y + element.height &&
+            this.x <= element.x + element.width &&
+            this.x + this.width >= element.x + element.width &&
+            this.previousX >= element.x + element.width){
+                    this.x  = element.x + element.width + 1
+                    this.vx = 0
+            return 'right'
+        }
     }
 }

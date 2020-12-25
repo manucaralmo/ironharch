@@ -64,7 +64,7 @@ canvas {
     display: none;
 }
 
-#selectAdvantage {
+.boardScreen {
     position: absolute;
     left: 0;
     top: 0;

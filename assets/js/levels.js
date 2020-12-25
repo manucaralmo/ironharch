@@ -31,8 +31,14 @@ const LEVELS = {
             [230, 130, false, 90, 50, 1, 70, 'redBallSprite', 16],
         ],
         obstacles: [
-            [80, 325, 'rock'],
-            [275, 325, 'rock']
+            [35, 500, 'rock'],
+            [70, 500, 'rock'],
+            [105, 500, 'rock'],
+            [140, 500, 'rock'],
+            [330, 355, 'rock'],
+            [295, 355, 'rock'],
+            [260, 355, 'rock'],
+            [225, 355, 'rock'],
         ]
     },
     // NIVEL 2
@@ -42,8 +48,12 @@ const LEVELS = {
             [120, 0, true, 115, 50, 1, 100, 'blueLightSprite', 22]
         ],
         obstacles: [
-            [80, 325, 'rock'],
-            [275, 325, 'rock']
+            [35, 355, 'rock'],
+            [70, 355, 'rock'],
+            [105, 355, 'rock'],
+            [330, 355, 'rock'],
+            [295, 355, 'rock'],
+            [260, 355, 'rock'],
         ]
     },
     // NIVEL 3

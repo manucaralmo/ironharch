@@ -138,44 +138,49 @@ class IronHarch {
     win() {
         this.enemies = []
         this.stop()
-        console.log('Has ganado')
+        // Check record
+        if(this.checkRecord()){
+            console.log('win & new record')
+        } else {
+            // Game over screen
+            this.ctx.save()
+            this.ctx.font = '35px Arial'
+            this.ctx.fillStyle = 'white'
+            this.ctx.textAlign = 'center'
+            this.ctx.fillText('You win!', this.ctx.canvas.width / 2, (this.ctx.canvas.height / 2) - 25)
+            this.ctx.font = '25px Arial'
+            this.ctx.fillText(`Your level: ${this.level}`, (this.ctx.canvas.width / 2), (this.ctx.canvas.height / 2) + 15)
+            this.ctx.fillText(`Record: ${this.record}`, (this.ctx.canvas.width / 2), (this.ctx.canvas.height / 2) + 45)
+            this.ctx.restore()
+        }
     }
 
     checkRecord() {
         if (this.level > this.record){
             localStorage.setItem("IronHarchRecord", this.level);
             this.record = this.level
+            return true
         }
     }
 
     lose() {
         // Stop game
         this.stop()
-        // Set record
-        this.checkRecord()
-
-        // Game over screen
-        this.ctx.save()
-        this.ctx.font = '35px Arial Bold'
-        this.ctx.fillStyle = 'white'
-        this.ctx.textAlign = 'center'
-        this.ctx.fillText(
-            'Game over!',
-            this.ctx.canvas.width / 2,
-            (this.ctx.canvas.height / 2) - 25,
-        )
-        this.ctx.font = '25px Arial'
-        this.ctx.fillText(
-            `Your level: ${this.level}`,
-            (this.ctx.canvas.width / 2),
-            (this.ctx.canvas.height / 2) + 15,
-        )
-        this.ctx.fillText(
-            `Record: ${this.record}`,
-            (this.ctx.canvas.width / 2),
-            (this.ctx.canvas.height / 2) + 45,
-        )
-        this.ctx.restore()
+        // Check record
+        if(this.checkRecord()){
+            console.log('lose & new record')
+        } else {
+            // Game over screen
+            this.ctx.save()
+            this.ctx.font = '35px Arial'
+            this.ctx.fillStyle = 'white'
+            this.ctx.textAlign = 'center'
+            this.ctx.fillText('Game over!', this.ctx.canvas.width / 2, (this.ctx.canvas.height / 2) - 25)
+            this.ctx.font = '25px Arial'
+            this.ctx.fillText(`Your level: ${this.level}`, (this.ctx.canvas.width / 2), (this.ctx.canvas.height / 2) + 15)
+            this.ctx.fillText(`Record: ${this.record}`, (this.ctx.canvas.width / 2), (this.ctx.canvas.height / 2) + 45)
+            this.ctx.restore()
+        }
     }
 
     draw() {
@@ -265,6 +270,7 @@ class IronHarch {
         // Comprobar colisiones con obstaculos en el canvas
         if(this.obstacles.length > 0){
             this.obstacles.forEach(obstacle => {
+
                 if(this.player.collidesWithObstacle(obstacle) === 'up'){
                     this.player.y = obstacle.y - this.player.height
                 } else if(this.player.collidesWithObstacle(obstacle) === 'down'){
@@ -274,10 +280,23 @@ class IronHarch {
                 } else if(this.player.collidesWithObstacle(obstacle) === 'right'){
                     this.player.x = obstacle.x + obstacle.width
                 }
+
+                // TODO: FALTA COLISIONES DE OBSTACULOS Y ENEMY
+                this.enemies.forEach(enem => {
+                    if(enem.collidesWithObstacle(obstacle) === 'up'){
+                        enem.y = obstacle.y - enem.height
+                    } else if(enem.collidesWithObstacle(obstacle) === 'down'){
+                        enem.y = obstacle.y + obstacle.height
+                    } else if(enem.collidesWithObstacle(obstacle) === 'left'){
+                        enem.x = obstacle.x - enem.width
+                    } else if(enem.collidesWithObstacle(obstacle) === 'right'){
+                        enem.x = obstacle.x + obstacle.width
+                    }
+                })
+
             })
         }
 
-        // TODO: FALTA COLISIONES DE OBSTACULOS Y ENEMY
 
         // Comprobar colisiones de balas con obstaculos
         if(this.obstacles.length > 0){
