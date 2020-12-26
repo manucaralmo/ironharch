@@ -19,8 +19,11 @@ class IronHarch {
 
         // Enemies
         this.enemies = []
+        this.enemiesCount = 0
 
         this.topBar = new TopBar(this.ctx)
+        this.coinsArr = []
+        this.coinsWin = 0
 
         // Music
         this.sounds = {
@@ -37,6 +40,8 @@ class IronHarch {
         this.level = 1
         this.changingLevel = false
         this.record = localStorage.getItem("IronHarchRecord");
+        this.selectAdvantageCount = 0
+        this.gift = undefined
     }
 
     homeMusic(play) {
@@ -99,22 +104,29 @@ class IronHarch {
         setTimeout(() => {
             this.sounds.selector.play()
             selectAdvantageDisplay.style.display = 'block'
-        }, 1500)
+        }, 500)
 
-        let doubleArrowBtn = document.getElementById('doubleArrow')
-        let doubleArrowSpeedBtn = document.getElementById('doubleArrowSpeed')
+        let advantageBtns = document.querySelectorAll('.advantageSelect')
 
-        doubleArrowBtn.addEventListener('click', () => {
-            this.player.extras.doubleShot = true
-            selectAdvantageDisplay.style.display = 'none'
-            setTimeout(() => this.createLevel(), 2000)
+        advantageBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                switch(btn.dataset.power){
+                    case 'doubleArrow':
+                        this.player.extras.doubleShot = true
+                        break;
+                    case 'doubleArrowSpeed':
+                        this.player.extras.doubleSpeed = true
+                        break;
+                    case 'fullHealth':
+                        this.player.health = this.player.maxHealth
+                        break;
+                }
+
+                selectAdvantageDisplay.style.display = 'none'
+                setTimeout(() => this.createLevel(), 2000)
+            })
         })
 
-        doubleArrowSpeedBtn.addEventListener('click', () => {
-            this.player.extras.doubleSpeed = true
-            selectAdvantageDisplay.style.display = 'none'
-            setTimeout(() => this.createLevel(), 2000)
-        })
     }
 
     nextLevel() {
@@ -123,7 +135,14 @@ class IronHarch {
         } else {
             this.changingLevel = true
             this.level++
-            this.selectAdvantage()
+
+            if(this.selectAdvantageCount === 2){ // 2
+                this.selectAdvantageCount = 0
+                this.gift = new Gift(this.ctx)
+            } else {
+                this.selectAdvantageCount++
+                setTimeout(() => this.createLevel(), 2000)
+            }
         }
     }
 
@@ -196,7 +215,16 @@ class IronHarch {
             enemy.draw()
         })
 
-        this.topBar.draw(this.player.health)
+        // Draw coins
+        this.coinsArr.forEach(coin => {
+            coin.draw()
+        })
+
+        if(this.gift !== undefined){
+            this.gift.draw()
+        }
+
+        this.topBar.draw(this.player.health, this.coinsWin)
     }
 
     move() {
@@ -270,33 +298,15 @@ class IronHarch {
         // Comprobar colisiones con obstaculos en el canvas
         if(this.obstacles.length > 0){
             this.obstacles.forEach(obstacle => {
+                // COLISIONES DE OBSTACULOS Y PLAYER
+                this.player.collidesWithObstacle(obstacle)
 
-                if(this.player.collidesWithObstacle(obstacle) === 'up'){
-                    this.player.y = obstacle.y - this.player.height
-                } else if(this.player.collidesWithObstacle(obstacle) === 'down'){
-                    this.player.y = obstacle.y + obstacle.height
-                } else if(this.player.collidesWithObstacle(obstacle) === 'left'){
-                    this.player.x = obstacle.x - this.player.width
-                } else if(this.player.collidesWithObstacle(obstacle) === 'right'){
-                    this.player.x = obstacle.x + obstacle.width
-                }
-
-                // TODO: FALTA COLISIONES DE OBSTACULOS Y ENEMY
+                // COLISIONES DE OBSTACULOS Y ENEMY
                 this.enemies.forEach(enem => {
-                    if(enem.collidesWithObstacle(obstacle) === 'up'){
-                        enem.y = obstacle.y - enem.height
-                    } else if(enem.collidesWithObstacle(obstacle) === 'down'){
-                        enem.y = obstacle.y + obstacle.height
-                    } else if(enem.collidesWithObstacle(obstacle) === 'left'){
-                        enem.x = obstacle.x - enem.width
-                    } else if(enem.collidesWithObstacle(obstacle) === 'right'){
-                        enem.x = obstacle.x + obstacle.width
-                    }
+                    enem.collidesWithObstacle(obstacle)
                 })
-
             })
         }
-
 
         // Comprobar colisiones de balas con obstaculos
         if(this.obstacles.length > 0){
@@ -317,6 +327,25 @@ class IronHarch {
                     })
                 })
             })
+        }
+
+        // Comprobar colisiones con monedas
+        if(this.coinsArr.length > 0){
+            this.coinsArr.forEach(coin => {
+                if(coin.collidesWith(this.player) && coin.collides === false){
+                    coin.collides = true
+                    this.coinsWin++
+                    this.clearCoins()
+                }
+            })
+        }
+
+        // colision con gift
+        if(this.gift !== undefined){
+            if(this.gift.collidesWith(this.player)){
+                this.selectAdvantage()
+                this.gift = undefined
+            }
         }
     }
 
@@ -345,8 +374,18 @@ class IronHarch {
     }
 
     clearEnemies() {
+        this.enemiesCount = this.enemies.length
         // Eliminar enemigos cuando su puntuacion sea <= 0
         this.enemies = this.enemies.filter(enemy => enemy.health > 0)
+        // Si eliminamos algun enemigo, creamos una moneda
+        if(this.enemies.length < this.enemiesCount){
+            this.coinsArr.push(new Coin(this.ctx, Math.random() * (350 - 38) + 38, Math.random() * (700 - 165) + 165))
+        }
+    }
+
+    clearCoins() {
+        // Eliminar monedas cuando collides sea true
+        this.coinsArr = this.coinsArr.filter(coin => coin.collides === false)
     }
 
     onKeyEvent(event) {

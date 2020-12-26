@@ -11,7 +11,7 @@ const CANVAS_HEIGHT = 700
 
 const PLAYER_X = 300
 const PLAYER_Y = 550
-const PLAYER_WIDTH = 55
+const PLAYER_WIDTH = 50
 const PLAYER_HEIGHT = 65
 const PLAYER_SPEED = 3
 

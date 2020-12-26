@@ -22,13 +22,20 @@ class TopBar {
         this.best.onload = () => {
             this.best.isReady = true
         }
+
+        this.coinImg = new Image()
+        this.coinImg.src = './assets/images/icons/coin.png'
+        this.coinImg.isReady = false
+        this.coinImg.onload = () => {
+            this.coinImg.isReady = true
+        }
     }
 
     isReady() {
-        return this.img.isReady && this.best.isReady
+        return this.img.isReady && this.best.isReady && this.coinImg.isReady
     }
 
-    draw(health) {
+    draw(health, coins) {
         if (this.isReady()) {
             this.ctx.drawImage(
                 this.img,
@@ -69,6 +76,24 @@ class TopBar {
                 this.ctx.textAlign = 'left'
                 this.ctx.strokeText(`Best: ${this.record}`, this.x + 75 + 35, 30);
                 this.ctx.fillText(`Best: ${this.record}`, this.x + 75 + 35, 30)
+            this.ctx.restore()
+
+            // Print Coins
+            this.ctx.drawImage(
+                this.coinImg,
+                this.x + 75 + 35 + 65,
+                this.y,
+                this.width,
+                this.height
+            )
+            this.ctx.save()
+                this.ctx.font = '15px Arial'
+                this.ctx.fillStyle = 'white'
+                this.ctx.strokeStyle = '#000'
+                this.ctx.lineWidth = 2;
+                this.ctx.textAlign = 'left'
+                this.ctx.strokeText(coins, this.x + 75 + 35 + 95, 30);
+                this.ctx.fillText(coins, this.x + 75 + 35 + 95, 30)
             this.ctx.restore()
         }
     }

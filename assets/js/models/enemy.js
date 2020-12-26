@@ -8,6 +8,10 @@ class Enemy {
         this.vy = 0
         this.vx = 0
 
+        // Previous X & Y for obstacle collision
+        this.previousX = this.x
+        this.previousY = this.y
+
         this.width = 45
         this.height = 60
 
@@ -60,6 +64,12 @@ class Enemy {
         // Sounds
         this.sounds = {
             enemyShot: new Audio('assets/sounds/disparo-enemigo.mp3')
+        }
+
+        // Collides
+        this.collides = {
+            topBottom: false,
+            leftRight: false
         }
     }
 
@@ -115,6 +125,9 @@ class Enemy {
     }
 
     move() {
+        this.previousX = this.x
+        this.previousY = this.y
+
         // Move Enemy
         if(this.isMoving){
             this.getPlayerAngle()
@@ -204,36 +217,44 @@ class Enemy {
             this.y >= element.y && 
             this.x + this.width >= element.x && 
             this.x <= element.x + element.width &&
-            this.y + this.height >= element.y + element.height && 
-            this.previousY >= element.y + element.height){
-                this.y = element.y + element.height + 1
+            this.y + this.height > element.y + element.height && 
+            this.previousY > element.y + element.height){
+                this.y = element.y + element.height
                 this.vy = 0
+                this.collides.topBottom = true
             return 'down'
         } else if ( this.y + this.height >= element.y &&
             this.y + this.height <= element.y + element.height &&
             this.x + this.width >= element.x &&
             this.x <= element.x + element.width &&
-            this.y <= element.y &&
+            this.y < element.y &&
             this.previousY + this.height <= element.y){
-                this.y = element.y - this.height - 1
+                this.y = element.y - this.height
                 this.vy = 0
+                this.collides.topBottom = true
             return 'up'
         }else if ( this.y + this.height >= element.y &&
             this.y <= element.y + element.height &&
             this.x + this.width >= element.x &&
-            this.x <= element.x &&
-            this.previousX +  this.width <= element.x){
-                this.x  = element.x - this.width - 1
+            this.x < element.x &&
+            this.previousX +  this.width < element.x){
+                this.x  = element.x - this.width
                 this.vx = 0
+                this.collides.leftRight = true
             return 'left'
         } else if ( this.y + this.height >= element.y &&
             this.y <= element.y + element.height &&
             this.x <= element.x + element.width &&
-            this.x + this.width >= element.x + element.width &&
-            this.previousX >= element.x + element.width){
-                    this.x  = element.x + element.width + 1
+            this.x + this.width > element.x + element.width &&
+            this.previousX > element.x + element.width){
+                    this.x  = element.x + element.width
                     this.vx = 0
+                    this.collides.leftRight = true
             return 'right'
+        } else {
+            this.collides.leftRight = false
+            this.collides.topBottom = false
+            return false
         }
     }
 }
