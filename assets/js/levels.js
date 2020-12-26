@@ -62,22 +62,29 @@ const LEVELS = {
     // NIVEL 3
     3: {
         enemies: [
-            [25, 0, false, 115, 50, 1, 150, 'redBallSprite', 16, 5],
-            [120, 0, false, 115, 50, 1, 150, 'redBallSprite', 16, 5],
-            [220, 0, false, 115, 50, 1, 150, 'redBallSprite', 16, 5],
+            [41, 0, false, 115, 50, 1, 150, 'redBallSprite', 16, 5],
+            [167, 0, false, 115, 50, 1, 150, 'redBallSprite', 16, 5],
+            [300, 0, false, 115, 50, 1, 150, 'redBallSprite', 16, 5],
         ],
         obstacles: [
-            [80, 325, 'rock'],
-            [275, 325, 'rock']
+            [90, 325, 'rock'],
+            [90, 360, 'rock'],
+            [90, 395, 'rock'],
+            [90, 430, 'rock'],
+            [275, 325, 'rock'],
+            [275, 360, 'rock'],
+            [275, 395, 'rock'],
+            [275, 430, 'rock']
         ]
     },
     // NIVEL 4
     4: {
         enemies: [
-            [0, 0, false, 115, 50, 1, 100, 'blueDiamondSprite', 16, 6],
-            [120, 12, false, 115, 50, 1, 100, 'blueDiamondSprite', 16, 6],
-            [120, 100, false, 115, 50, 1, 100, 'blueDiamondSprite', 16, 6],
-            [120, 200, false, 115, 50, 1, 100, 'blueDiamondSprite', 16, 6]
+            [41, 0, true, 115, 50, 1, 150, 'redBallSprite', 16, 5],
+            [167, 0, true, 115, 50, 1, 150, 'redBallSprite', 16, 5],
+            [300, 0, true, 115, 50, 1, 150, 'redBallSprite', 16, 5],
+            [95, 200, false, 115, 50, 1, 100, 'blueDiamondSprite', 16, 6],
+            [220, 200, false, 115, 50, 1, 100, 'blueDiamondSprite', 16, 6]
         ],
         obstacles: [
             [80, 325, 'rock'],

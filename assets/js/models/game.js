@@ -37,7 +37,7 @@ class IronHarch {
         this.touchStartY = undefined
 
         // LEVEL & RECORD
-        this.level = 1
+        this.level = 1 // 1
         this.changingLevel = false
         this.record = localStorage.getItem("IronHarchRecord");
         this.selectAdvantageCount = 0
@@ -116,15 +116,16 @@ class IronHarch {
                 return item;
             };
         }
-        let btnArray = ["doubleArrow", "fullHealth", "doubleSpeed", "doubleAttack", "doubleShotSpeed", "extraLife"];
+        // Array con extras disponibles a elegir aleatoriamente. (Coincide nombre de la ventaja y nombre del archivo)
+        let btnArray = ["doubleArrow", "fullHealth", "doubleHealth", "doubleSpeed", "doubleAttack", "doubleShotSpeed", "extraLife"];
         let chooser = randomNoRepeats(btnArray);
 
+        // Rellenamos la info de las ventajas en los 3 botones de index.html
         advantageBtns.forEach((btn, index) => {
             let newAD = chooser()
             btn.dataset.power = newAD
             document.querySelector(`#advantaje${index}`).src = `assets/images/extras/${newAD}.png`
         })
-
         // RANDOM ADVANTAGES
 
         setTimeout(() => {
@@ -139,6 +140,10 @@ class IronHarch {
                         this.player.extras.doubleShot = true
                         break;
                     case 'fullHealth':
+                        this.player.health = this.player.maxHealth
+                        break;
+                    case 'doubleHealth':
+                        this.player.maxHealth += 500
                         this.player.health = this.player.maxHealth
                         break;
                     case 'doubleSpeed':
@@ -169,7 +174,7 @@ class IronHarch {
             this.changingLevel = true
             this.level++
 
-            if(this.selectAdvantageCount === 0){ // 2
+            if(this.selectAdvantageCount === 2){ // 2
                 this.selectAdvantageCount = 0
                 this.gift = new Gift(this.ctx)
             } else {
