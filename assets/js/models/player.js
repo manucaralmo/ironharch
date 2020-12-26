@@ -37,7 +37,7 @@ class Player {
         this.extras = {
             doubleShot: false,
             doubleSpeed: false,
-            extraLife: false
+            extraLifeCount: 0
         }
 
         // Health
@@ -218,9 +218,6 @@ class Player {
             let angle = Math.atan2(dx, dy) 
 
             let speed = this.shotSpeed
-            if(this.extras.doubleSpeed){
-                speed = this.shotSpeed + 2
-            } 
 
             // Crear nuevo bullet
             this.bullets.push(new Bullet(this.ctx, this.x+(this.width/2), this.y, Math.sin(angle)*speed, Math.cos(angle)*speed, this.shotPower))
@@ -310,17 +307,18 @@ class Player {
     }
 
     collidesWithObstacle(element) {
-        if( this.y <= element.y + element.height && 
+        // -30 para que el personaje de sensacion de 3d con el obstaculo
+        if( this.y <= element.y + (element.height - 30) && 
             this.y >= element.y && 
             this.x + this.width >= element.x && 
             this.x <= element.x + element.width &&
-            this.y + this.height > element.y + element.height && 
-            this.previousY > element.y + element.height){
-                this.y = element.y + element.height + 1
+            this.y + this.height > element.y + (element.height - 30) && 
+            this.previousY > element.y + (element.height - 30)){
+                this.y = element.y + (element.height - 30) + 1
                 this.vy = 0
             return 'down'
         } else if ( this.y + this.height >= element.y &&
-            this.y + this.height <= element.y + element.height &&
+            this.y + this.height <= element.y + (element.height - 30) &&
             this.x + this.width >= element.x &&
             this.x <= element.x + element.width &&
             this.y < element.y &&
@@ -329,7 +327,7 @@ class Player {
                 this.vy = 0
             return 'up'
         }else if ( this.y + this.height >= element.y &&
-            this.y <= element.y + element.height &&
+            this.y <= element.y + (element.height - 30) &&
             this.x + this.width >= element.x &&
             this.x < element.x &&
             this.previousX +  this.width < element.x){
@@ -337,7 +335,7 @@ class Player {
                 this.vx = 0
             return 'left'
         } else if ( this.y + this.height >= element.y &&
-            this.y <= element.y + element.height &&
+            this.y <= element.y + (element.height - 30) &&
             this.x <= element.x + element.width &&
             this.x + this.width > element.x + element.width &&
             this.previousX > element.x + element.width){

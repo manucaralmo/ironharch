@@ -90,7 +90,7 @@ class IronHarch {
 
         // Creamos los enemigos
         LEVELS[this.level].enemies.forEach(newEnemy => {
-            this.enemies.push(new Enemy(this.ctx, newEnemy[0], newEnemy[1], newEnemy[2], newEnemy[3], newEnemy[4], newEnemy[5], newEnemy[6], newEnemy[7], newEnemy[8]))
+            this.enemies.push(new Enemy(this.ctx, newEnemy[0], newEnemy[1], newEnemy[2], newEnemy[3], newEnemy[4], newEnemy[5], newEnemy[6], newEnemy[7], newEnemy[8], newEnemy[9]))
         })
 
         // Creamos los obstáculos
@@ -102,14 +102,35 @@ class IronHarch {
     }
 
     selectAdvantage() {
-
         let selectAdvantageDisplay = document.getElementById('selectAdvantage')
+        let advantageBtns = document.querySelectorAll('.advantageSelect')
+
+        // RANDOM ADVANTAGES
+        let randomNoRepeats = (array) => {
+            let copy = array.slice(0);
+            return () => {
+                if (copy.length < 1) { copy = array.slice(0); }
+                let index = Math.floor(Math.random() * copy.length);
+                let item = copy[index];
+                copy.splice(index, 1);
+                return item;
+            };
+        }
+        let btnArray = ["doubleArrow", "fullHealth", "doubleSpeed", "doubleAttack", "doubleShotSpeed", "extraLife"];
+        let chooser = randomNoRepeats(btnArray);
+
+        advantageBtns.forEach((btn, index) => {
+            let newAD = chooser()
+            btn.dataset.power = newAD
+            document.querySelector(`#advantaje${index}`).src = `assets/images/extras/${newAD}.png`
+        })
+
+        // RANDOM ADVANTAGES
+
         setTimeout(() => {
             this.sounds.selector.play()
             selectAdvantageDisplay.style.display = 'block'
         }, 500)
-
-        let advantageBtns = document.querySelectorAll('.advantageSelect')
 
         advantageBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -117,11 +138,20 @@ class IronHarch {
                     case 'doubleArrow':
                         this.player.extras.doubleShot = true
                         break;
-                    case 'doubleArrowSpeed':
-                        this.player.extras.doubleSpeed = true
-                        break;
                     case 'fullHealth':
                         this.player.health = this.player.maxHealth
+                        break;
+                    case 'doubleSpeed':
+                        this.player.speed = PLAYER_SPEED * 1.5
+                        break;
+                    case 'doubleAttack':
+                        this.player.shotPower *= 2
+                        break;
+                    case 'doubleShotSpeed':
+                        this.player.shotSpeed += 0.5
+                        break;
+                    case 'extraLife':
+                        this.player.extras.extraLifeCount += 1
                         break;
                 }
 
@@ -139,7 +169,7 @@ class IronHarch {
             this.changingLevel = true
             this.level++
 
-            if(this.selectAdvantageCount === 2){ // 2
+            if(this.selectAdvantageCount === 0){ // 2
                 this.selectAdvantageCount = 0
                 this.gift = new Gift(this.ctx)
             } else {
@@ -361,7 +391,11 @@ class IronHarch {
 
     checkHealth() {
         if(this.player.health <= 0){
-            this.lose()
+            if(this.player.extras.extraLifeCount > 0){
+                this.player.health = this.player.maxHealth
+            } else {
+                this.lose()
+            }
         }
     }
 
@@ -381,7 +415,7 @@ class IronHarch {
         this.enemies = this.enemies.filter(enemy => enemy.health > 0)
         // Si eliminamos algun enemigo, creamos una moneda
         if(this.enemies.length < this.enemiesCount){
-            this.coinsArr.push(new Coin(this.ctx, Math.random() * (350 - 38) + 38, Math.random() * (700 - 165) + 165))
+            this.coinsArr.push(new Coin(this.ctx, Math.random() * (350 - 38) + 38, Math.random() * (660 - 165) + 165))
         }
     }
 

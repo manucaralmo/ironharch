@@ -1,5 +1,5 @@
 class Enemy {
-    constructor(ctx, x, y, isMoving = false, shootingInterval = 115, shotPower = 500, collisionPower = 1, health, weapon, bulletSize){
+    constructor(ctx, x, y, isMoving = false, shootingInterval = 115, shotPower = 500, collisionPower = 1, health, weapon, bulletSize, enemyImg = 5){
         this.ctx = ctx
 
         this.x = x
@@ -12,8 +12,8 @@ class Enemy {
         this.previousX = this.x
         this.previousY = this.y
 
-        this.width = 45
-        this.height = 60
+        this.width = 52
+        this.height = 70
 
         // Health & power
         this.maxHealth = health
@@ -39,10 +39,10 @@ class Enemy {
 
         // Image
         this.sprite = new Image()
-        this.sprite.src = `assets/images/enemies/enemy1Sprite.png`
+        this.sprite.src = `assets/images/enemies/enemy-${enemyImg}.png`
         this.sprite.isReady = false
-        this.sprite.horizontalFrames = 4
-        this.sprite.verticalFrames = 1
+        this.sprite.horizontalFrames = 6
+        this.sprite.verticalFrames = 2
         this.sprite.horizontalFrameIndex = 0
         this.sprite.verticalFrameIndex = 0
         this.sprite.drawCount = 0
@@ -101,6 +101,12 @@ class Enemy {
             )
 
             if(this.isMoving){
+                this.sprite.verticalFrameIndex = 1
+                this.sprite.drawCount++
+                this.animate()
+            }
+
+            if(this.sprite.verticalFrameIndex === 2){
                 this.sprite.drawCount++
                 this.animate()
             }
