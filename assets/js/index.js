@@ -1,4 +1,9 @@
 window.addEventListener('load', () => {
+
+    // Solución al LAG en Safari
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = new AudioContext();
+
     // ==========================================
     // START GAME
     // ==========================================

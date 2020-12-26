@@ -179,6 +179,7 @@ class Enemy {
             this.shootingCount = 0
 
             // Play sound
+            this.sounds.enemyShot.load()
             this.sounds.enemyShot.volume = 0.05
             this.sounds.enemyShot.currentTime = 0
             this.sounds.enemyShot.play()

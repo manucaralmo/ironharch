@@ -59,6 +59,9 @@ class IronHarch {
 
     start() {
         this.homeMusic(false)
+        // Load audio
+        this.sounds.collisionBalaEnemy.load()
+        this.sounds.selector.load()
 
         if(!this.intervalId){
             this.intervalId = setInterval(() => {
@@ -281,7 +284,6 @@ class IronHarch {
                     playerBullet.collides = true
                     // Play audio
                     this.playAudio('enemyCollision')
-
                 }
             })
             // Comprobar colisiones de balas (Enemigo) con player
