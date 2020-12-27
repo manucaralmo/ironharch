@@ -281,36 +281,23 @@ class Player {
         }
     }
 
+    mobileMove(speed, x, y, angle) {
 
-    // Mobile events
-    onTouchEvent(event) {
-        // seteamos el status de shooting
-        this.shooting = !status
+        let xSpeed = Math.abs(x) * 100 / 25
+        let ySpeed = Math.abs(y) * 100 / 25
 
-        switch(event) {
-        case 'top':
-            this.movements.up = true
-            this.shooting = false
-            break
-        case 'right':
-            this.movements.right = true
-            this.shooting = false
-            break
-        case 'bottom':
-            this.movements.down = true
-            this.shooting = false
-            break
-        case 'left':
-            this.movements.left = true
-            this.shooting = false
-            break
-        case 'stop':
-            this.movements.up = false
-            this.movements.right = false
-            this.movements.down = false
-            this.movements.left = false
-            this.shooting = true
-            break
+        console.log(xSpeed, ySpeed)
+
+        if(x > 0){
+            this.x += this.speed * (+xSpeed / 100)
+        } else {
+            this.x -= this.speed * (+xSpeed / 100)
+        }
+        
+        if(y > 0){
+            this.y += this.speed * (+ySpeed/100)
+        } else {
+            this.y -= this.speed * (+ySpeed/100)
         }
     }
 

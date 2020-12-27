@@ -35,6 +35,8 @@ class IronHarch {
         // MOBILE JOYSTIC
         this.touchStartX = undefined
         this.touchStartY = undefined
+        // PRUEBAS
+        this.joystic = new Joystic(this.ctx, this.canvas)
 
         // LEVEL & RECORD
         this.level = 1 // 1
@@ -285,11 +287,16 @@ class IronHarch {
 
         // Draw Top Bar
         this.topBar.draw(this.player.health, this.coinsWin)
+
+
+        // DRAW JOYSTIC
+        this.joystic.draw()
     }
 
     move() {
         // Move player
         this.player.move()
+        this.movePlayer()
         // Move Enemies
         if(this.enemies.length > 0){
             this.enemies.forEach(enemy => {
@@ -411,9 +418,13 @@ class IronHarch {
 
     playAudio(type) {
         if(type === 'enemyCollision'){
-            this.sounds.collisionBalaEnemy.volume = 0.05
-            this.sounds.collisionBalaEnemy.currentTime = 0
-            this.sounds.collisionBalaEnemy.play()
+            try {
+                this.sounds.collisionBalaEnemy.volume = 0.05
+                this.sounds.collisionBalaEnemy.currentTime = 0
+                this.sounds.collisionBalaEnemy.play()
+            } catch (error){
+                console.error(error);
+            }
         }
     }
 
@@ -465,38 +476,6 @@ class IronHarch {
         this.player.onKeyEvent(event)
     }
 
-    // Mobile events
-    onTouchEvent(event) {
-        event.preventDefault()
-        if(event.type === 'touchend'){
-            console.log('levanta el dedo')
-            this.player.onTouchEvent('stop')
-        }
-
-        if(event.type === 'touchstart'){
-            this.touchStartX = event.targetTouches[0].pageX
-            this.touchStartY = event.targetTouches[0].pageY
-        }
-        
-        if(event.type === 'touchmove'){
-            if(this.touchStartX < event.targetTouches[0].pageX){
-                console.log('vamo a la derecha')
-                this.player.onTouchEvent('right')
-            } else if (this.touchStartX > event.targetTouches[0].pageX){
-                console.log('vamo a la izquierda')
-                this.player.onTouchEvent('left')
-            }
-
-            if(this.touchStartY < event.targetTouches[0].pageY){
-                console.log('vamo abajo')
-                this.player.onTouchEvent('bottom')
-            } else if (this.touchStartY > event.targetTouches[0].pageY){
-                console.log('vamo arriba')
-                this.player.onTouchEvent('top')
-            }
-        }
-    }
-
     debug() {
         setInterval(() => {
             console.clear()
@@ -521,5 +500,11 @@ class IronHarch {
             console.log('Exec Time: ' + execTime)
 
         }, 1000);
+    }
+
+    movePlayer() {
+        if(this.joystic.paint){
+            this.player.mobileMove(this.joystic.joysticSpeed, this.joystic.x_relative, this.joystic.y_relative, this.joystic.angle_in_degrees)
+        }
     }
 }

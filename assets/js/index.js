@@ -80,7 +80,8 @@ window.addEventListener('load', () => {
     // ==========================================
     // MOBILE EVENTS
     // ==========================================
-    canvasBoard.addEventListener('touchstart', event => {
+    
+    /* canvasBoard.addEventListener('touchstart', event => {
         Game.onTouchEvent(event)
     })
     canvasBoard.addEventListener('touchmove', event => {
@@ -88,7 +89,7 @@ window.addEventListener('load', () => {
     })
     canvasBoard.addEventListener('touchend', event => {
         Game.onTouchEvent(event)
-    })
+    }) */
 
     
     // ==========================================
@@ -111,7 +112,7 @@ window.addEventListener('load', () => {
         archeroImg.style.display = 'none'
 
         // Debug
-        Game.debug()
+        //Game.debug()
     }
     const resumeGameFunc = () => {
         Game.start()
@@ -126,4 +127,15 @@ window.addEventListener('load', () => {
         restartBtn.style.display = 'inline'
         resumeGame.style.display = 'inline'
     }
+
+
+    document.addEventListener('mousedown', (event) => Game.joystic.startMoving(event));
+    document.addEventListener('mouseup', (event) => Game.joystic.stopMoving(event));
+    document.addEventListener('mousemove', (event) => Game.joystic.imMoving(event));
+
+    document.addEventListener('touchstart', (event) => Game.joystic.startMoving(event));
+    document.addEventListener('touchend', (event) => Game.joystic.stopMoving(event));
+    document.addEventListener('touchcancel', (event) => Game.joystic.stopMoving(event));
+    document.addEventListener('touchmove', (event) => Game.joystic.imMoving(event));
+
 })
