@@ -1,19 +1,28 @@
 class Enemy {
     constructor(ctx, x, y, isMoving = false, shootingInterval = 115, shotPower = 500, collisionPower = 1, health, weapon, bulletSize, enemyImg = 5){
+        // Ctx
         this.ctx = ctx
 
+        // Enemy position & Size
         this.x = x
         this.y = y
-        this.isMoving = isMoving
-        this.vy = 0
-        this.vx = 0
+        this.width = 52
+        this.height = 70
 
         // Previous X & Y for obstacle collision
         this.previousX = this.x
         this.previousY = this.y
 
-        this.width = 52
-        this.height = 70
+        // Enemy Speed 
+        this.isMoving = isMoving
+        this.vy = 0
+        this.vx = 0
+        this.dx = 0
+        this.dy = 0
+        this.angle = undefined
+
+        // state -- Check if is shooting or not
+        this.state = 'normal'
 
         // Health & power
         this.maxHealth = health
@@ -33,19 +42,23 @@ class Enemy {
         this.playerX = 300
         this.playerY = 550
 
-        this.dx = 0
-        this.dy = 0
-        this.angle = undefined
+        // Collides
+        this.collides = {
+            topBottom: false,
+            leftRight: false
+        }
 
+        // ==== IMAGES & SPRITES ====
         // Image
         this.sprite = new Image()
         this.sprite.src = `assets/images/enemies/enemy-${enemyImg}.png`
         this.sprite.isReady = false
         this.sprite.horizontalFrames = 6
-        this.sprite.verticalFrames = 2
+        this.sprite.verticalFrames = 3
         this.sprite.horizontalFrameIndex = 0
         this.sprite.verticalFrameIndex = 0
         this.sprite.drawCount = 0
+        this.sprite.drawInterval = 7
 
         this.sprite.onload = () => {
             this.sprite.isReady = true
@@ -61,15 +74,9 @@ class Enemy {
             this.img2.isReady = true
         }
 
-        // Sounds
+        // ==== SOUNDS ====
         this.sounds = {
             enemyShot: new Audio('assets/sounds/disparo-enemigo.mp3')
-        }
-
-        // Collides
-        this.collides = {
-            topBottom: false,
-            leftRight: false
         }
     }
 
@@ -78,8 +85,14 @@ class Enemy {
     }
 
     draw() {
-        // *** Código provisional ***
+        // If is moving -- VerticalFrame 1
+        if(this.isMoving && this.state === 'normal'){
+            this.sprite.verticalFrameIndex = 1
+        }
+
+        // If img & sprite are Ready, draw
         if (this.isReady()) {
+            // Draw Shadow
             this.ctx.drawImage(
                 this.img2,
                 this.x-(this.width/4),
@@ -87,7 +100,7 @@ class Enemy {
                 this.width+(this.width/2),
                 this.height/2
             )
-
+            // Draw Enemy
             this.ctx.drawImage(
                 this.sprite,
                 this.sprite.horizontalFrameIndex * this.sprite.frameWidth,
@@ -99,40 +112,38 @@ class Enemy {
                 this.width,
                 this.height
             )
-
-            if(this.isMoving){
-                this.sprite.verticalFrameIndex = 1
-                this.sprite.drawCount++
-                this.animate()
-            }
-
-            if(this.sprite.verticalFrameIndex === 2){
-                this.sprite.drawCount++
-                this.animate()
-            }
-
         }
 
-        // *** HEALTH ***
-        this.ctx.save()
-            this.ctx.fillStyle = '#921010'
-            this.ctx.fillRect(this.x, this.y+this.height+5, this.width, 4)
-        this.ctx.restore()
-        this.ctx.save()
-            this.ctx.fillStyle = '#DD1515'
-            this.ctx.fillRect(this.x, this.y+this.height+5, this.healthPercent(), 4)
-        this.ctx.restore()
-        // *** HEALTH ***
+        // Draw Health
+        if(this.healthPercent() !== undefined){
+            this.ctx.save()
+                this.ctx.fillStyle = '#921010'
+                this.ctx.fillRect(this.x, this.y+this.height+5, this.width, 4)
+            this.ctx.restore()
+            this.ctx.save()
+                this.ctx.fillStyle = '#DD1515'
+                this.ctx.fillRect(this.x, this.y+this.height+5, this.healthPercent(), 4)
+            this.ctx.restore()
+        }
         
-        this.bullets.forEach(bullet => {
-            bullet.draw()
-        })
-        this.shot()
+        // Draw Bullets
+        if(this.bullets.length > 0){
+            this.bullets.forEach(bullet => {
+                bullet.draw()
+            })
+        }
     }
 
     move() {
+        // Previous position for collision check
         this.previousX = this.x
         this.previousY = this.y
+
+        // Animate sprite
+        if(this.sprite.verticalFrameIndex !== 0){
+            this.sprite.drawCount++
+            this.animate()
+        }
 
         // Move Enemy
         if(this.isMoving){
@@ -141,26 +152,31 @@ class Enemy {
             this.y += this.vy
         }
 
-        // Check
+        // Shot
+        this.shot()
+
+        // Move bullets
+        if(this.bullets.length > 0){
+            this.bullets.forEach(bullet => {
+                bullet.move()
+            })
+        }
+
+        // === Check canvas collisions ===
         if (this.x <= 30){
             this.x = 30
         } else if (this.x + this.width >= CANVAS_WIDTH - 30){
             this.x = CANVAS_WIDTH - this.width - 30
         }
-
         if (this.y <= 130){
             this.y = 130
         } else if (this.y + this.height >= CANVAS_HEIGHT){
             this.y = CANVAS_HEIGHT - this.height
         }
-
-        this.bullets.forEach(bullet => {
-            bullet.move()
-        })
     }
 
     animate() {
-        if (this.sprite.drawCount % 7 === 0) {
+        if (this.sprite.drawCount % this.sprite.drawInterval === 0 && this.isReady()) {
             if (this.sprite.horizontalFrameIndex >= this.sprite.horizontalFrames - 1) {
                 this.sprite.horizontalFrameIndex = 0
             } else {
@@ -180,6 +196,9 @@ class Enemy {
             // Calcular angulo para el disparo
             this.getPlayerAngle()
 
+            // Shot Animation
+            this.shotAnimation()
+
             // Crear nuevo bullet
             this.bullets.push(new EnemyBullet(this.ctx, this.x+(this.width/2), this.y+(this.height/2), this.vx*4, this.vy*4, this.shotPower, this.weapon, this.bulletSize))
             this.shootingCount = 0
@@ -196,12 +215,32 @@ class Enemy {
         this.clearBullets()
     }
 
+    shotAnimation() {
+        // Change state 
+        this.state = 'shooting'
+        // Change vertical index 
+        this.sprite.verticalFrameIndex = 2
+        // TimeOut para dar tiempo a que se vea la animación
+        setTimeout(() => {
+            // Reset vertical index 
+            if(this.isMoving){
+                this.sprite.verticalFrameIndex = 1
+            } else {
+                this.sprite.verticalFrameIndex = 0
+                this.sprite.horizontalFrameIndex = 0
+            }
+            // Reset state
+            this.state = 'normal'
+        }, 500)
+    }
+
     getPlayerAngle() {
         // Calcular angulo para el disparo
         this.dx = this.playerX - this.x
         this.dy = this.playerY - this.y
         this.angle = Math.atan2(this.dx, this.dy)
 
+        // Set vx & vy
         this.vx = Math.sin(this.angle)
         this.vy = Math.cos(this.angle)
     }
@@ -220,18 +259,18 @@ class Enemy {
     }
 
     collidesWithObstacle(element) {
-        if( this.y <= element.y + element.height && 
+        if( this.y <= element.y + (element.height - 30) && 
             this.y >= element.y && 
             this.x + this.width >= element.x && 
             this.x <= element.x + element.width &&
-            this.y + this.height > element.y + element.height && 
-            this.previousY > element.y + element.height){
-                this.y = element.y + element.height
+            this.y + this.height > element.y + (element.height - 30) && 
+            this.previousY >= element.y + (element.height - 30)){
+                this.y = element.y + (element.height - 30)
                 this.vy = 0
                 this.collides.topBottom = true
             return 'down'
         } else if ( this.y + this.height >= element.y &&
-            this.y + this.height <= element.y + element.height &&
+            this.y + this.height <= element.y + (element.height - 30) &&
             this.x + this.width >= element.x &&
             this.x <= element.x + element.width &&
             this.y < element.y &&
@@ -241,19 +280,19 @@ class Enemy {
                 this.collides.topBottom = true
             return 'up'
         }else if ( this.y + this.height >= element.y &&
-            this.y <= element.y + element.height &&
+            this.y <= element.y + (element.height - 30) &&
             this.x + this.width >= element.x &&
             this.x < element.x &&
-            this.previousX +  this.width < element.x){
+            this.previousX +  this.width <= element.x){
                 this.x  = element.x - this.width
                 this.vx = 0
                 this.collides.leftRight = true
             return 'left'
         } else if ( this.y + this.height >= element.y &&
-            this.y <= element.y + element.height &&
+            this.y <= element.y + (element.height - 30) &&
             this.x <= element.x + element.width &&
             this.x + this.width > element.x + element.width &&
-            this.previousX > element.x + element.width){
+            this.previousX >= element.x + element.width){
                     this.x  = element.x + element.width
                     this.vx = 0
                     this.collides.leftRight = true

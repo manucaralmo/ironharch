@@ -15,7 +15,6 @@ window.addEventListener('load', () => {
     const introGame = document.getElementById('intro')
 
 
-    // ==========================================
     // Background Selector
     // ==========================================
     const map1 = document.getElementById('map-1')
@@ -53,26 +52,30 @@ window.addEventListener('load', () => {
     openCanvasBtn.addEventListener('click', () => {
         introGame.style.display = "none"
         mainGameBlock.style.display = "block"
-        // Home music
+        // Create Background
         createBackground()
         // Solución al LAG en Safari
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const audioCtx = new AudioContext();
+        // Start Home Music
         Game.homeMusic(true)
     })
 
-    // Game Start
+
+    // ==========================================
+    // GAME START BTN
+    // ==========================================
     startGame.addEventListener('click', () => startGameFunc())
 
-    // Game Buttons listeners
+    // ==========================================
+    // COMPUTER EVENTS
+    // ==========================================
     document.addEventListener('keydown', event => {
         Game.onKeyEvent(event)
     })
-    
     document.addEventListener('keyup', event => {
         Game.onKeyEvent(event)
     })
-
 
     // ==========================================
     // MOBILE EVENTS
@@ -87,25 +90,28 @@ window.addEventListener('load', () => {
         Game.onTouchEvent(event)
     })
 
-
+    
+    // ==========================================
+    // Start, Pause & Resume functions
+    // ==========================================
     // Pause Game
     pauseGame.addEventListener('click', () => pauseGameFunc())
     // Resume Game btn1
     restartBtn.addEventListener('click', () => resumeGameFunc())
     // Resume Game btn 2
     resumeGame.addEventListener('click', () => resumeGameFunc())
-    
 
-    // ==========================================
-    // Start, Pause & Resume functions
-    // ==========================================
     const startGameFunc = () => {
         canvasBoard.style.display = 'block'
         startGame.style.display = 'none'
         Game.start()
-        Game.createLevel()
+        Game.changingLevel = true
+        Game.selectAdvantage()
         pauseGame.style.display = 'inline'
         archeroImg.style.display = 'none'
+
+        // Debug
+        Game.debug()
     }
     const resumeGameFunc = () => {
         Game.start()

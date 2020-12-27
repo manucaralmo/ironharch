@@ -1,5 +1,6 @@
 class Player {
     constructor(ctx){
+        // Canvas CTX
         this.ctx = ctx
 
         // Player position
@@ -34,6 +35,7 @@ class Player {
         this.shootingInterval = 25
         this.shotSpeed = 4
 
+        // Extras config
         this.extras = {
             doubleShot: false,
             doubleSpeed: false,
@@ -49,6 +51,7 @@ class Player {
         // Nearest Enemy
         this.nearestEnemy = undefined
 
+        // ==== IMAGES & SPRITES ====
         // Image
         this.sprite = new Image()
         this.sprite.src = `assets/images/player/player-2.png`
@@ -58,6 +61,7 @@ class Player {
         this.sprite.horizontalFrameIndex = 0
         this.sprite.verticalFrameIndex = 0
         this.sprite.drawCount = 0
+        this.sprite.drawInterval = 7
 
         this.sprite.onload = () => {
             this.sprite.isReady = true
@@ -73,6 +77,7 @@ class Player {
             this.img2.isReady = true
         }
 
+        // ==== SOUNDS ====
         this.sounds = {
             playerWalk: new Audio('./assets/sounds/walk.mp3')
         }
@@ -83,7 +88,6 @@ class Player {
     }
 
     draw() {
-        // *** Código provisional ***
         this.ctx.drawImage(
             this.img2,
             this.x-(this.width/4),
@@ -109,7 +113,15 @@ class Player {
             this.sprite.drawCount++
             this.animate()
         } else {
-            this.sprite.verticalFrameIndex = 0
+            if(this.nearestEnemy !== undefined){
+                if (this.nearestEnemy.y < this.y){
+                    this.sprite.verticalFrameIndex = 0
+                } else {
+                    this.sprite.verticalFrameIndex = 3
+                }
+            } else {
+                this.sprite.verticalFrameIndex = 0
+            }
         }
 
         this.ctx.drawImage(
@@ -123,35 +135,38 @@ class Player {
             this.width,
             this.height
         )
-        // *** Código provisional ***
 
-         // Health Bar
-        this.ctx.save()
-            this.ctx.fillStyle = '#1F7E08'
-            this.ctx.fillRect(this.x, this.y + this.height + 6, this.width, 5)
-        this.ctx.restore()
-
-        this.ctx.save()
-            this.ctx.fillStyle = '#46CA25'
-            this.ctx.fillRect(this.x, this.y + this.height + 6, this.healthPercent(), 5)
-        this.ctx.restore()
-
-        this.ctx.save()
-            this.ctx.strokeStyle = '#000'
-            this.ctx.strokeRect(this.x, this.y + this.height + 6, this.width, 5)
-        this.ctx.restore()
+        // Health Bar
+        if(this.healthPercent() !== undefined){
+            this.ctx.save()
+                this.ctx.fillStyle = '#1F7E08'
+                this.ctx.fillRect(this.x, this.y + this.height + 6, this.width, 5)
+            this.ctx.restore()
+            this.ctx.save()
+                this.ctx.fillStyle = '#46CA25'
+                this.ctx.fillRect(this.x, this.y + this.height + 6, this.healthPercent(), 5)
+            this.ctx.restore()
+            this.ctx.save()
+                this.ctx.strokeStyle = '#000'
+                this.ctx.strokeRect(this.x, this.y + this.height + 6, this.width, 5)
+            this.ctx.restore()
+        }
 
         // Draw Bullets
-        this.bullets.forEach(bullet => {
-            bullet.draw()
-        })
+        if(this.bullets.length > 0){
+            this.bullets.forEach(bullet => {
+                bullet.draw()
+            })
+        }
+
+        // Shot
         if(this.shooting){
             this.shot()
         }
     }
 
     animate() {
-        if (this.sprite.drawCount % 7 === 0) {
+        if (this.sprite.drawCount % this.sprite.drawInterval === 0) {
             if (this.sprite.horizontalFrameIndex >= this.sprite.horizontalFrames - 1) {
                 this.sprite.horizontalFrameIndex = 0
             } else {

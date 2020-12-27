@@ -42,6 +42,10 @@ class IronHarch {
         this.record = localStorage.getItem("IronHarchRecord");
         this.selectAdvantageCount = 0
         this.gift = undefined
+
+        // Debug
+        this.startTime = undefined
+        this.endTime = undefined
     }
 
     homeMusic(play) {
@@ -58,6 +62,7 @@ class IronHarch {
     }
 
     start() {
+        // Stop home music
         this.homeMusic(false)
         // Load audio
         this.sounds.collisionBalaEnemy.load()
@@ -65,7 +70,10 @@ class IronHarch {
 
         if(!this.intervalId){
             this.intervalId = setInterval(() => {
-
+                // Performance Start
+                this.startTime = performance.now()
+                
+                // ======= PRIMARY FUNCTIONS ======
                 this.checkTheNearest() // Comprobar enemigo más cercano
                 this.clear() // Limpiar canvas
                 this.draw() // Dibujar elementos en el canvas
@@ -74,12 +82,14 @@ class IronHarch {
                 this.filterBullets() // Eliminar balas una vez colisonan
                 this.move() // Mover elementos del canvas
                 this.clearEnemies() // Eliminar enemigos si su health < 0
+                // ======= PRIMARY FUNCTIONS ======
 
-                // Pasamos al siguiente nivel
+                // NEXT LEVEL
                 if(this.enemies.length <= 0 && !this.changingLevel){
                     this.nextLevel()
                 }
-
+                // Performance End
+                this.endTime = performance.now()
             }, this.fps)
         }
     }
@@ -243,25 +253,37 @@ class IronHarch {
     draw() {
         // Draw Background
         this.background.draw()
-        this.obstacles.forEach(obstacle => obstacle.draw())
+
+        // Draw Obstacles
+        if(this.obstacles.length > 0){
+            this.obstacles.forEach(obstacle => obstacle.draw())
+        }
+
         // Draw Player
         this.player.draw()
+
         // Draw Enemies
-        this.enemies.forEach(enemy => {
-            enemy.playerX = this.player.x
-            enemy.playerY = this.player.y
-            enemy.draw()
-        })
+        if(this.enemies.length > 0){
+            this.enemies.forEach(enemy => {
+                enemy.playerX = this.player.x
+                enemy.playerY = this.player.y
+                enemy.draw()
+            })
+        }
 
         // Draw coins
-        this.coinsArr.forEach(coin => {
-            coin.draw()
-        })
+        if(this.coinsArr.length > 0){
+            this.coinsArr.forEach(coin => {
+                coin.draw()
+            })
+        }
 
+        // Draw Gift --- advantage character
         if(this.gift !== undefined){
             this.gift.draw()
         }
 
+        // Draw Top Bar
         this.topBar.draw(this.player.health, this.coinsWin)
     }
 
@@ -269,9 +291,11 @@ class IronHarch {
         // Move player
         this.player.move()
         // Move Enemies
-        this.enemies.forEach(enemy => {
-            enemy.move()
-        })
+        if(this.enemies.length > 0){
+            this.enemies.forEach(enemy => {
+                enemy.move()
+            })
+        }
     }
 
     clear() {
@@ -280,75 +304,74 @@ class IronHarch {
     }
 
     checkTheNearest() {
-        let a, b, c, NewEnemyObject
-        let enemiesWithDistance = this.enemies.map(enemy => {
-            a = enemy.x - this.player.x;
-            b = enemy.y - this.player.y;
-            c = Math.sqrt( a*a + b*b );
-            NewEnemyObject = {
-                distance: c,
-                x: enemy.x,
-                y: enemy.y
-            }
-            return NewEnemyObject
-        }).sort((a, b) => {
-            return a.distance - b.distance
-        })
-        // Set nearest enemy 
-        this.player.nearestEnemy = enemiesWithDistance[0]
+        // Si existen varios enemigos, escogemos el más cercano
+        if (this.enemies.length <= 0){
+            this.player.nearestEnemy = undefined
+        } else if (this.enemies.length === 1) {
+            // Si sólo existe un enemigo, mandamos ese enemigo
+            this.player.nearestEnemy = this.enemies[0]
+        } else {
+            let a, b, c, NewEnemyObject
+            let enemiesWithDistance = this.enemies.map(enemy => {
+                a = enemy.x - this.player.x;
+                b = enemy.y - this.player.y;
+                c = Math.sqrt( a*a + b*b );
+                NewEnemyObject = {
+                    distance: c,
+                    x: enemy.x,
+                    y: enemy.y
+                }
+                return NewEnemyObject
+            }).sort((a, b) => {
+                return a.distance - b.distance
+            })
+            // Set nearest enemy 
+            this.player.nearestEnemy = enemiesWithDistance[0]
+        }
     }
 
     checkCollisions() {
-        // Comprobar colisiones de Player con Enemy (Cuerpo a cuerpo)
-        this.enemies.forEach(enemy => {
-            if(enemy.collidesWith(this.player)){
-                if(this.player.health > 0){
-                    this.player.health -= enemy.collisionPower
-                }
-                enemy.health -= this.player.collisionPower
-            }
-        })
-
-        // Comprobar colisiones de Bullets
-        this.enemies.forEach(enemy => {
-            // Comprobar colisiones de balas (Player) con enemigos
-            this.player.bullets.forEach(playerBullet => {
-                if(enemy.collidesWith(playerBullet)){
-                    // Health
-                    enemy.health -= playerBullet.power
-                    playerBullet.collides = true
-                    // Play audio
-                    this.playAudio('enemyCollision')
-                }
-            })
-            // Comprobar colisiones de balas (Enemigo) con player
-            enemy.bullets.forEach(enemyBullet => {
-                if(this.player.collidesWith(enemyBullet)){
+        // Comprobar colisiones con enemigos y player
+        if(this.enemies.length > 0){
+            this.enemies.forEach(enemy => {
+                // Comprobar colisiones de Player con Enemy (Cuerpo a cuerpo)
+                if(enemy.collidesWith(this.player)){
                     if(this.player.health > 0){
-                        this.player.health -= enemyBullet.power
+                        this.player.health -= enemy.collisionPower
                     }
-                    enemyBullet.collides = true
+                    enemy.health -= this.player.collisionPower
                 }
+                // Comprobar colisiones de balas (Player) con enemigos
+                this.player.bullets.forEach(playerBullet => {
+                    if(enemy.collidesWith(playerBullet)){
+                        // Health
+                        enemy.health -= playerBullet.power
+                        playerBullet.collides = true
+                        // Play audio
+                        this.playAudio('enemyCollision')
+                    }
+                })
+                // Comprobar colisiones de balas (Enemigo) con player
+                enemy.bullets.forEach(enemyBullet => {
+                    if(this.player.collidesWith(enemyBullet)){
+                        if(this.player.health > 0){
+                            this.player.health -= enemyBullet.power
+                        }
+                        enemyBullet.collides = true
+                    }
+                })
             })
-        })
+        }
 
         // Comprobar colisiones con obstaculos en el canvas
         if(this.obstacles.length > 0){
             this.obstacles.forEach(obstacle => {
                 // COLISIONES DE OBSTACULOS Y PLAYER
                 this.player.collidesWithObstacle(obstacle)
-
                 // COLISIONES DE OBSTACULOS Y ENEMY
                 this.enemies.forEach(enem => {
                     enem.collidesWithObstacle(obstacle)
                 })
-            })
-        }
-
-        // Comprobar colisiones de balas con obstaculos
-        if(this.obstacles.length > 0){
-            this.obstacles.forEach(obstacle => {
-
                 // Comprobar colisiones de balas (Player) con obstaculos
                 this.player.bullets.forEach(playerBullet => {
                     if(obstacle.collidesWith(playerBullet)){
@@ -406,18 +429,26 @@ class IronHarch {
 
     filterBullets() {
         // Eliminar bala (Player) una vez ha colisionado
-        this.player.bullets = this.player.bullets.filter(playerBullet => !playerBullet.collides)
+        if(this.player.bullets.length > 0){
+            this.player.bullets = this.player.bullets.filter(playerBullet => !playerBullet.collides)
+        }
         
         // Eliminar bala (Enemy) una vez ha colisionado
-        this.enemies.forEach(enemy => {
-            enemy.bullets = enemy.bullets.filter(enemyBullet => !enemyBullet.collides)
-        })
+        if(this.enemies.length > 0){
+            this.enemies.forEach(enemy => {
+                if(enemy.bullets.length > 0){
+                    enemy.bullets = enemy.bullets.filter(enemyBullet => !enemyBullet.collides)
+                }
+            })
+        }
     }
 
     clearEnemies() {
         this.enemiesCount = this.enemies.length
-        // Eliminar enemigos cuando su puntuacion sea <= 0
-        this.enemies = this.enemies.filter(enemy => enemy.health > 0)
+        if(this.enemies.length > 0){
+            // Eliminar enemigos cuando su puntuacion sea <= 0
+            this.enemies = this.enemies.filter(enemy => enemy.health > 0)
+        }
         // Si eliminamos algun enemigo, creamos una moneda
         if(this.enemies.length < this.enemiesCount){
             this.coinsArr.push(new Coin(this.ctx, Math.random() * (350 - 38) + 38, Math.random() * (660 - 165) + 165))
@@ -464,5 +495,31 @@ class IronHarch {
                 this.player.onTouchEvent('top')
             }
         }
+    }
+
+    debug() {
+        setInterval(() => {
+            console.clear()
+            // Player
+            console.log('Player bullets: ' + this.player.bullets.length)
+            console.log(`Player position: x:${this.player.x}, y:${this.player.y}`)
+            console.log(`===========================`)
+            
+            // Enemies
+            console.log('Enemies: ' + this.enemies.length)
+            this.enemies.forEach((enem, idx) => {
+                console.log(`Enemy ${idx} bullets: ${enem.bullets.length}`)
+            })
+            console.log(`===========================`)
+
+            // Obstacles
+            console.log('Obstacles: ' + this.obstacles.length)
+            console.log(`===========================`)
+
+            // Time execution start()
+            let execTime = this.endTime - this.startTime
+            console.log('Exec Time: ' + execTime)
+
+        }, 1000);
     }
 }
