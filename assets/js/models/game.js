@@ -28,7 +28,7 @@ class IronHarch {
         // Music
         this.sounds = {
             home: new Audio('assets/sounds/home.mp3'),
-            collisionBalaEnemy: new Audio('assets/sounds/impacto-bala-enemigo.mp3'),
+            collisionBalaEnemy: new Audio('assets/sounds/impacto-bala-enemy.mp3'),
             selector: new Audio('assets/sounds/selector.mp3')
         }
 
