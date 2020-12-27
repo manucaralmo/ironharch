@@ -45,6 +45,7 @@ class Joystic {
     }
 
     startMoving(event){
+        event.preventDefault()
         this.paint = true
         this.getPositionMouse(event)
     }

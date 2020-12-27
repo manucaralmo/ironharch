@@ -129,13 +129,13 @@ window.addEventListener('load', () => {
     }
 
 
-    document.addEventListener('mousedown', (event) => Game.joystic.startMoving(event));
+    /* document.addEventListener('mousedown', (event) => Game.joystic.startMoving(event));
     document.addEventListener('mouseup', (event) => Game.joystic.stopMoving(event));
-    document.addEventListener('mousemove', (event) => Game.joystic.imMoving(event));
+    document.addEventListener('mousemove', (event) => Game.joystic.imMoving(event)); */
 
-    document.addEventListener('touchstart', (event) => Game.joystic.startMoving(event));
-    document.addEventListener('touchend', (event) => Game.joystic.stopMoving(event));
-    document.addEventListener('touchcancel', (event) => Game.joystic.stopMoving(event));
-    document.addEventListener('touchmove', (event) => Game.joystic.imMoving(event));
+    canvasBoard.addEventListener('touchstart', (event) => Game.joystic.startMoving(event));
+    canvasBoard.addEventListener('touchend', (event) => Game.joystic.stopMoving(event));
+    canvasBoard.addEventListener('touchcancel', (event) => Game.joystic.stopMoving(event));
+    canvasBoard.addEventListener('touchmove', (event) => Game.joystic.imMoving(event));
 
 })
