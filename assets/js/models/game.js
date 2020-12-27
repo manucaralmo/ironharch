@@ -195,7 +195,10 @@ class IronHarch {
     }
 
     stop() {
+        // Clear Interval
         clearInterval(this.intervalId)
+
+        // Overlay
         this.ctx.save()
             this.ctx.fillStyle = 'rgba(0, 0, 0, 0.4)'
             this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
@@ -290,7 +293,6 @@ class IronHarch {
     move() {
         // Move player
         this.player.move()
-
         // Move Enemies
         if(this.enemies.length > 0){
             this.enemies.forEach(enemy => {

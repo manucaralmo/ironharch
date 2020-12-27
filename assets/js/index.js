@@ -98,7 +98,7 @@ window.addEventListener('load', () => {
         archeroImg.style.display = 'none'
 
         // Debug
-        Game.debug()
+        //Game.debug()
     }
     const resumeGameFunc = () => {
         Game.start()
