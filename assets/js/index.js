@@ -125,6 +125,7 @@ window.addEventListener('load', () => {
 
     if(checkScreen()){
         alert('Por el momento, este juego sólo es compatible en dispositivos con teclado')
+        window.location = 'no-compatible.html'
     }
 
 })
