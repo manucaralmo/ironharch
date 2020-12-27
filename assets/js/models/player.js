@@ -281,26 +281,6 @@ class Player {
         }
     }
 
-    mobileMove(speed, x, y, angle) {
-
-        let xSpeed = Math.abs(x) * 100 / 25
-        let ySpeed = Math.abs(y) * 100 / 25
-
-        console.log(xSpeed, ySpeed)
-
-        if(x > 0){
-            this.x += this.speed * (+xSpeed / 100)
-        } else {
-            this.x -= this.speed * (+xSpeed / 100)
-        }
-        
-        if(y > 0){
-            this.y += this.speed * (+ySpeed/100)
-        } else {
-            this.y -= this.speed * (+ySpeed/100)
-        }
-    }
-
     collidesWith(element) {
         return  this.x < element.x + element.width &&
                 this.x + this.width > element.x &&

@@ -35,8 +35,6 @@ class IronHarch {
         // MOBILE JOYSTIC
         this.touchStartX = undefined
         this.touchStartY = undefined
-        // PRUEBAS
-        this.joystic = new Joystic(this.ctx, this.canvas)
 
         // LEVEL & RECORD
         this.level = 1 // 1
@@ -287,16 +285,12 @@ class IronHarch {
 
         // Draw Top Bar
         this.topBar.draw(this.player.health, this.coinsWin)
-
-
-        // DRAW JOYSTIC
-        this.joystic.draw()
     }
 
     move() {
         // Move player
         this.player.move()
-        this.movePlayer()
+
         // Move Enemies
         if(this.enemies.length > 0){
             this.enemies.forEach(enemy => {
@@ -500,11 +494,5 @@ class IronHarch {
             console.log('Exec Time: ' + execTime)
 
         }, 1000);
-    }
-
-    movePlayer() {
-        if(this.joystic.paint){
-            this.player.mobileMove(this.joystic.joysticSpeed, this.joystic.x_relative, this.joystic.y_relative, this.joystic.angle_in_degrees)
-        }
     }
 }

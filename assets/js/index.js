@@ -77,20 +77,6 @@ window.addEventListener('load', () => {
         Game.onKeyEvent(event)
     })
 
-    // ==========================================
-    // MOBILE EVENTS
-    // ==========================================
-    
-    /* canvasBoard.addEventListener('touchstart', event => {
-        Game.onTouchEvent(event)
-    })
-    canvasBoard.addEventListener('touchmove', event => {
-        Game.onTouchEvent(event)
-    })
-    canvasBoard.addEventListener('touchend', event => {
-        Game.onTouchEvent(event)
-    }) */
-
     
     // ==========================================
     // Start, Pause & Resume functions
@@ -112,7 +98,7 @@ window.addEventListener('load', () => {
         archeroImg.style.display = 'none'
 
         // Debug
-        //Game.debug()
+        Game.debug()
     }
     const resumeGameFunc = () => {
         Game.start()
@@ -129,13 +115,16 @@ window.addEventListener('load', () => {
     }
 
 
-    /* document.addEventListener('mousedown', (event) => Game.joystic.startMoving(event));
-    document.addEventListener('mouseup', (event) => Game.joystic.stopMoving(event));
-    document.addEventListener('mousemove', (event) => Game.joystic.imMoving(event)); */
+    const checkScreen = () => {
+        if ("ontouchstart" in window || navigator.msMaxTouchPoints) { 
+            return true; 
+        } else { 
+            return false; 
+        } 
+    }
 
-    canvasBoard.addEventListener('touchstart', (event) => Game.joystic.startMoving(event));
-    canvasBoard.addEventListener('touchend', (event) => Game.joystic.stopMoving(event));
-    canvasBoard.addEventListener('touchcancel', (event) => Game.joystic.stopMoving(event));
-    canvasBoard.addEventListener('touchmove', (event) => Game.joystic.imMoving(event));
+    if(checkScreen()){
+        alert('Por el momento, este juego sólo es compatible en dispositivos con teclado')
+    }
 
 })
