@@ -24,6 +24,7 @@ class IronHarch {
         this.topBar = new TopBar(this.ctx)
         this.coinsArr = []
         this.coinsWin = 0
+        this.coinsPocket = localStorage.getItem("IronHarchCoins");
 
         // Music
         this.sounds = {
@@ -82,12 +83,9 @@ class IronHarch {
                 this.filterBullets() // Eliminar balas una vez colisonan
                 this.move() // Mover elementos del canvas
                 this.clearEnemies() // Eliminar enemigos si su health < 0
+                this.nextLevel()
                 // ======= PRIMARY FUNCTIONS ======
 
-                // NEXT LEVEL
-                if(this.enemies.length <= 0 && !this.changingLevel){
-                    this.nextLevel()
-                }
                 // Performance End
                 this.endTime = performance.now()
             }, this.fps)
@@ -160,7 +158,7 @@ class IronHarch {
                         this.player.speed = PLAYER_SPEED * 1.5
                         break;
                     case 'doubleAttack':
-                        this.player.shotPower *= 2
+                        this.player.shotPower += 2
                         break;
                     case 'doubleShotSpeed':
                         this.player.shotSpeed += 0.5
@@ -178,18 +176,20 @@ class IronHarch {
     }
 
     nextLevel() {
-        if(this.level === Object.keys(LEVELS).length){
-            this.win()
-        } else {
-            this.changingLevel = true
-            this.level++
-
-            if(this.selectAdvantageCount === 2){ // 2
-                this.selectAdvantageCount = 0
-                this.gift = new Gift(this.ctx)
+        if(this.enemies.length <= 0 && !this.changingLevel){
+            if(this.level === Object.keys(LEVELS).length){
+                this.win()
             } else {
-                this.selectAdvantageCount++
-                setTimeout(() => this.createLevel(), 2000)
+                this.changingLevel = true
+                this.level++
+    
+                if(this.selectAdvantageCount === 2){ // 2
+                    this.selectAdvantageCount = 0
+                    this.gift = new Gift(this.ctx)
+                } else {
+                    this.selectAdvantageCount++
+                    setTimeout(() => this.createLevel(), 2000)
+                }
             }
         }
     }
@@ -208,20 +208,15 @@ class IronHarch {
     win() {
         this.enemies = []
         this.stop()
+        // Sum coins
+        this.coinsPocketFunc()
+
         // Check record
         if(this.checkRecord()){
             console.log('win & new record')
         } else {
-            // Game over screen
-            this.ctx.save()
-            this.ctx.font = '35px Arial'
-            this.ctx.fillStyle = 'white'
-            this.ctx.textAlign = 'center'
-            this.ctx.fillText('You win!', this.ctx.canvas.width / 2, (this.ctx.canvas.height / 2) - 25)
-            this.ctx.font = '25px Arial'
-            this.ctx.fillText(`Your level: ${this.level}`, (this.ctx.canvas.width / 2), (this.ctx.canvas.height / 2) + 15)
-            this.ctx.fillText(`Record: ${this.record}`, (this.ctx.canvas.width / 2), (this.ctx.canvas.height / 2) + 45)
-            this.ctx.restore()
+            // Win screen
+            winScreen.style.display = "block";
         }
     }
 
@@ -233,23 +228,24 @@ class IronHarch {
         }
     }
 
+    coinsPocketFunc() {
+        let coinsToSave = Number(this.coinsPocket) + Number(this.coinsWin)
+        localStorage.setItem("IronHarchCoins", coinsToSave);
+        this.coinsPocket = localStorage.getItem("IronHarchCoins");
+    }
+
     lose() {
         // Stop game
         this.stop()
+        // Sum coins
+        this.coinsPocketFunc()
+
         // Check record
         if(this.checkRecord()){
             console.log('lose & new record')
         } else {
             // Game over screen
-            this.ctx.save()
-            this.ctx.font = '35px Arial'
-            this.ctx.fillStyle = 'white'
-            this.ctx.textAlign = 'center'
-            this.ctx.fillText('Game over!', this.ctx.canvas.width / 2, (this.ctx.canvas.height / 2) - 25)
-            this.ctx.font = '25px Arial'
-            this.ctx.fillText(`Your level: ${this.level}`, (this.ctx.canvas.width / 2), (this.ctx.canvas.height / 2) + 15)
-            this.ctx.fillText(`Record: ${this.record}`, (this.ctx.canvas.width / 2), (this.ctx.canvas.height / 2) + 45)
-            this.ctx.restore()
+            loseScreen.style.display = "block";
         }
     }
 
@@ -261,9 +257,6 @@ class IronHarch {
         if(this.obstacles.length > 0){
             this.obstacles.forEach(obstacle => obstacle.draw())
         }
-
-        // Draw Player
-        this.player.draw()
 
         // Draw Enemies
         if(this.enemies.length > 0){
@@ -286,8 +279,11 @@ class IronHarch {
             this.gift.draw()
         }
 
+        // Draw Player
+        this.player.draw()
+
         // Draw Top Bar
-        this.topBar.draw(this.player.health, this.coinsWin)
+        this.topBar.draw(this.player.health, this.coinsWin, this.level)
     }
 
     move() {
@@ -427,6 +423,7 @@ class IronHarch {
     checkHealth() {
         if(this.player.health <= 0){
             if(this.player.extras.extraLifeCount > 0){
+                this.player.extras.extraLifeCount--
                 this.player.health = this.player.maxHealth
             } else {
                 this.lose()
@@ -475,15 +472,23 @@ class IronHarch {
     debug() {
         setInterval(() => {
             console.clear()
+            // Game
+            console.log('Level: ' + this.level)
+            console.log(`Coins: ${this.coinsWin}`)
+            console.log(`Coins Pocket: ${this.coinsPocket}`)
+            console.log(`===========================`)
+
             // Player
             console.log('Player bullets: ' + this.player.bullets.length)
             console.log(`Player position: x:${this.player.x}, y:${this.player.y}`)
+            console.log('Player health: ' + this.player.health)
+            console.log('Player Max health: ' + this.player.maxHealth)
             console.log(`===========================`)
             
             // Enemies
             console.log('Enemies: ' + this.enemies.length)
             this.enemies.forEach((enem, idx) => {
-                console.log(`Enemy ${idx} bullets: ${enem.bullets.length}`)
+                console.log(`Enemy ${idx} bullets: ${enem.bullets.length}, Health: ${enem.health}`)
             })
             console.log(`===========================`)
 

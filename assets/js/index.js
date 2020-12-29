@@ -5,14 +5,21 @@ window.addEventListener('load', () => {
     const Game = new IronHarch('ironHarchCanvas')
 
     const canvasBoard = document.getElementById('canvasBoard')
+    const archeroImg = document.querySelector('.hero-img')
+
+    // Buttons
+    const startGame = document.getElementById('startGame')
     const restartBtn = document.getElementById('restartGame')
     const pauseGame = document.getElementById('pauseGame')
-    const startGame = document.getElementById('startGame')
     const resumeGame = document.getElementById('resumeGame')
-    const archeroImg = document.querySelector('.hero-img')
-    const mainGameBlock = document.getElementById('mainGame')
     const openCanvasBtn = document.getElementById('openCanvas')
+
+    // Screens
     const introGame = document.getElementById('intro')
+    const mainGameBlock = document.getElementById('mainGame')
+    const resumeScreen = document.getElementById('resumeScreen')
+    const loseScreen = document.getElementById('loseScreen')
+    const winScreen = document.getElementById('winScreen')
 
 
     // Background Selector
@@ -98,34 +105,27 @@ window.addEventListener('load', () => {
         archeroImg.style.display = 'none'
 
         // Debug
-        //Game.debug()
+        Game.debug()
     }
     const resumeGameFunc = () => {
         Game.start()
         pauseGame.style.display = 'inline'
         restartBtn.style.display = 'none'
-        resumeGame.style.display = 'none'
+        resumeScreen.style.display = 'none'
     }
     const pauseGameFunc = () => {
         Game.stop()
         Game.intervalId = undefined
         pauseGame.style.display = 'none'
         restartBtn.style.display = 'inline'
-        resumeGame.style.display = 'inline'
+        resumeScreen.style.display = 'block'
     }
 
 
-    const checkScreen = () => {
-        if ("ontouchstart" in window || navigator.msMaxTouchPoints) { 
-            return true; 
-        } else { 
-            return false; 
-        } 
-    }
-
-    if(checkScreen()){
+    // Check touchScreens & redirect
+    if ("ontouchstart" in window || navigator.msMaxTouchPoints) { 
         alert('Por el momento, este juego sólo es compatible en dispositivos con teclado')
-        window.location = 'no-compatible.html'
+        window.location = 'no-compatible.html' 
     }
 
 })

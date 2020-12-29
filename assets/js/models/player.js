@@ -54,7 +54,7 @@ class Player {
         // ==== IMAGES & SPRITES ====
         // Image
         this.sprite = new Image()
-        this.sprite.src = `assets/images/player/player-2.png`
+        this.sprite.src = `assets/images/player/player-1.png`
         this.sprite.isReady = false
         this.sprite.horizontalFrames = 6
         this.sprite.verticalFrames = 4

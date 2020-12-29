@@ -35,7 +35,7 @@ class TopBar {
         return this.img.isReady && this.best.isReady && this.coinImg.isReady
     }
 
-    draw(health, coins) {
+    draw(health, coins, level) {
         if (this.isReady()) {
             this.ctx.drawImage(
                 this.img,
@@ -94,6 +94,17 @@ class TopBar {
                 this.ctx.textAlign = 'left'
                 this.ctx.strokeText(coins, this.x + 75 + 35 + 95, 30);
                 this.ctx.fillText(coins, this.x + 75 + 35 + 95, 30)
+            this.ctx.restore()
+
+            // Current level
+            this.ctx.save()
+                this.ctx.font = '15px Arial'
+                this.ctx.fillStyle = 'white'
+                this.ctx.strokeStyle = '#000'
+                this.ctx.lineWidth = 2;
+                this.ctx.textAlign = 'left'
+                this.ctx.strokeText(`Level: ${level}/${Object.keys(LEVELS).length}`, this.x + 75 + 35 + 120, 30);
+                this.ctx.fillText(`Level: ${level}/${Object.keys(LEVELS).length}`, this.x + 75 + 35 + 120, 30)
             this.ctx.restore()
         }
     }
