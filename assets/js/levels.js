@@ -159,7 +159,6 @@ const LEVELS = {
             [120, 305, 'rock'],
             [120, 340, 'rock'],
             [120, 375, 'rock'],
-            //
             [260, 410, 'rock'],
             [295, 410, 'rock'],
             [330, 410, 'rock'],
@@ -167,6 +166,169 @@ const LEVELS = {
             [190, 410, 'rock'],
             [155, 410, 'rock'],
             [120, 410, 'rock'],
+        ]
+    },
+    // NIVEL 9
+    9: {
+        enemies: [
+            [46, 200, true, 70, 50, 1, 115, 'blueDiamondSprite', 16, 6],
+            [300, 300, true, 70, 50, 1, 115, 'blueDiamondSprite', 16, 6],
+            [300, 175, false, 40, 50, 1, 115, 'blueDiamondSprite', 16, 6],
+        ],
+        obstacles: [
+            [120, 270, 'rock'],
+            [120, 305, 'rock'],
+            [120, 340, 'rock'],
+            [120, 375, 'rock'],
+            [260, 410, 'rock'],
+            [295, 410, 'rock'],
+            [330, 410, 'rock'],
+            [225, 410, 'rock'],
+            [190, 410, 'rock'],
+            [155, 410, 'rock'],
+            [120, 410, 'rock'],
+        ]
+    },
+    // NIVEL 10 -- MONSTRUO 1
+    10: {
+        enemies: [
+            [180, 200, false, 35, 50, 1, 500, 'blueDiamondSprite', 30, 3],
+        ],
+        obstacles: []
+    },
+    // NIVEL 11
+    11: {
+        enemies: [
+            [46, 200, true, 70, 65, 1.1, 125, 'redBallSprite', 16, 5],
+            [300, 300, true, 70, 65, 1.1, 125, 'redBallSprite', 16, 5],
+            [300, 175, false, 40, 50, 1, 200, 'blueDiamondSprite', 16, 6],
+        ],
+        obstacles: []
+    },
+    // NIVEL 12
+    12: {
+        enemies: [
+            [46, 200, true, 70, 65, 1.1, 145, 'blueDiamondSprite', 16, 4],
+            [92, 300, true, 60, 75, 1.1, 125, 'redBallSprite', 16, 5],
+            [200, 300, true, 70, 65, 1.1, 145, 'blueDiamondSprite', 16, 4],
+        ],
+        obstacles: [
+            [35, 520, 'rock'],
+            [70, 520, 'rock'],
+            [105, 520, 'rock'],
+            [260, 520, 'rock'],
+            [295, 520, 'rock'],
+            [330, 520, 'rock'],
+        ]
+    },
+    // NIVEL 13
+    13: {
+        enemies: [
+            [46, 200, false, 70, 65, 1.1, 145, 'blueDiamondSprite', 16, 4],
+            [150, 200, false, 60, 75, 1.1, 125, 'redBallSprite', 16, 5],
+            [250, 200, false, 70, 65, 1.1, 145, 'blueDiamondSprite', 16, 4],
+            [80, 200, true, 60, 75, 1.1, 125, 'redBallSprite', 16, 5],
+            [220, 200, true, 70, 65, 1.1, 145, 'blueDiamondSprite', 16, 4],
+        ],
+        obstacles: [
+            [35, 520, 'rock'],
+            [70, 520, 'rock'],
+            [105, 520, 'rock'],
+            [260, 520, 'rock'],
+            [295, 520, 'rock'],
+            [330, 520, 'rock'],
+        ]
+    },
+    // NIVEL 14
+    14: {
+        enemies: [
+            [90, 200, false, 115, 70, 1.1, 150, 'blueDiamondSprite', 16, 6],
+            [265, 200, false, 115, 70, 1.1, 150, 'blueDiamondSprite', 16, 6],
+            [41, 0, true, 115, 70, 1.1, 150, 'redBallSprite', 16, 5],
+            [167, 0, true, 115, 70, 1.1, 150, 'redBallSprite', 16, 5],
+            [300, 0, true, 115, 70, 1.1, 150, 'redBallSprite', 16, 5],
+        ],
+        obstacles: [
+            [90, 290, 'rock'],
+            [90, 325, 'rock'],
+            [90, 360, 'rock'],
+            [90, 395, 'rock'],
+            [90, 430, 'rock'],
+            [90, 465, 'rock'],
+            [90, 500, 'rock'],
+            [265, 290, 'rock'],
+            [265, 325, 'rock'],
+            [265, 360, 'rock'],
+            [265, 395, 'rock'],
+            [265, 430, 'rock'],
+            [265, 465, 'rock'],
+            [265, 500, 'rock'],
+            [125, 500, 'rock'],
+            [160, 500, 'rock'],
+            [195, 500, 'rock'],
+            [230, 500, 'rock'],
+        ]
+    },
+    // NIVEL 15
+    15: {
+        enemies: [
+            [90, 200, false, 110, 70, 1.1, 160, 'blueDiamondSprite', 16, 6],
+            [265, 200, false, 110, 70, 1.1, 160, 'blueDiamondSprite', 16, 6],
+            [41, 0, true, 110, 70, 1.1, 160, 'redBallSprite', 16, 5],
+            [167, 0, true, 110, 70, 1.1, 160, 'redBallSprite', 16, 5],
+            [300, 0, true, 110, 70, 1.1, 160, 'redBallSprite', 16, 5],
+        ],
+        obstacles: [
+            [90, 290, 'rock'],
+            [90, 325, 'rock'],
+            [90, 360, 'rock'],
+            [90, 395, 'rock'],
+            [90, 430, 'rock'],
+            [90, 465, 'rock'],
+            [90, 500, 'rock'],
+            [265, 290, 'rock'],
+            [265, 325, 'rock'],
+            [265, 360, 'rock'],
+            [265, 395, 'rock'],
+            [265, 430, 'rock'],
+            [265, 465, 'rock'],
+            [265, 500, 'rock']
+        ]
+    },
+    // NIVEL 16
+    16: {
+        enemies: [
+            [41, 0, false, 80, 80, 1.1, 200, 'redBallSprite', 16, 5],
+            [167, 0, false, 80, 80, 1.1, 200, 'redBallSprite', 16, 5],
+            [300, 0, false, 80, 80, 1.1, 200, 'redBallSprite', 16, 5],
+
+            [167, 0, true, 115, 50, 1.1, 150, 'blueDiamondSprite', 16, 4],
+            [300, 0, true, 115, 50, 1.1, 150, 'blueDiamondSprite', 16, 4],
+        ],
+        obstacles: [
+            [35, 510, 'rock'],
+            [70, 510, 'rock'],
+            [105, 510, 'rock'],
+            [140, 510, 'rock'],
+            [175, 510, 'rock'],
+            [210, 510, 'rock'],
+            [245, 510, 'rock'],
+
+            [330, 405, 'rock'],
+            [295, 405, 'rock'],
+            [260, 405, 'rock'],
+            [225, 405, 'rock'],
+            [190, 405, 'rock'],
+            [155, 405, 'rock'],
+            [120, 405, 'rock'],
+
+            [35, 310, 'rock'],
+            [70, 310, 'rock'],
+            [105, 310, 'rock'],
+            [140, 310, 'rock'],
+            [175, 310, 'rock'],
+            [210, 310, 'rock'],
+            [245, 310, 'rock'],
         ]
     }
 }

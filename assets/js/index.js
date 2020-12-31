@@ -173,7 +173,7 @@ window.addEventListener('load', () => {
         instrucciones.classList.toggle('instrucciones')
 
         // Debug
-        Game.debug()
+        // Game.debug()
     }
     const resumeGameFunc = () => {
         Game.start()

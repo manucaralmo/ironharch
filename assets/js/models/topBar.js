@@ -52,8 +52,8 @@ class TopBar {
                 this.ctx.strokeStyle = '#000'
                 this.ctx.lineWidth = 2;
                 this.ctx.textAlign = 'center'
-                this.ctx.strokeText(`${health}`, 60, 30);
-                this.ctx.fillText(`${health}`, 60, 30)
+                this.ctx.strokeText(`${Math.floor(health)}`, 60, 30);
+                this.ctx.fillText(`${Math.floor(health)}`, 60, 30)
             this.ctx.restore()
 
             this.ctx.drawImage(

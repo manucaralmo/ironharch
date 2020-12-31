@@ -42,7 +42,7 @@ class IronHarch {
         this.touchStartY = undefined
 
         // LEVEL & RECORD
-        this.level = 1 // 1
+        this.level = 1 // Object.keys(LEVELS).length
         this.changingLevel = false
         this.record = localStorage.getItem("IronHarchRecord");
         this.selectAdvantageCount = 0
@@ -188,7 +188,7 @@ class IronHarch {
 
     nextLevel() {
         if(this.enemies.length <= 0 && !this.changingLevel){
-            if(this.level === Object.keys(LEVELS).length){
+            if(this.level >= Object.keys(LEVELS).length){
                 this.win()
             } else {
                 this.player.levelUpText = true
