@@ -7,8 +7,21 @@ body {
 }
 
 canvas {
-    background-color: #0d1116;
     border-radius: 5px;
+}
+
+.shadow-danger {
+    -webkit-box-shadow: 0px 0px 35px 0px rgba(255, 0, 0, 0.4);
+    -moz-box-shadow: 0px 0px 35px 0px rgba(255, 0, 0, 0.4);
+    box-shadow: 0px 0px 35px 0px rgba(255, 0, 0, 0.4);
+}
+
+#instrucciones {
+    max-width: 400px;
+}
+
+.instrucciones {
+    opacity: 0.5;
 }
 
 #mainGame {
@@ -19,7 +32,10 @@ canvas {
     width: 400px;
     height: 700px;
     position: relative;
-    background-color: #11161d;
+    background-color: #2762b6;
+    background-image: url('../images/bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
     border-radius: 5px;
 }
 
@@ -110,4 +126,27 @@ canvas {
 
 .noStyle:hover {
     text-decoration: none;
+}
+
+.level-to-show {
+    position: absolute;
+    left: 50%;
+    top: 51%;
+    transform: translate(-50%,-50%);
+}
+
+.level-to-show-lose {
+    position: absolute;
+    left: 50%;
+    top: 47%;
+    transform: translate(-50%,-50%); 
+}
+
+.modal-body {
+    background-color: rgb(5, 7, 8);
+    border: 1px solid rgb(39, 39, 39);
+}
+
+.displayBoard {
+    display: block;
 }

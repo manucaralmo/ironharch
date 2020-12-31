@@ -1,9 +1,19 @@
 window.addEventListener('load', () => {
-    // ==========================================
-    // START GAME
-    // ==========================================
-    const Game = new IronHarch('ironHarchCanvas')
 
+    const gameConfig = {
+        coinsPocket: localStorage.getItem("IronHarchCoins"),
+        players: {
+            player1: true,
+            player2: false
+        },
+        backgrounds: {
+            background1: true,
+            background2: localStorage.getItem("background2") || false,
+            background3: localStorage.getItem("background3") || false
+        }
+    }
+
+    const Game = new IronHarch('ironHarchCanvas') // Create game
     const canvasBoard = document.getElementById('canvasBoard')
     const archeroImg = document.querySelector('.hero-img')
 
@@ -13,6 +23,9 @@ window.addEventListener('load', () => {
     const pauseGame = document.getElementById('pauseGame')
     const resumeGame = document.getElementById('resumeGame')
     const openCanvasBtn = document.getElementById('openCanvas')
+    const buyBackground2 = document.getElementById('buy-background2')
+    const buyBackground3 = document.getElementById('buy-background3')
+    const soundBtn = document.getElementById('soundBtn')
 
     // Screens
     const introGame = document.getElementById('intro')
@@ -20,7 +33,17 @@ window.addEventListener('load', () => {
     const resumeScreen = document.getElementById('resumeScreen')
     const loseScreen = document.getElementById('loseScreen')
     const winScreen = document.getElementById('winScreen')
+    const newBestScreen = document.getElementById('newBestScreen')
+    const instrucciones = document.getElementById('instrucciones')
 
+    // Text & info
+    const levelToScreen = document.getElementById('levelToScreen')
+    const levelToScreenLose = document.getElementById('levelToScreenLose')
+    const levelToScreenWin = document.getElementById('levelToScreenWin')
+
+    // MODALS
+    const theCapital = new bootstrap.Modal(document.getElementById('theCapital'))
+    const castilloPerdido = new bootstrap.Modal(document.getElementById('castilloPerdido'))
 
     // Background Selector
     // ==========================================
@@ -37,35 +60,79 @@ window.addEventListener('load', () => {
     })
 
     map2.addEventListener('click', () => {
-        map1.classList.add('opacity-img');
-        map2.classList.remove('opacity-img');
-        map3.classList.add('opacity-img');
-        bg = 2
+        if(gameConfig.backgrounds.background2){
+            map1.classList.add('opacity-img');
+            map2.classList.remove('opacity-img');
+            map3.classList.add('opacity-img');
+            bg = 2
+        } else {
+            theCapital.show()
+        }
     })
 
     map3.addEventListener('click', () => {
-        map1.classList.add('opacity-img');
-        map2.classList.add('opacity-img');
-        map3.classList.remove('opacity-img');
-        bg = 3
+        if(gameConfig.backgrounds.background3){
+            map1.classList.add('opacity-img');
+            map2.classList.add('opacity-img');
+            map3.classList.remove('opacity-img');
+            bg = 3
+        } else {
+            castilloPerdido.show()
+        }
+    })
+    // ==========================================
+
+    // ==========================================
+    // SHOP
+    // ==========================================
+
+    if(gameConfig.backgrounds.background2){
+        map2.src = 'assets/images/backgrounds/2.png'
+    }
+    if(gameConfig.backgrounds.background3){
+        map3.src = 'assets/images/backgrounds/3.png'
+    }
+
+    buyBackground2.addEventListener('click', () => {
+        if(Game.coinsPocket >= 50){
+            buyBackground2Func()
+        } else {
+            alert('No tienes monedas suficientes')
+        }
     })
 
-    // Create background
-    const createBackground = () => {
-        Game.createBackground(bg)
+    let buyBackground2Func = () => {
+        localStorage.setItem("IronHarchCoins", Game.coinsPocket - 50)
+        localStorage.setItem("background2", true)
+        window.location.reload()
     }
+
+    buyBackground3.addEventListener('click', () => {
+        if(Game.coinsPocket >= 150){
+            buyBackground3Func()
+        } else {
+            alert('No tienes monedas suficientes')
+        }
+    })
+
+    let buyBackground3Func = () => {
+        localStorage.setItem("IronHarchCoins", Game.coinsPocket - 150)
+        localStorage.setItem("background3", true)
+        window.location.reload()
+    }
+
+    // ==========================================
+
 
     // Open game canvas
     openCanvasBtn.addEventListener('click', () => {
-        introGame.style.display = "none"
-        mainGameBlock.style.display = "block"
-        // Create Background
-        createBackground()
+        introGame.style.display = "none" // Hide intro screen
+        mainGameBlock.style.display = "block" // Show Canvas 
+        Game.createBackground(bg) // Create Background
         // Solución al LAG en Safari
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const audioCtx = new AudioContext();
-        // Start Home Music
-        Game.homeMusic(true)
+        Game.homeMusic(true) // Start Home Music
     })
 
 
@@ -103,6 +170,7 @@ window.addEventListener('load', () => {
         Game.selectAdvantage()
         pauseGame.style.display = 'inline'
         archeroImg.style.display = 'none'
+        instrucciones.classList.toggle('instrucciones')
 
         // Debug
         Game.debug()
@@ -120,6 +188,11 @@ window.addEventListener('load', () => {
         restartBtn.style.display = 'inline'
         resumeScreen.style.display = 'block'
     }
+
+    const toggleSound = () => {
+        Game.sound ? Game.sound = false : Game.sound = true
+    }
+    soundBtn.addEventListener('click', toggleSound)
 
 
     // Check touchScreens & redirect

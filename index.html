@@ -26,7 +26,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
-    <link rel="manifest" href="assets/favicon/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
@@ -48,10 +47,10 @@
             <img src="assets/images/backgrounds/1.png" id="map-1" class="img-fluid backgroundSelectBtn">
           </div>
           <div class="col-4">
-            <img src="assets/images/backgrounds/2.png" id="map-2" class="img-fluid opacity-img backgroundSelectBtn">
+            <img src="assets/images/backgrounds/2-blocked.png" id="map-2" class="img-fluid opacity-img backgroundSelectBtn">
           </div>
           <div class="col-4">
-            <img src="assets/images/backgrounds/3.png" id="map-3" class="img-fluid opacity-img backgroundSelectBtn">
+            <img src="assets/images/backgrounds/3-blocked.png" id="map-3" class="img-fluid opacity-img backgroundSelectBtn">
           </div>
         </div>
         <br>
@@ -64,9 +63,11 @@
     <main id="mainGame" class="py-md-5">
       <div class="container">
         <div class="row align-items-center justify-content-center">
-            <div class="col-sm-6 d-none d-md-block text-center">
-                <img src="assets/images/logo.png" width="250px" alt="">
-                <br><br>
+            <div class="col-sm-6 d-none d-lg-block text-center">
+              <img src="assets/images/screens/instrucciones.png" id="instrucciones" alt="">
+              <br><br>
+              <img src="assets/images/buttons/home.png" onclick="window.location.reload()" class="game-btn-animation" height="50px" alt="">
+              <img src="assets/images/buttons/music.png" id="soundBtn" class="game-btn-animation" height="50px" alt="">
             </div>
             <div class="col-sm-6 px-0">
                   <div id="GameBoard">
@@ -121,8 +122,8 @@
                     <div id="loseScreen" class="w-100 mx-auto text-center boardScreen">
                       <div class="row h-100 w-100 align-items-center justify-content-center" style="--bs-gutter-x: 0;">
                         <div class="col px-0 mx-0">
-                          <h2 class="text-light">You lose</h2>
-                          <br><br><br><br><br><br>
+                            <img src="assets/images/screens/lose-img.png" width="95%" alt="">
+                            <h1 id="levelToScreenLose" class="level-to-show-lose text-light"></h1>
                         </div>
                       </div>
                     </div>
@@ -130,17 +131,19 @@
                     <div id="winScreen" class="w-100 mx-auto text-center boardScreen">
                       <div class="row h-100 w-100 align-items-center justify-content-center" style="--bs-gutter-x: 0;">
                         <div class="col px-0 mx-0">
-                          <h2 class="text-light">You win</h2>
-                          <br><br><br><br><br><br>
+                            <img src="assets/images/screens/win-img.png" width="95%" alt="">
+                            <h1 id="levelToScreenWin" class="level-to-show text-light"></h1>
                         </div>
                       </div>
                     </div>
 
-                    <div id="newBest" class="w-100 mx-auto text-center boardScreen">
+                    <div id="newBestScreen" class="w-100 mx-auto text-center boardScreen">
                       <div class="row h-100 w-100 align-items-center justify-content-center" style="--bs-gutter-x: 0;">
                         <div class="col px-0 mx-0">
-                          <img src="assets/images/icons/new-best.png" height="120px" alt="">
-                          <br><br><br><br><br><br>
+                          <div class="position-relative">
+                            <img src="assets/images/screens/newbest-img.png" width="95%" alt="">
+                            <h1 id="levelToScreen" class="level-to-show text-light"></h1>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -150,6 +153,46 @@
         </div>
       </div>
     </main>
+
+
+    <!-- Modal background 2 -->
+    <div class="modal fade" id="theCapital" tabindex="-1" aria-labelledby="theCapitalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body text-center rounded py-5">
+
+            <img src="assets/images/backgrounds/2.png" height="250px">
+            <br>
+            <h2 class="text-light">The Capital</h2>
+            <p class="text-light">Un castillo antiguo en ruinas catastróficas. Hoy está habitado por fantasmas errantes.</p>
+            <br>
+            <img src="assets/images/buttons/back-btn.png" data-bs-dismiss="modal" aria-label="Close" class="game-btn" alt="">
+            <img src="assets/images/buttons/50-btn.png" id="buy-background2" class="game-btn" alt="">
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal background 3 -->
+    <div class="modal fade" id="castilloPerdido" tabindex="-1" aria-labelledby="castilloPerdidoLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body text-center rounded py-5">
+
+            <img src="assets/images/backgrounds/3.png" height="250px">
+            <br>
+            <h2 class="text-light">Castillo Perdido</h2>
+            <p class="text-light">Un castillo de más de mil años. En su interior anidan muchas criaturas desconocidas</p>
+            <br>
+            <img src="assets/images/buttons/back-btn.png" data-bs-dismiss="modal" aria-label="Close" class="game-btn" alt="">
+            <img src="assets/images/buttons/150-btn.png" id="buy-background3" class="game-btn" alt="">
+
+          </div>
+        </div>
+      </div>
+    </div>
+
 
 
     <!-- Bootstrap JS -->

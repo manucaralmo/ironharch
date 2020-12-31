@@ -24,13 +24,17 @@ class IronHarch {
         this.topBar = new TopBar(this.ctx)
         this.coinsArr = []
         this.coinsWin = 0
-        this.coinsPocket = localStorage.getItem("IronHarchCoins");
+        this.coinsPocket = localStorage.getItem("IronHarchCoins")
 
         // Music
+        this.sound = true
         this.sounds = {
             home: new Audio('assets/sounds/home.mp3'),
             collisionBalaEnemy: new Audio('assets/sounds/impacto-bala-enemy.mp3'),
-            selector: new Audio('assets/sounds/selector.mp3')
+            selector: new Audio('assets/sounds/selector.mp3'),
+            coin: new Audio('assets/sounds/coin.mp3'),
+            gameOver: new Audio('assets/sounds/game-over.mp3'),
+            win: new Audio('assets/sounds/win.mp3'),
         }
 
         // MOBILE JOYSTIC
@@ -50,7 +54,7 @@ class IronHarch {
     }
 
     homeMusic(play) {
-        if(play){
+        if(play && this.sound){
             this.sounds.home.loop = true;
             this.sounds.home.play()
         } else {
@@ -84,12 +88,18 @@ class IronHarch {
                 this.move() // Mover elementos del canvas
                 this.clearEnemies() // Eliminar enemigos si su health < 0
                 this.nextLevel()
+                this.setSound()
                 // ======= PRIMARY FUNCTIONS ======
 
                 // Performance End
                 this.endTime = performance.now()
             }, this.fps)
         }
+    }
+
+    setSound(){
+        this.player.sound = this.sound
+        this.enemies.forEach(enem => { enem.sound = this.sound })
     }
 
     createLevel() {
@@ -107,6 +117,7 @@ class IronHarch {
         })
 
         this.changingLevel = false
+        this.player.levelUpText = false
     }
 
     selectAdvantage() {
@@ -137,7 +148,7 @@ class IronHarch {
         // RANDOM ADVANTAGES
 
         setTimeout(() => {
-            this.sounds.selector.play()
+            this.playAudio('advantage')
             selectAdvantageDisplay.style.display = 'block'
         }, 500)
 
@@ -180,6 +191,7 @@ class IronHarch {
             if(this.level === Object.keys(LEVELS).length){
                 this.win()
             } else {
+                this.player.levelUpText = true
                 this.changingLevel = true
                 this.level++
     
@@ -210,14 +222,16 @@ class IronHarch {
         this.stop()
         // Sum coins
         this.coinsPocketFunc()
+        this.checkRecord()
 
-        // Check record
-        if(this.checkRecord()){
-            console.log('win & new record')
-        } else {
-            // Win screen
-            winScreen.style.display = "block";
-        }
+        // Win screen
+        levelToScreenWin.innerHTML = this.level
+        winScreen.style.display = "block";
+        // Win audio
+        this.sounds.win.play()
+        // Reload func
+        this.restartEventListener()
+
     }
 
     checkRecord() {
@@ -239,14 +253,29 @@ class IronHarch {
         this.stop()
         // Sum coins
         this.coinsPocketFunc()
+        // Reload func
+        this.restartEventListener()
 
         // Check record
         if(this.checkRecord()){
-            console.log('lose & new record')
+            // New Best Screen
+            levelToScreen.innerHTML = this.level
+            newBestScreen.style.display = "block";
         } else {
             // Game over screen
+            levelToScreenLose.innerHTML = this.level
             loseScreen.style.display = "block";
+            // Game over sound
+            this.sounds.gameOver.play()
         }
+    }
+
+    restartEventListener() {
+        document.addEventListener('keydown', event => {
+            if(event.code === 'Space'){
+                window.location.reload()
+            }
+        })
     }
 
     draw() {
@@ -393,6 +422,7 @@ class IronHarch {
             this.coinsArr.forEach(coin => {
                 if(coin.collidesWith(this.player) && coin.collides === false){
                     coin.collides = true
+                    this.playAudio('coin')
                     this.coinsWin++
                     this.clearCoins()
                 }
@@ -409,18 +439,27 @@ class IronHarch {
     }
 
     playAudio(type) {
-        if(type === 'enemyCollision'){
-            try {
+        if(this.sound){
+            if(type === 'enemyCollision'){
                 this.sounds.collisionBalaEnemy.volume = 0.05
                 this.sounds.collisionBalaEnemy.currentTime = 0
                 this.sounds.collisionBalaEnemy.play()
-            } catch (error){
-                console.error(error);
+            } else if(type === 'coin'){
+                this.sounds.coin.currentTime = 0
+                this.sounds.coin.play()
+            } else if (type === 'advantage'){
+                this.sounds.selector.play()
             }
         }
     }
 
     checkHealth() {
+        if(this.player.health <= 100){
+            canvasBoard.classList.add('shadow-danger')
+        } else {
+            canvasBoard.classList.remove('shadow-danger')
+        }
+
         if(this.player.health <= 0){
             if(this.player.extras.extraLifeCount > 0){
                 this.player.extras.extraLifeCount--

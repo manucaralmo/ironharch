@@ -77,14 +77,26 @@ class Player {
             this.img2.isReady = true
         }
 
-        // ==== SOUNDS ====
-        this.sounds = {
-            playerWalk: new Audio('./assets/sounds/walk.mp3')
+        // Level up text
+        this.img3 = new Image()
+        this.img3.src = './assets/images/icons/level-up-text.png'
+        this.img3.isReady = false
+        this.img3.onload = () => {
+            this.img3.isReady = true
         }
+
+        // ==== SOUNDS ====
+        this.sound = true
+        this.sounds = {
+            playerWalk: new Audio('./assets/sounds/walk.mp3'),
+            shot: new Audio('./assets/sounds/player-shot-grave.mp3')
+        }
+
+        this.levelUpText = false
     }
 
     isReady() {
-        return this.sprite.isReady && this.img2.isReady
+        return this.sprite.isReady && this.img2.isReady && this.img3.isReady
     }
 
     draw() {
@@ -150,6 +162,17 @@ class Player {
                 this.ctx.strokeStyle = '#000'
                 this.ctx.strokeRect(this.x, this.y + this.height + 6, this.width, 5)
             this.ctx.restore()
+        }
+
+        if(this.levelUpText){
+            // Level up text
+            this.ctx.drawImage(
+                this.img3,
+                this.x - 4,
+                this.y - 20,
+                this.width + 8,
+                15 + 4
+            )
         }
 
         // Draw Bullets
@@ -241,6 +264,12 @@ class Player {
                 this.bullets.push(new Bullet(this.ctx, this.x+(this.width/2)- 25, this.y, Math.sin(angle)*speed, Math.cos(angle)*speed, this.shotPower))
             }
             this.shootingCount = 0
+
+            if(this.sound){
+                this.sounds.shot.volume = 0.2
+                this.sounds.shot.play()
+            }
+
         }
         this.shootingCount++
         // Clean bullets
@@ -257,7 +286,7 @@ class Player {
         // If keydown --> status = True / else status = false
         const status = event.type === 'keydown'
 
-        if(status){
+        if(status && this.sound){
             this.sounds.playerWalk.volume = 0.2
             this.sounds.playerWalk.play()
         }
