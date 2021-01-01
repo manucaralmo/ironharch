@@ -55,8 +55,8 @@ window.addEventListener('load', () => {
     if(gameConfig.playerName !== undefined){
         document.getElementById('gameInfo').style.display = "block"
         document.getElementById('playerNamePrint').innerHTML = gameConfig.playerName
-        document.getElementById('coins').innerHTML = localStorage.getItem("IronHarchCoins")
-        document.getElementById('best').innerHTML = localStorage.getItem("IronHarchRecord")
+        document.getElementById('coins').innerHTML = localStorage.getItem("IronHarchCoins") || 0
+        document.getElementById('best').innerHTML = localStorage.getItem("IronHarchRecord") || 0
         nameInput.style.display = 'none'
         nameSet.style.display = 'block'
     } else {
