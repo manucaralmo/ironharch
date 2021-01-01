@@ -1,13 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap');
+
 * {
     transition: 0.3s;
 }
 
 body {
     background-color: rgb(5, 7, 8);
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    letter-spacing: -0.05rem;
 }
 
 canvas {
     border-radius: 5px;
+}
+
+.card {
+    background-color: #1A1A1A; 
+    border-radius: 15px;
+}
+
+#intro {
+    min-height: 100vh;
+    min-height: 100%;
 }
 
 .shadow-danger {
@@ -149,4 +167,16 @@ canvas {
 
 .displayBoard {
     display: block;
+}
+
+.form-control {
+    background-color: #1A1A1A;
+    border-color: #2e2e2e;
+    color: #fff;
+}
+
+.form-control:focus {
+    background-color: #1A1A1A;
+    border-color: #2e2e2e;
+    color: #fff;
 }

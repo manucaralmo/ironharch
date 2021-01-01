@@ -10,7 +10,8 @@ window.addEventListener('load', () => {
             background1: true,
             background2: localStorage.getItem("background2") || false,
             background3: localStorage.getItem("background3") || false
-        }
+        },
+        playerName: localStorage.getItem("IronHarchPlayerName") || undefined
     }
 
     const Game = new IronHarch('ironHarchCanvas') // Create game
@@ -35,6 +36,8 @@ window.addEventListener('load', () => {
     const winScreen = document.getElementById('winScreen')
     const newBestScreen = document.getElementById('newBestScreen')
     const instrucciones = document.getElementById('instrucciones')
+    const nameInput = document.getElementById('nameInput')
+    const nameSet = document.getElementById('nameSet')
 
     // Text & info
     const levelToScreen = document.getElementById('levelToScreen')
@@ -44,6 +47,35 @@ window.addEventListener('load', () => {
     // MODALS
     const theCapital = new bootstrap.Modal(document.getElementById('theCapital'))
     const castilloPerdido = new bootstrap.Modal(document.getElementById('castilloPerdido'))
+
+    // INPUTS
+    const playerName = document.getElementById('playerName')
+
+    // set Name
+    if(gameConfig.playerName !== undefined){
+        document.getElementById('gameInfo').style.display = "block"
+        document.getElementById('playerNamePrint').innerHTML = gameConfig.playerName
+        document.getElementById('coins').innerHTML = localStorage.getItem("IronHarchCoins")
+        document.getElementById('best').innerHTML = localStorage.getItem("IronHarchRecord")
+        nameInput.style.display = 'none'
+        nameSet.style.display = 'block'
+    } else {
+        document.getElementById('gameInfo').style.display = "none"
+        nameInput.style.display = 'block'
+        nameSet.style.display = 'none'
+    }
+
+    const setPlayerName = () => {
+        if(playerName.value.trim().length > 0){
+            localStorage.setItem("IronHarchPlayerName", playerName.value.trim())
+            gameConfig.playerName = playerName.value.trim()
+            return true
+        } else if(gameConfig.playerName !== undefined) {
+            return true
+        } else {
+            return false
+        }
+    }
 
     // Background Selector
     // ==========================================
@@ -126,13 +158,16 @@ window.addEventListener('load', () => {
 
     // Open game canvas
     openCanvasBtn.addEventListener('click', () => {
-        introGame.style.display = "none" // Hide intro screen
-        mainGameBlock.style.display = "block" // Show Canvas 
-        Game.createBackground(bg) // Create Background
-        // Solución al LAG en Safari
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        const audioCtx = new AudioContext();
-        Game.homeMusic(true) // Start Home Music
+        if(setPlayerName()){
+            console.log(gameConfig.playerName)
+            introGame.style.display = "none" // Hide intro screen
+            mainGameBlock.style.display = "block" // Show Canvas 
+            Game.createBackground(bg) // Create Background
+            // Solución al LAG en Safari
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            const audioCtx = new AudioContext();
+            Game.homeMusic(true) // Start Home Music
+        }
     })
 
 
@@ -145,10 +180,14 @@ window.addEventListener('load', () => {
     // COMPUTER EVENTS
     // ==========================================
     document.addEventListener('keydown', event => {
-        Game.onKeyEvent(event)
+        if(gameConfig.playerName !== undefined){ 
+            Game.onKeyEvent(event)
+        }
     })
     document.addEventListener('keyup', event => {
-        Game.onKeyEvent(event)
+        if(gameConfig.playerName !== undefined){ 
+            Game.onKeyEvent(event)
+        }
     })
 
     
