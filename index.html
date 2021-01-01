@@ -29,9 +29,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
-  <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
-  <meta name="theme-color" content="#ffffff">
+
 
   <script src="https://cdn.jsdelivr.net/gh/manucaralmo/GlowCookies@2.0.3/src/glowCookies.min.js" async></script>
   <script>
@@ -83,18 +81,46 @@
       </div>
       <div class="col-sm-12 col-lg-6 col-md-7">
 
-          <div id="nameInput" class="pb-5">
+          <div id="nameInput" class="pb-4">
             <h2 class="text-light font-weight-bold mb-4">Introduce tu nombre</h2>
             <input class="form-control form-control-lg" id="playerName" type="text" placeholder="Nombre del jugador">
           </div>
 
-          <div id="nameSet" class="pb-5">
+          <div id="nameSet" class="pb-4">
             <h2 class="text-light font-weight-bold">Bienvenido de nuevo <span id="playerNamePrint"></span></h2>
-            <p class="text-light">Espero que estés disfrutando la experiencia de IronHarch. Si te está gustando este juego, te invito a que me dejes una estrella en mi proyecto de GitHub</p>
+            <p class="text-light">Espero que estés disfrutando la experiencia de IronHarch. Si te está gustando este juego, te invito a que me dejes una estrella en mi proyecto de <a class="text-light" target="_blank" href="https://github.com/manucaralmo/ironhack-game-project">GitHub</a></p>
           </div>
 
+          <h4 class="text-light font-weight-bold mb-4">Selecciona un jugador</h4>
+          <div class="row">
+            <div class="col-4">
+              <div id="player1select" class="card text-light py-2 px-3 backgroundSelectBtn">
+                <div class="row align-items-center">
+                  <div class="col-3">
+                    <img src="assets/images/player/player-1-preview.png" width="35px" alt="">
+                  </div>
+                  <div class="col-9">
+                    classic Archer
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div id="player2select" class="card text-light py-2 px-3 backgroundSelectBtn opacity-img">
+                <div class="row align-items-center">
+                  <div class="col-3">
+                    <img src="assets/images/player/player-2-preview.png" width="35px" alt="">
+                  </div>
+                  <div class="col-9">
+                    IronHarcher
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><br><br>
 
-          <h3 class="text-light font-weight-bold">Selecciona un escenario</h3>
+
+          <h4 class="text-light font-weight-bold">Selecciona un escenario</h4>
           <br>
           <div class="row">
             <div class="col-4">
@@ -109,7 +135,6 @@
                 class="img-fluid opacity-img backgroundSelectBtn">
             </div>
           </div>
-          <br>
           <br>
 
           <a href="#" id="openCanvas">

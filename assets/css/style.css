@@ -113,6 +113,7 @@ canvas {
 }
 
 .backgroundSelectBtn:hover {
+    cursor: pointer;
     transform: scale(1.1);
     opacity: 1;
 }

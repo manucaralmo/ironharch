@@ -15,7 +15,7 @@ class IronHarch {
         this.obstacles = []
 
         // Player
-        this.player = new Player(this.ctx)
+        this.player = undefined
 
         // Enemies
         this.enemies = []
@@ -62,8 +62,9 @@ class IronHarch {
         }
     }
 
-    createBackground(bg) {
+    createBackgroundandPlayer(bg, playerImg) {
         this.background = new Background(this.ctx, bg)
+        this.player = new Player(this.ctx, playerImg)
     }
 
     start() {

@@ -27,6 +27,8 @@ window.addEventListener('load', () => {
     const buyBackground2 = document.getElementById('buy-background2')
     const buyBackground3 = document.getElementById('buy-background3')
     const soundBtn = document.getElementById('soundBtn')
+    const player2select = document.getElementById('player2select')
+    const player1select = document.getElementById('player1select')
 
     // Screens
     const introGame = document.getElementById('intro')
@@ -76,6 +78,20 @@ window.addEventListener('load', () => {
             return false
         }
     }
+
+    // Player selector
+    // ==========================================
+    let playerImg = 1
+    player1select.addEventListener('click', () => {
+        player1select.classList.remove('opacity-img');
+        player2select.classList.add('opacity-img');
+        playerImg = 1
+    })
+    player2select.addEventListener('click', () => {
+        player1select.classList.add('opacity-img');
+        player2select.classList.remove('opacity-img');
+        playerImg = 2
+    })
 
     // Background Selector
     // ==========================================
@@ -159,10 +175,11 @@ window.addEventListener('load', () => {
     // Open game canvas
     openCanvasBtn.addEventListener('click', () => {
         if(setPlayerName()){
-            console.log(gameConfig.playerName)
             introGame.style.display = "none" // Hide intro screen
             mainGameBlock.style.display = "block" // Show Canvas 
-            Game.createBackground(bg) // Create Background
+            // Create bg & player
+            Game.createBackgroundandPlayer(bg, playerImg) // Create Background & player
+
             // Solución al LAG en Safari
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             const audioCtx = new AudioContext();
