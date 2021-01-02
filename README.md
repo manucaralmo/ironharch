@@ -10,7 +10,7 @@ At the moment, the game is only compatible with computers or devices with a keyb
 You can play by accessing this link directly from your computer.  
 
 
-<a href="https://manucaralmo.github.io/ironhack-game-project/" target="_blank">
+<a href="https://manucaralmo.github.io/ironharch/" target="_blank">
   <img src="https://manucaralmo.github.io/ironhack-game-project/assets/images/buttons/btn-play.png" height="65px">
 </a>  
 
