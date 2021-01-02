@@ -53,7 +53,9 @@ window.addEventListener('load', () => {
     // INPUTS
     const playerName = document.getElementById('playerName')
 
+    // ======================================================
     // set Name
+    // ======================================================
     if(gameConfig.playerName !== undefined){
         document.getElementById('gameInfo').style.display = "block"
         document.getElementById('playerNamePrint').innerHTML = gameConfig.playerName
@@ -79,8 +81,9 @@ window.addEventListener('load', () => {
         }
     }
 
+    // ======================================================
     // Player selector
-    // ==========================================
+    // ======================================================
     let playerImg = 1
     player1select.addEventListener('click', () => {
         player1select.classList.remove('opacity-img');
@@ -93,8 +96,9 @@ window.addEventListener('load', () => {
         playerImg = 2
     })
 
+    // ======================================================
     // Background Selector
-    // ==========================================
+    // ======================================================
     const map1 = document.getElementById('map-1')
     const map2 = document.getElementById('map-2')
     const map3 = document.getElementById('map-3')
@@ -130,8 +134,9 @@ window.addEventListener('load', () => {
     })
     // ==========================================
 
+
     // ==========================================
-    // SHOP
+    // IRONHARCH SHOP
     // ==========================================
 
     if(gameConfig.backgrounds.background2){
@@ -172,7 +177,9 @@ window.addEventListener('load', () => {
     // ==========================================
 
 
-    // Open game canvas
+    // ======================================================
+    // START GAME
+    // ======================================================
     openCanvasBtn.addEventListener('click', () => {
         if(setPlayerName()){
             introGame.style.display = "none" // Hide intro screen
@@ -189,12 +196,12 @@ window.addEventListener('load', () => {
 
 
     // ==========================================
-    // GAME START BTN
+    // GAME START BUTTON
     // ==========================================
     startGame.addEventListener('click', () => startGameFunc())
 
     // ==========================================
-    // COMPUTER EVENTS
+    // KEYBOARD EVENTS
     // ==========================================
     document.addEventListener('keydown', event => {
         if(gameConfig.playerName !== undefined){ 
@@ -211,13 +218,8 @@ window.addEventListener('load', () => {
     // ==========================================
     // Start, Pause & Resume functions
     // ==========================================
-    // Pause Game
-    pauseGame.addEventListener('click', () => pauseGameFunc())
-    // Resume Game btn1
-    restartBtn.addEventListener('click', () => resumeGameFunc())
-    // Resume Game btn 2
-    resumeGame.addEventListener('click', () => resumeGameFunc())
 
+    // Start Game
     const startGameFunc = () => {
         canvasBoard.style.display = 'block'
         startGame.style.display = 'none'
@@ -227,16 +229,16 @@ window.addEventListener('load', () => {
         pauseGame.style.display = 'inline'
         archeroImg.style.display = 'none'
         instrucciones.classList.toggle('instrucciones')
-
-        // Debug
-        // Game.debug()
+        // Game.debug() // Debug
     }
+    // Resume Game
     const resumeGameFunc = () => {
         Game.start()
         pauseGame.style.display = 'inline'
         restartBtn.style.display = 'none'
         resumeScreen.style.display = 'none'
     }
+    // Pause Game
     const pauseGameFunc = () => {
         Game.stop()
         Game.intervalId = undefined
@@ -245,11 +247,23 @@ window.addEventListener('load', () => {
         resumeScreen.style.display = 'block'
     }
 
+    // Pause Game Btn
+    pauseGame.addEventListener('click', pauseGameFunc)
+    // Resume Game btn1
+    restartBtn.addEventListener('click', resumeGameFunc)
+    // Resume Game btn 2
+    resumeGame.addEventListener('click', resumeGameFunc)
+
+
+    // ==========================================
+    // EXTRA FUNCTIONS
+    // ==========================================
+
+    // TOGGLE SOUND BTN
     const toggleSound = () => {
         Game.sound ? Game.sound = false : Game.sound = true
     }
     soundBtn.addEventListener('click', toggleSound)
-
 
     // Check touchScreens & redirect
     if ("ontouchstart" in window || navigator.msMaxTouchPoints) { 

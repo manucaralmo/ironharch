@@ -6,7 +6,11 @@
 
 body {
     background-color: rgb(5, 7, 8);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.49), rgba(0, 0, 0, 0.89)), url('../images/bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
     font-family: 'Open Sans', sans-serif;
+    min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -19,7 +23,8 @@ canvas {
 }
 
 .card {
-    background-color: #1A1A1A; 
+    background-color: #000000; 
+    border: 2px solid rgb(31, 31, 31);
     border-radius: 15px;
 }
 
@@ -109,7 +114,7 @@ canvas {
 }
 
 .opacity-img {
-    opacity: 0.4;
+    opacity: 0.55;
 }
 
 .backgroundSelectBtn:hover {
@@ -123,6 +128,7 @@ canvas {
 }
 
 .game-btn {
+    cursor: pointer;
     height: 70px;
 }
 
@@ -180,4 +186,8 @@ canvas {
     background-color: #1A1A1A;
     border-color: #2e2e2e;
     color: #fff;
+}
+
+.text-custom-light {
+    color: rgb(190, 190, 190);
 }

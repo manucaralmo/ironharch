@@ -44,6 +44,9 @@
       btn1Color = "#000"
   </script>
 
+  <!-- GITHUB -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
 
   <title>IronHarch</title>
 </head>
@@ -53,13 +56,13 @@
   <div class="container-fluid pt-5" id="intro">
     <div class="row row justify-content-lg-evenly justify-content-sm-between align-items-xl-center h-100">
       <div class="col-sm-12 col-lg-4 col-md-5">
-        <div class="card px-3">
+        <div class="card px-3 py-4">
           <div class="card-body p-4">
-              <img src="assets/images/logo.png" class="img-fluid" alt="">
+              <img src="assets/images/icons/IronHarch.png" height="75px" class="pt-3" alt="">
               <br><br><br>
-              <p class="text-light">IronHarch es una recreación del famoso juego para teléfonos Archero, hecho completamente en JavaScript, Html y css para el proyecto del módulo 1 de IronHack.</p>
-              <p class="text-light">El juego consiste en diferentes oleadas que debes superar enfrentándote a diferentes enemigos y monstruos finales.</p>
-              <p class="text-light">Dispara a los enemigos cuando estés parado y consigue superar las 50 oleadas para ganar.</p>
+              <p class="text-custom-light">IronHarch is a recreation of the famous Archero game, made entirely in JavaScript, HTML, and CSS for the IronHack Module 1 project.</p>
+              <p class="text-custom-light">The game consists of different waves that you must overcome by facing different enemies and final monsters.</p>
+              <p class="text-custom-light">Shoot the enemies only when you are standing still and kill them all to win the game.</p>
             <br><br>
             <div id="gameInfo">
               <div class="row">
@@ -75,7 +78,11 @@
         </div>
         <div class="card mt-3">
           <div class="card-body px-3">
-              <p class="text-light p-0 m-0">Para disfrutar al máximo el juego, te recomendamos que actives el sonido</p>
+              <p class="text-light p-0 m-0">
+                  <a class="github-button" href="https://github.com/manucaralmo/ironhack-game-project" data-color-scheme="no-preference: dark; light: light; dark: dark;" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star manucaralmo/ironhack-game-project on GitHub">Star</a>
+                  <a class="github-button" href="https://github.com/manucaralmo/ironhack-game-project/subscription" data-color-scheme="no-preference: dark; light: light; dark: dark;" data-icon="octicon-eye" data-size="large" data-show-count="true" aria-label="Watch manucaralmo/ironhack-game-project on GitHub">Watch</a>
+                  <a class="github-button" href="https://github.com/manucaralmo" data-color-scheme="no-preference: dark; light: light; dark: dark;" data-size="large" data-show-count="true" aria-label="Follow @manucaralmo on GitHub">Follow @manucaralmo</a>
+              </p>
           </div>
         </div>
       </div>
@@ -87,25 +94,26 @@
           </div>
 
           <div id="nameSet" class="pb-4">
-            <h2 class="text-light font-weight-bold">Bienvenido de nuevo <span id="playerNamePrint"></span></h2>
-            <p class="text-light">Espero que estés disfrutando la experiencia de IronHarch. Si te está gustando este juego, te invito a que me dejes una estrella en mi proyecto de <a class="text-light" target="_blank" href="https://github.com/manucaralmo/ironhack-game-project">GitHub</a></p>
+            <h2 class="text-light font-weight-bold">Welcome back <span id="playerNamePrint"></span></h2>
+            <p class="text-custom-light">I hope you are enjoying the IronHarch experience. 
+              If you like the game, I invite you to leave me a star in my <a class="text-light" target="_blank" href="https://github.com/manucaralmo/ironhack-game-project">GitHub</a> project.</p>
           </div>
 
-          <h4 class="text-light font-weight-bold mb-4">Selecciona un jugador</h4>
+          <h4 class="text-light font-weight-bold mb-4">Choose Player</h4>
           <div class="row">
-            <div class="col-4">
+            <div class="col-6 col-md-4">
               <div id="player1select" class="card text-light py-2 px-3 backgroundSelectBtn">
                 <div class="row align-items-center">
                   <div class="col-3">
                     <img src="assets/images/player/player-1-preview.png" width="35px" alt="">
                   </div>
                   <div class="col-9">
-                    classic Archer
+                    Classic Archer
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-6 col-md-4">
               <div id="player2select" class="card text-light py-2 px-3 backgroundSelectBtn opacity-img">
                 <div class="row align-items-center">
                   <div class="col-3">
@@ -120,7 +128,7 @@
           </div><br><br>
 
 
-          <h4 class="text-light font-weight-bold">Selecciona un escenario</h4>
+          <h4 class="text-light font-weight-bold">Choose Scenario</h4>
           <br>
           <div class="row">
             <div class="col-4">
@@ -137,9 +145,7 @@
           </div>
           <br>
 
-          <a href="#" id="openCanvas">
-            <img src="assets/images/buttons/comenzar.png" class="game-btn">
-          </a>
+          <img src="assets/images/buttons/comenzar.png" id="openCanvas" class="game-btn">
 
       </div>
     </div>
@@ -245,12 +251,12 @@
   <div class="modal fade" id="theCapital" tabindex="-1" aria-labelledby="theCapitalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-body text-center rounded py-5">
+        <div class="modal-body text-center rounded py-5 px-4">
 
           <img src="assets/images/backgrounds/2.png" height="250px">
           <br>
           <h2 class="text-light">The Capital</h2>
-          <p class="text-light">Un castillo antiguo en ruinas catastróficas. Hoy está habitado por fantasmas errantes.
+          <p class="text-light">An ancient castle in catastrophic ruins. Today it is inhabited by wandering ghosts.
           </p>
           <br>
           <img src="assets/images/buttons/back-btn.png" data-bs-dismiss="modal" aria-label="Close" class="game-btn"
@@ -266,12 +272,12 @@
   <div class="modal fade" id="castilloPerdido" tabindex="-1" aria-labelledby="castilloPerdidoLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-body text-center rounded py-5">
+        <div class="modal-body text-center rounded py-5 px-4">
 
           <img src="assets/images/backgrounds/3.png" height="250px">
           <br>
           <h2 class="text-light">Castillo Perdido</h2>
-          <p class="text-light">Un castillo de más de mil años. En su interior anidan muchas criaturas desconocidas</p>
+          <p class="text-light">A castle over a thousand years old. Many unknown creatures nest inside</p>
           <br>
           <img src="assets/images/buttons/back-btn.png" data-bs-dismiss="modal" aria-label="Close" class="game-btn"
             alt="">

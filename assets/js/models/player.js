@@ -71,7 +71,7 @@ class Player {
 
         // Image Shadow
         this.img2 = new Image()
-        this.img2.src = './assets/images/enemies/shadow.png'
+        this.img2.src = './assets/images/player/blue-shadow.png'
         this.img2.isReady = false
         this.img2.onload = () => {
             this.img2.isReady = true

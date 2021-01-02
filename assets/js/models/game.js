@@ -53,20 +53,11 @@ class IronHarch {
         this.endTime = undefined
     }
 
-    homeMusic(play) {
-        if(play && this.sound){
-            this.sounds.home.loop = true;
-            this.sounds.home.play()
-        } else {
-            this.sounds.home.pause()
-        }
-    }
+    // ==================================
+    // MÉTODOS PRINCIPALES
+    // ==================================
 
-    createBackgroundandPlayer(bg, playerImg) {
-        this.background = new Background(this.ctx, bg)
-        this.player = new Player(this.ctx, playerImg)
-    }
-
+    // GAME INTERVAL
     start() {
         // Stop home music
         this.homeMusic(false)
@@ -98,9 +89,81 @@ class IronHarch {
         }
     }
 
-    setSound(){
-        this.player.sound = this.sound
-        this.enemies.forEach(enem => { enem.sound = this.sound })
+    // DRAW METHOD
+    draw() {
+        // Draw Background
+        this.background.draw()
+
+        // Draw Obstacles
+        if(this.obstacles.length > 0){
+            this.obstacles.forEach(obstacle => obstacle.draw())
+        }
+
+        // Draw Enemies
+        if(this.enemies.length > 0){
+            this.enemies.forEach(enemy => {
+                enemy.playerX = this.player.x
+                enemy.playerY = this.player.y
+                enemy.draw()
+            })
+        }
+
+        // Draw coins
+        if(this.coinsArr.length > 0){
+            this.coinsArr.forEach(coin => {
+                coin.draw()
+            })
+        }
+
+        // Draw Gift --- advantage character
+        if(this.gift !== undefined){
+            this.gift.draw()
+        }
+
+        // Draw Player
+        this.player.draw()
+
+        // Draw Top Bar
+        this.topBar.draw(this.player.health, this.coinsWin, this.level)
+    }
+
+    // MOVE METHOD
+    move() {
+        // Move player
+        this.player.move()
+        // Move Enemies
+        if(this.enemies.length > 0){
+            this.enemies.forEach(enemy => {
+                enemy.move()
+            })
+        }
+    }
+
+    // CLEAR METHOD
+    clear() {
+        // Clear canvas
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    }
+
+    // STOP GAME
+    stop() {
+        // Clear Interval
+        clearInterval(this.intervalId)
+
+        // Overlay
+        this.ctx.save()
+            this.ctx.fillStyle = 'rgba(0, 0, 0, 0.4)'
+            this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
+        this.ctx.restore()
+    }
+
+    // ==================================
+    // LEVEL METHODS
+    // ==================================
+
+    createBackgroundandPlayer(bg, playerImg) {
+        this.background = new Background(this.ctx, bg)
+        this.player = new Player(this.ctx, playerImg)
     }
 
     createLevel() {
@@ -207,16 +270,42 @@ class IronHarch {
         }
     }
 
-    stop() {
-        // Clear Interval
-        clearInterval(this.intervalId)
+    // ==================================
+    // AUDIO METHODS
+    // ==================================
 
-        // Overlay
-        this.ctx.save()
-            this.ctx.fillStyle = 'rgba(0, 0, 0, 0.4)'
-            this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
-        this.ctx.restore()
+    homeMusic(play) {
+        if(play && this.sound){
+            this.sounds.home.loop = true;
+            this.sounds.home.play()
+        } else {
+            this.sounds.home.pause()
+        }
     }
+
+    setSound(){
+        this.player.sound = this.sound
+        this.enemies.forEach(enem => { enem.sound = this.sound })
+    }
+
+    playAudio(type) {
+        if(this.sound){
+            if(type === 'enemyCollision'){
+                this.sounds.collisionBalaEnemy.volume = 0.05
+                this.sounds.collisionBalaEnemy.currentTime = 0
+                this.sounds.collisionBalaEnemy.play()
+            } else if(type === 'coin'){
+                this.sounds.coin.currentTime = 0
+                this.sounds.coin.play()
+            } else if (type === 'advantage'){
+                this.sounds.selector.play()
+            }
+        }
+    }
+
+    // ==================================
+    // SCREENS / COINS / POCKET
+    // ==================================
 
     win() {
         this.enemies = []
@@ -233,20 +322,6 @@ class IronHarch {
         // Reload func
         this.restartEventListener()
 
-    }
-
-    checkRecord() {
-        if (this.level > this.record){
-            localStorage.setItem("IronHarchRecord", this.level);
-            this.record = this.level
-            return true
-        }
-    }
-
-    coinsPocketFunc() {
-        let coinsToSave = Number(this.coinsPocket) + Number(this.coinsWin)
-        localStorage.setItem("IronHarchCoins", coinsToSave);
-        this.coinsPocket = localStorage.getItem("IronHarchCoins");
     }
 
     lose() {
@@ -271,93 +346,23 @@ class IronHarch {
         }
     }
 
-    restartEventListener() {
-        document.addEventListener('keydown', event => {
-            if(event.code === 'Space'){
-                window.location.reload()
-            }
-        })
-    }
-
-    draw() {
-        // Draw Background
-        this.background.draw()
-
-        // Draw Obstacles
-        if(this.obstacles.length > 0){
-            this.obstacles.forEach(obstacle => obstacle.draw())
-        }
-
-        // Draw Enemies
-        if(this.enemies.length > 0){
-            this.enemies.forEach(enemy => {
-                enemy.playerX = this.player.x
-                enemy.playerY = this.player.y
-                enemy.draw()
-            })
-        }
-
-        // Draw coins
-        if(this.coinsArr.length > 0){
-            this.coinsArr.forEach(coin => {
-                coin.draw()
-            })
-        }
-
-        // Draw Gift --- advantage character
-        if(this.gift !== undefined){
-            this.gift.draw()
-        }
-
-        // Draw Player
-        this.player.draw()
-
-        // Draw Top Bar
-        this.topBar.draw(this.player.health, this.coinsWin, this.level)
-    }
-
-    move() {
-        // Move player
-        this.player.move()
-        // Move Enemies
-        if(this.enemies.length > 0){
-            this.enemies.forEach(enemy => {
-                enemy.move()
-            })
+    checkRecord() {
+        if (this.level > this.record){
+            localStorage.setItem("IronHarchRecord", this.level);
+            this.record = this.level
+            return true
         }
     }
 
-    clear() {
-        // Clear canvas
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    coinsPocketFunc() {
+        let coinsToSave = Number(this.coinsPocket) + Number(this.coinsWin)
+        localStorage.setItem("IronHarchCoins", coinsToSave);
+        this.coinsPocket = localStorage.getItem("IronHarchCoins");
     }
 
-    checkTheNearest() {
-        // Si existen varios enemigos, escogemos el más cercano
-        if (this.enemies.length <= 0){
-            this.player.nearestEnemy = undefined
-        } else if (this.enemies.length === 1) {
-            // Si sólo existe un enemigo, mandamos ese enemigo
-            this.player.nearestEnemy = this.enemies[0]
-        } else {
-            let a, b, c, NewEnemyObject
-            let enemiesWithDistance = this.enemies.map(enemy => {
-                a = enemy.x - this.player.x;
-                b = enemy.y - this.player.y;
-                c = Math.sqrt( a*a + b*b );
-                NewEnemyObject = {
-                    distance: c,
-                    x: enemy.x,
-                    y: enemy.y
-                }
-                return NewEnemyObject
-            }).sort((a, b) => {
-                return a.distance - b.distance
-            })
-            // Set nearest enemy 
-            this.player.nearestEnemy = enemiesWithDistance[0]
-        }
-    }
+    // ==================================
+    // COLLISIONS / CLEAR / CHECKS
+    // ==================================
 
     checkCollisions() {
         // Comprobar colisiones con enemigos y player
@@ -439,35 +444,30 @@ class IronHarch {
         }
     }
 
-    playAudio(type) {
-        if(this.sound){
-            if(type === 'enemyCollision'){
-                this.sounds.collisionBalaEnemy.volume = 0.05
-                this.sounds.collisionBalaEnemy.currentTime = 0
-                this.sounds.collisionBalaEnemy.play()
-            } else if(type === 'coin'){
-                this.sounds.coin.currentTime = 0
-                this.sounds.coin.play()
-            } else if (type === 'advantage'){
-                this.sounds.selector.play()
-            }
-        }
-    }
-
-    checkHealth() {
-        if(this.player.health <= 100){
-            canvasBoard.classList.add('shadow-danger')
+    checkTheNearest() {
+        // Si existen varios enemigos, escogemos el más cercano
+        if (this.enemies.length <= 0){
+            this.player.nearestEnemy = undefined
+        } else if (this.enemies.length === 1) {
+            // Si sólo existe un enemigo, mandamos ese enemigo
+            this.player.nearestEnemy = this.enemies[0]
         } else {
-            canvasBoard.classList.remove('shadow-danger')
-        }
-
-        if(this.player.health <= 0){
-            if(this.player.extras.extraLifeCount > 0){
-                this.player.extras.extraLifeCount--
-                this.player.health = this.player.maxHealth
-            } else {
-                this.lose()
-            }
+            let a, b, c, NewEnemyObject
+            let enemiesWithDistance = this.enemies.map(enemy => {
+                a = enemy.x - this.player.x;
+                b = enemy.y - this.player.y;
+                c = Math.sqrt( a*a + b*b );
+                NewEnemyObject = {
+                    distance: c,
+                    x: enemy.x,
+                    y: enemy.y
+                }
+                return NewEnemyObject
+            }).sort((a, b) => {
+                return a.distance - b.distance
+            })
+            // Set nearest enemy 
+            this.player.nearestEnemy = enemiesWithDistance[0]
         }
     }
 
@@ -504,11 +504,42 @@ class IronHarch {
         this.coinsArr = this.coinsArr.filter(coin => coin.collides === false)
     }
 
+
+    // ==================================
+    // EXTRAS
+    // ==================================
+
+    restartEventListener() {
+        document.addEventListener('keydown', event => {
+            if(event.code === 'Space'){
+                window.location.reload()
+            }
+        })
+    }
+
+    checkHealth() {
+        if(this.player.health <= 100){
+            canvasBoard.classList.add('shadow-danger')
+        } else {
+            canvasBoard.classList.remove('shadow-danger')
+        }
+
+        if(this.player.health <= 0){
+            if(this.player.extras.extraLifeCount > 0){
+                this.player.extras.extraLifeCount--
+                this.player.health = this.player.maxHealth
+            } else {
+                this.lose()
+            }
+        }
+    }
+
     onKeyEvent(event) {
         event.preventDefault()
         this.player.onKeyEvent(event)
     }
 
+    // Debug mode
     debug() {
         setInterval(() => {
             console.clear()
