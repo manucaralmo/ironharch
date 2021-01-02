@@ -42,7 +42,8 @@ class IronHarch {
         this.touchStartY = undefined
 
         // LEVEL & RECORD
-        this.level = 1 // Object.keys(LEVELS).length
+        this.level = 1 
+        //this.level = Object.keys(LEVELS).length
         this.changingLevel = false
         this.record = localStorage.getItem("IronHarchRecord");
         this.selectAdvantageCount = 0
@@ -172,7 +173,7 @@ class IronHarch {
 
         // Creamos los enemigos
         LEVELS[this.level].enemies.forEach(newEnemy => {
-            this.enemies.push(new Enemy(this.ctx, newEnemy[0], newEnemy[1], newEnemy[2], newEnemy[3], newEnemy[4], newEnemy[5], newEnemy[6], newEnemy[7], newEnemy[8], newEnemy[9]))
+            this.enemies.push(new Enemy(this.ctx, newEnemy[0], newEnemy[1], newEnemy[2], newEnemy[3], newEnemy[4], newEnemy[5], newEnemy[6], newEnemy[7], newEnemy[8], newEnemy[9] , newEnemy[10]))
         })
 
         // Creamos los obstáculos

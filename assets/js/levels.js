@@ -330,5 +330,42 @@ const LEVELS = {
             [210, 310, 'rock'],
             [245, 310, 'rock'],
         ]
+    },
+    // NIVEL 17
+    17: {
+        enemies: [
+            [41, 0, false, 70, 80, 1.1, 200, 'redBallSprite', 16, 5],
+            [167, 0, false, 70, 80, 1.1, 200, 'redBallSprite', 16, 5],
+            [300, 0, false, 70, 80, 1.1, 200, 'redBallSprite', 16, 5],
+
+            [167, 0, true, 115, 50, 1.1, 250, 'blueDiamondSprite', 16, 4],
+            [300, 0, true, 115, 50, 1.1, 250, 'blueDiamondSprite', 16, 4],
+        ],
+        obstacles: []
+    },
+    // NIVEL 18
+    18: {
+        enemies: [
+            [167, 0, true, 100, 50, 1.1, 250, 'blueDiamondSprite', 16, 6, 1.6],
+            [300, 0, true, 300, 50, 1.1, 250, 'blueDiamondSprite', 16, 6, 1.6],
+            [300, 400, true, 100, 50, 1.1, 250, 'blueDiamondSprite', 16, 6, 1.6],
+            [167, 400, true, 200, 50, 1.1, 250, 'blueDiamondSprite', 16, 6, 1.6],
+        ],
+        obstacles: []
+    },
+    // NIVEL 19
+    19: {
+        enemies: [
+            [167, 400, true, 200, 80, 1.1, 450, 'blueDiamondSprite', 16, 6, 1.9],
+        ],
+        obstacles: []
+    },
+    // NIVEL 20 -- MONSTRUO 2
+    20: {
+        enemies: [
+            [100, 200, false, 35, 50, 1, 550, 'blueDiamondSprite', 30, 3],
+            [250, 200, false, 30, 50, 1, 550, 'blueDiamondSprite', 30, 1],
+        ],
+        obstacles: []
     }
 }

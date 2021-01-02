@@ -1,5 +1,5 @@
 class Enemy {
-    constructor(ctx, x, y, isMoving = false, shootingInterval = 115, shotPower = 500, collisionPower = 1, health, weapon, bulletSize, enemyImg = 5){
+    constructor(ctx, x, y, isMoving = false, shootingInterval = 115, shotPower = 500, collisionPower = 1, health, weapon, bulletSize, enemyImg = 5, speedV = 1){
         // Ctx
         this.ctx = ctx
 
@@ -29,6 +29,7 @@ class Enemy {
         this.health = health
         this.collisionPower = collisionPower // Poder de colision
         this.shotPower = shotPower // Poder de colision
+        this.speedV = speedV
 
         // Bullets
         this.weapon = weapon
@@ -149,8 +150,8 @@ class Enemy {
         // Move Enemy
         if(this.isMoving){
             this.getPlayerAngle()
-            this.x += this.vx
-            this.y += this.vy
+            this.x += this.vx * this.speedV
+            this.y += this.vy * this.speedV
         }
 
         // Shot
