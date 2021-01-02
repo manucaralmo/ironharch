@@ -13,3 +13,7 @@ You can play by accessing this link directly from your computer.
 <a href="https://manucaralmo.github.io/ironhack-game-project/" target="_blank">
   <img src="https://manucaralmo.github.io/ironhack-game-project/assets/images/buttons/btn-play.png" height="65px">
 </a>  
+
+***  
+## Screen Shots
+<img src="https://raw.githubusercontent.com/manucaralmo/ironhack-game-project/master/assets/images/screenShots.png" width="100%">
