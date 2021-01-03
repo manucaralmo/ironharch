@@ -63,11 +63,11 @@ canvas {
     }
     90% {
         opacity: 1;
-        height: 2000px;
+        height: 90px;
     }
     100% {
         opacity: 0.1;
-        height: 2000px;
+        height: 0px;
     }
 }
 
@@ -239,7 +239,7 @@ canvas {
 }
 
 .form-control {
-    background-color: #1A1A1A;
+    background-color: #000000;
     border-color: #2e2e2e;
     color: #fff;
 }

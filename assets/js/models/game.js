@@ -280,7 +280,7 @@ class IronHarch {
             this.sounds.home.loop = true;
             this.sounds.home.play()
         } else {
-            this.sounds.home.pause()
+            this.sounds.home.volume = 0.5
         }
     }
 
