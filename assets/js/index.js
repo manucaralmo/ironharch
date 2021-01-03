@@ -1,5 +1,32 @@
 window.addEventListener('load', () => {
 
+    // PRELOADER
+    setTimeout(() => {
+        document.querySelector('.i-preloader').style.display = 'none'
+    }, 3000)
+
+    // PRELOAD IMGS
+    let imgs = [
+        "assets/images/enemies/enemy-1.png",
+        "assets/images/enemies/enemy-3.png",
+        "assets/images/enemies/enemy-4.png",
+        "assets/images/enemies/enemy-5.png",
+        "assets/images/enemies/enemy-6.png",
+        "assets/images/player/player-1.png",
+        "assets/images/player/player-2.png",
+    ]
+
+    let images = new Array()
+    imgs.forEach((img, id) => {
+        try {
+            images[id] = new Image()
+            images[id].src = img
+        } catch (error) {
+            console.log(error)
+        }
+    })
+
+    // GAME CONFIG
     const gameConfig = {
         coinsPocket: localStorage.getItem("IronHarchCoins"),
         players: {
