@@ -31,6 +31,7 @@ canvas {
     background-color: #131313;
     animation-name: preloaderAnimation2;
     animation-duration: 3s;
+    opacity: 0;
 }
 
 .img-preloader {
@@ -40,6 +41,7 @@ canvas {
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    opacity: 0;
 }
 
 @keyframes preloaderAnimation {
