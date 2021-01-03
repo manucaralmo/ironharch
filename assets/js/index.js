@@ -294,8 +294,10 @@ window.addEventListener('load', () => {
 
     // Check touchScreens & redirect
     if ("ontouchstart" in window || navigator.msMaxTouchPoints) { 
-        alert('Por el momento, este juego sólo es compatible en dispositivos con teclado')
-        window.location = 'no-compatible.html' 
+        setTimeout(() => {
+            alert('Por el momento, este juego sólo es compatible en dispositivos con teclado')
+            window.location = 'no-compatible.html' 
+        }, 5000)
     }
 
 })
