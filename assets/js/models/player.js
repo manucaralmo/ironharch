@@ -33,7 +33,7 @@ class Player {
         this.shooting = true
         this.shootingCount = 0
         this.shootingInterval = 25
-        this.shotSpeed = 4
+        this.shotSpeed = 8
 
         // Extras config
         this.extras = {
@@ -100,6 +100,14 @@ class Player {
     }
 
     draw() {
+        // Draw Bullets
+        if(this.bullets.length > 0){
+            this.bullets.forEach(bullet => {
+                bullet.draw()
+            })
+        }
+
+        // Draw Shadow
         this.ctx.drawImage(
             this.img2,
             this.x-(this.width/4),
@@ -152,15 +160,15 @@ class Player {
         if(this.healthPercent() !== undefined){
             this.ctx.save()
                 this.ctx.fillStyle = '#1F7E08'
-                this.ctx.fillRect(this.x, this.y + this.height + 6, this.width, 5)
+                this.ctx.fillRect(this.x, this.y + this.height + 6, this.width, 10)
             this.ctx.restore()
             this.ctx.save()
                 this.ctx.fillStyle = '#46CA25'
-                this.ctx.fillRect(this.x, this.y + this.height + 6, this.healthPercent(), 5)
+                this.ctx.fillRect(this.x, this.y + this.height + 6, this.healthPercent(), 10)
             this.ctx.restore()
             this.ctx.save()
                 this.ctx.strokeStyle = '#000'
-                this.ctx.strokeRect(this.x, this.y + this.height + 6, this.width, 5)
+                this.ctx.strokeRect(this.x, this.y + this.height + 6, this.width, 10)
             this.ctx.restore()
         }
 
@@ -170,16 +178,9 @@ class Player {
                 this.img3,
                 this.x - 4,
                 this.y - 20,
-                this.width + 8,
-                15 + 4
+                this.width + 16,
+                38
             )
-        }
-
-        // Draw Bullets
-        if(this.bullets.length > 0){
-            this.bullets.forEach(bullet => {
-                bullet.draw()
-            })
         }
 
         // Shot
@@ -233,8 +234,8 @@ class Player {
             this.x = CANVAS_WIDTH - this.width - 30
         }
 
-        if (this.y <= 130){
-            this.y = 130
+        if (this.y <= 260){
+            this.y = 260
         } else if (this.y + this.height >= CANVAS_HEIGHT){
             this.y = CANVAS_HEIGHT - this.height
         }
@@ -261,7 +262,7 @@ class Player {
             this.bullets.push(new Bullet(this.ctx, this.x+(this.width/2), this.y, Math.sin(angle)*speed, Math.cos(angle)*speed, this.shotPower))
             // Crear nuevo bullet si tiene doble disparo
             if(this.extras.doubleShot){
-                this.bullets.push(new Bullet(this.ctx, this.x+(this.width/2)- 25, this.y, Math.sin(angle)*speed, Math.cos(angle)*speed, this.shotPower))
+                this.bullets.push(new Bullet(this.ctx, this.x+(this.width/2)- 50, this.y, Math.sin(angle)*speed, Math.cos(angle)*speed, this.shotPower))
             }
             this.shootingCount = 0
 
@@ -318,18 +319,18 @@ class Player {
     }
 
     collidesWithObstacle(element) {
-        // -30 para que el personaje de sensacion de 3d con el obstaculo
-        if( this.y <= element.y + (element.height - 30) && 
+        // -60 para que el personaje de sensacion de 3d con el obstaculo
+        if( this.y <= element.y + (element.height - 60) && 
             this.y >= element.y && 
             this.x + this.width >= element.x && 
             this.x <= element.x + element.width &&
-            this.y + this.height > element.y + (element.height - 30) && 
-            this.previousY > element.y + (element.height - 30)){
-                this.y = element.y + (element.height - 30) + 1
+            this.y + this.height > element.y + (element.height - 60) && 
+            this.previousY > element.y + (element.height - 60)){
+                this.y = element.y + (element.height - 60) + 1
                 this.vy = 0
             return 'down'
         } else if ( this.y + this.height >= element.y &&
-            this.y + this.height <= element.y + (element.height - 30) &&
+            this.y + this.height <= element.y + (element.height - 60) &&
             this.x + this.width >= element.x &&
             this.x <= element.x + element.width &&
             this.y < element.y &&
@@ -338,7 +339,7 @@ class Player {
                 this.vy = 0
             return 'up'
         }else if ( this.y + this.height >= element.y &&
-            this.y <= element.y + (element.height - 30) &&
+            this.y <= element.y + (element.height - 60) &&
             this.x + this.width >= element.x &&
             this.x < element.x &&
             this.previousX +  this.width < element.x){
@@ -346,7 +347,7 @@ class Player {
                 this.vx = 0
             return 'left'
         } else if ( this.y + this.height >= element.y &&
-            this.y <= element.y + (element.height - 30) &&
+            this.y <= element.y + (element.height - 60) &&
             this.x <= element.x + element.width &&
             this.x + this.width > element.x + element.width &&
             this.previousX > element.x + element.width){

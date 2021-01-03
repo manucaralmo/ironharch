@@ -2,8 +2,8 @@
 * CANVAS CONSTANTS
 * ============================== */
 
-const CANVAS_WIDTH = 400
-const CANVAS_HEIGHT = 700
+const CANVAS_WIDTH = 800
+const CANVAS_HEIGHT = 1400
 
 /* ==============================
 * CANVAS CONSTANTS
@@ -11,9 +11,9 @@ const CANVAS_HEIGHT = 700
 
 const PLAYER_X = 300
 const PLAYER_Y = 550
-const PLAYER_WIDTH = 50
-const PLAYER_HEIGHT = 65
-const PLAYER_SPEED = 3
+const PLAYER_WIDTH = 100
+const PLAYER_HEIGHT = 130
+const PLAYER_SPEED = 6
 
 /* ==============================
 * kEYBOARD CONSTANTS

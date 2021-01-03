@@ -14,8 +14,8 @@ class EnemyBullet {
         this.power = bulletPower
 
         // Dimensions
-        this.width = size
-        this.height = size
+        this.width = size*2
+        this.height = size*2
 
         // Weapon
         this.weapon = weapon

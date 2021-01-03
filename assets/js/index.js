@@ -256,7 +256,7 @@ window.addEventListener('load', () => {
         pauseGame.style.display = 'inline'
         archeroImg.style.display = 'none'
         instrucciones.classList.toggle('instrucciones')
-        // Game.debug() // Debug
+         Game.debug() // Debug
     }
     // Resume Game
     const resumeGameFunc = () => {

@@ -4,8 +4,8 @@ class Coin {
         this.x = x
         this.y = y
 
-        this.height = 22
-        this.width = 22
+        this.height = 44
+        this.width = 44
 
         this.collides = false
 

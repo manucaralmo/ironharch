@@ -10,8 +10,8 @@ class Bullet {
         this.vx = vx
 
         // Dimensions
-        this.width = 35
-        this.height = 35
+        this.width = 70
+        this.height = 70
 
         // Extra
         this.collides = undefined

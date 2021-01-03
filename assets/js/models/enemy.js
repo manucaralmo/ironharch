@@ -6,8 +6,8 @@ class Enemy {
         // Enemy position & Size
         this.x = x
         this.y = y
-        this.width = 52
-        this.height = 70
+        this.width = 104
+        this.height = 140
 
         // Previous X & Y for obstacle collision
         this.previousX = this.x
@@ -29,7 +29,7 @@ class Enemy {
         this.health = health
         this.collisionPower = collisionPower // Poder de colision
         this.shotPower = shotPower // Poder de colision
-        this.speedV = speedV
+        this.speedV = speedV*2
 
         // Bullets
         this.weapon = weapon
@@ -120,11 +120,11 @@ class Enemy {
         if(this.healthPercent() !== undefined){
             this.ctx.save()
                 this.ctx.fillStyle = '#921010'
-                this.ctx.fillRect(this.x, this.y+this.height+5, this.width, 4)
+                this.ctx.fillRect(this.x, this.y+this.height+5, this.width, 8)
             this.ctx.restore()
             this.ctx.save()
                 this.ctx.fillStyle = '#DD1515'
-                this.ctx.fillRect(this.x, this.y+this.height+5, this.healthPercent(), 4)
+                this.ctx.fillRect(this.x, this.y+this.height+5, this.healthPercent(), 8)
             this.ctx.restore()
         }
         
@@ -170,8 +170,8 @@ class Enemy {
         } else if (this.x + this.width >= CANVAS_WIDTH - 30){
             this.x = CANVAS_WIDTH - this.width - 30
         }
-        if (this.y <= 130){
-            this.y = 130
+        if (this.y <= 260){
+            this.y = 260
         } else if (this.y + this.height >= CANVAS_HEIGHT){
             this.y = CANVAS_HEIGHT - this.height
         }
@@ -202,7 +202,7 @@ class Enemy {
             this.shotAnimation()
 
             // Crear nuevo bullet
-            this.bullets.push(new EnemyBullet(this.ctx, this.x+(this.width/2), this.y+(this.height/2), this.vx*4, this.vy*4, this.shotPower, this.weapon, this.bulletSize))
+            this.bullets.push(new EnemyBullet(this.ctx, this.x+(this.width/2), this.y+(this.height/2), this.vx*8, this.vy*8, this.shotPower, this.weapon, this.bulletSize))
             this.shootingCount = 0
 
             // Play sound
@@ -263,18 +263,18 @@ class Enemy {
     }
 
     collidesWithObstacle(element) {
-        if( this.y <= element.y + (element.height - 30) && 
+        if( this.y <= element.y + (element.height - 60) && 
             this.y >= element.y && 
             this.x + this.width >= element.x && 
             this.x <= element.x + element.width &&
-            this.y + this.height > element.y + (element.height - 30) && 
-            this.previousY >= element.y + (element.height - 30)){
-                this.y = element.y + (element.height - 30)
+            this.y + this.height > element.y + (element.height - 60) && 
+            this.previousY >= element.y + (element.height - 60)){
+                this.y = element.y + (element.height - 60)
                 this.vy = 0
                 this.collides.topBottom = true
             return 'down'
         } else if ( this.y + this.height >= element.y &&
-            this.y + this.height <= element.y + (element.height - 30) &&
+            this.y + this.height <= element.y + (element.height - 60) &&
             this.x + this.width >= element.x &&
             this.x <= element.x + element.width &&
             this.y < element.y &&
@@ -284,7 +284,7 @@ class Enemy {
                 this.collides.topBottom = true
             return 'up'
         }else if ( this.y + this.height >= element.y &&
-            this.y <= element.y + (element.height - 30) &&
+            this.y <= element.y + (element.height - 60) &&
             this.x + this.width >= element.x &&
             this.x < element.x &&
             this.previousX +  this.width <= element.x){
@@ -293,7 +293,7 @@ class Enemy {
                 this.collides.leftRight = true
             return 'left'
         } else if ( this.y + this.height >= element.y &&
-            this.y <= element.y + (element.height - 30) &&
+            this.y <= element.y + (element.height - 60) &&
             this.x <= element.x + element.width &&
             this.x + this.width > element.x + element.width &&
             this.previousX >= element.x + element.width){

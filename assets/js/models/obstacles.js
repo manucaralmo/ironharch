@@ -4,8 +4,8 @@ class Obstacle {
         this.x = x
         this.y = y
 
-        this.height = 50
-        this.width = 35
+        this.height = 100
+        this.width = 70
 
         this.type = type
 

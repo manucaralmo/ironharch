@@ -1,11 +1,11 @@
 class Gift {
     constructor(ctx){
         this.ctx = ctx
-        this.x = 130
-        this.y = 140
+        this.x = 260
+        this.y = 280
 
-        this.height = 75
-        this.width = 125
+        this.height = 150
+        this.width = 250
 
         this.collides = false
 

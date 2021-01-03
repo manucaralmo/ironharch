@@ -1,11 +1,11 @@
 class TopBar {
     constructor(ctx){
         this.ctx = ctx
-        this.x = 15
-        this.y = 15
+        this.x = 30
+        this.y = 30
 
-        this.height = 22
-        this.width = 22
+        this.height = 44
+        this.width = 44
 
         this.record = localStorage.getItem("IronHarchRecord");
 
@@ -39,28 +39,28 @@ class TopBar {
         if (this.isReady()) {
             this.ctx.drawImage(
                 this.img,
-                this.x,
-                this.y,
+                Math.floor(this.x),
+                Math.floor(this.y),
                 this.width,
                 this.height
             )
 
             if(health < 0){ health = 0 }
             this.ctx.save()
-                this.ctx.font = '15px Arial'
+                this.ctx.font = '30px Arial'
                 this.ctx.fillStyle = 'white'
                 this.ctx.strokeStyle = '#000'
-                this.ctx.lineWidth = 2;
+                this.ctx.lineWidth = 4;
                 this.ctx.textAlign = 'center'
-                this.ctx.strokeText(`${Math.floor(health)}`, 60, 30);
-                this.ctx.fillText(`${Math.floor(health)}`, 60, 30)
+                this.ctx.strokeText(`${Math.floor(health)}`, 115, 60);
+                this.ctx.fillText(`${Math.floor(health)}`, 115, 60)
             this.ctx.restore()
 
             this.ctx.drawImage(
                 this.best,
-                this.x + 75,
+                this.x + 155,
                 this.y,
-                25,
+                50,
                 this.height
             )
 
@@ -69,42 +69,43 @@ class TopBar {
                 this.record = 0
             }
             this.ctx.save()
-                this.ctx.font = '15px Arial'
+                this.ctx.font = '30px Arial'
                 this.ctx.fillStyle = 'white'
                 this.ctx.strokeStyle = '#000'
-                this.ctx.lineWidth = 2;
+                this.ctx.lineWidth = 4;
                 this.ctx.textAlign = 'left'
-                this.ctx.strokeText(`Best: ${this.record}`, this.x + 75 + 35, 30);
-                this.ctx.fillText(`Best: ${this.record}`, this.x + 75 + 35, 30)
+                this.ctx.strokeText(`Best: ${this.record}`, this.x + 225, 60);
+                this.ctx.fillText(`Best: ${this.record}`, this.x + 225, 60)
             this.ctx.restore()
 
             // Print Coins
             this.ctx.drawImage(
                 this.coinImg,
-                this.x + 75 + 35 + 65,
+                this.x + 360,
                 this.y,
                 this.width,
                 this.height
             )
+            
             this.ctx.save()
-                this.ctx.font = '15px Arial'
+                this.ctx.font = '30px Arial'
                 this.ctx.fillStyle = 'white'
                 this.ctx.strokeStyle = '#000'
-                this.ctx.lineWidth = 2;
+                this.ctx.lineWidth = 4;
                 this.ctx.textAlign = 'left'
-                this.ctx.strokeText(coins, this.x + 75 + 35 + 95, 30);
-                this.ctx.fillText(coins, this.x + 75 + 35 + 95, 30)
+                this.ctx.strokeText(coins, this.x + 420, 60);
+                this.ctx.fillText(coins, this.x + 420, 60)
             this.ctx.restore()
 
             // Current level
             this.ctx.save()
-                this.ctx.font = '15px Arial'
+                this.ctx.font = '30px Arial'
                 this.ctx.fillStyle = 'white'
                 this.ctx.strokeStyle = '#000'
-                this.ctx.lineWidth = 2;
+                this.ctx.lineWidth = 4;
                 this.ctx.textAlign = 'left'
-                this.ctx.strokeText(`Level: ${level}/${Object.keys(LEVELS).length}`, this.x + 75 + 35 + 120, 30);
-                this.ctx.fillText(`Level: ${level}/${Object.keys(LEVELS).length}`, this.x + 75 + 35 + 120, 30)
+                this.ctx.strokeText(`Level: ${level}/${Object.keys(LEVELS).length}`, this.x + 475, 60);
+                this.ctx.fillText(`Level: ${level}/${Object.keys(LEVELS).length}`, this.x + 475, 60)
             this.ctx.restore()
         }
     }

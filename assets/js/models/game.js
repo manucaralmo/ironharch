@@ -4,7 +4,7 @@ class IronHarch {
         this.canvas = document.getElementById(canvasId)
         this.canvas.width = CANVAS_WIDTH
         this.canvas.height = CANVAS_HEIGHT
-        this.ctx = this.canvas.getContext('2d')
+        this.ctx = this.canvas.getContext('2d', { alpha: false })
 
         // Interval info
         this.fps = 1000/60
@@ -100,19 +100,19 @@ class IronHarch {
             this.obstacles.forEach(obstacle => obstacle.draw())
         }
 
+        // Draw coins
+        if(this.coinsArr.length > 0){
+            this.coinsArr.forEach(coin => {
+                coin.draw()
+            })
+        }
+
         // Draw Enemies
         if(this.enemies.length > 0){
             this.enemies.forEach(enemy => {
                 enemy.playerX = this.player.x
                 enemy.playerY = this.player.y
                 enemy.draw()
-            })
-        }
-
-        // Draw coins
-        if(this.coinsArr.length > 0){
-            this.coinsArr.forEach(coin => {
-                coin.draw()
             })
         }
 
@@ -173,12 +173,12 @@ class IronHarch {
 
         // Creamos los enemigos
         LEVELS[this.level].enemies.forEach(newEnemy => {
-            this.enemies.push(new Enemy(this.ctx, newEnemy[0], newEnemy[1], newEnemy[2], newEnemy[3], newEnemy[4], newEnemy[5], newEnemy[6], newEnemy[7], newEnemy[8], newEnemy[9] , newEnemy[10]))
+            this.enemies.push(new Enemy(this.ctx, newEnemy[0]*2, newEnemy[1]*2, newEnemy[2], newEnemy[3], newEnemy[4], newEnemy[5], newEnemy[6], newEnemy[7], newEnemy[8], newEnemy[9] , newEnemy[10]))
         })
 
         // Creamos los obstáculos
         LEVELS[this.level].obstacles.forEach(obs => {
-            this.obstacles.push(new Obstacle(this.ctx, obs[0], obs[1], obs[2]))
+            this.obstacles.push(new Obstacle(this.ctx, obs[0]*2, obs[1]*2, obs[2]))
         })
 
         this.changingLevel = false
@@ -496,7 +496,7 @@ class IronHarch {
         }
         // Si eliminamos algun enemigo, creamos una moneda
         if(this.enemies.length < this.enemiesCount){
-            this.coinsArr.push(new Coin(this.ctx, Math.random() * (350 - 38) + 38, Math.random() * (660 - 165) + 165))
+            this.coinsArr.push(new Coin(this.ctx, Math.random() * (700 - 76) + 76, Math.random() * (1320 - 330) + 330))
         }
     }
 
