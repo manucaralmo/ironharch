@@ -251,7 +251,7 @@ class Enemy {
 
     clearBullets() {
         this.bullets = this.bullets.filter(bullet => {
-            return bullet.x + bullet.width >= 0 && bullet.x <= CANVAS_WIDTH && bullet.y + bullet.height >= 100 && bullet.y <= CANVAS_HEIGHT
+            return bullet.x + bullet.width >= 0 && bullet.x <= CANVAS_WIDTH && bullet.y + bullet.height >= 200 && bullet.y <= CANVAS_HEIGHT
         })
     }
 
