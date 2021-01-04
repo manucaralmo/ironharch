@@ -29,7 +29,7 @@ const LEVELS = {
         enemies: [
             [80, 130, true, 90, 50, 1, 70, 'blueDiamondSprite', 16, 4],
             [160, 130, false, 90, 50, 1, 70, 'blueDiamondSprite', 16, 4],
-            [230, 130, false, 90, 50, 1, 70, 'blueDiamondSprite', 16, 4],
+            [230, 130, false, 90, 50, 1, 70, 'blueDiamondSprite', 16, 4]
         ],
         obstacles: [
             [35, 500, 'rock'],

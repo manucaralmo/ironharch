@@ -62,9 +62,6 @@ class IronHarch {
     start() {
         // Stop home music
         this.homeMusic(false)
-        // Load audio
-        this.sounds.collisionBalaEnemy.load()
-        this.sounds.selector.load()
 
         if(!this.intervalId){
             this.intervalId = setInterval(() => {
@@ -210,43 +207,64 @@ class IronHarch {
             btn.dataset.power = newAD
             document.querySelector(`#advantaje${index}`).src = `assets/images/extras/${newAD}.png`
         })
-        // RANDOM ADVANTAGES
 
+        // Play audio & open screen
         setTimeout(() => {
             this.playAudio('advantage')
             selectAdvantageDisplay.style.display = 'block'
         }, 500)
 
-        advantageBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                switch(btn.dataset.power){
-                    case 'doubleArrow':
-                        this.player.extras.doubleShot = true
-                        break;
-                    case 'fullHealth':
-                        this.player.health = this.player.maxHealth
-                        break;
-                    case 'doubleHealth':
-                        this.player.maxHealth += 500
-                        this.player.health = this.player.maxHealth
-                        break;
-                    case 'doubleSpeed':
-                        this.player.speed = PLAYER_SPEED * 1.5
-                        break;
-                    case 'doubleAttack':
-                        this.player.shotPower += 2
-                        break;
-                    case 'doubleShotSpeed':
-                        this.player.shotSpeed += 0.5
-                        break;
-                    case 'extraLife':
-                        this.player.extras.extraLifeCount += 1
-                        break;
-                }
 
-                selectAdvantageDisplay.style.display = 'none'
-                setTimeout(() => this.createLevel(), 2000)
+
+        // SWITH DE VENTAJAS
+        const switchPowerBtn = (power) => {
+            switch(power.path[1].dataset.power){
+                case 'doubleArrow':
+                    this.player.extras.doubleShot = true
+                    createLevelFunction()
+                    break;
+                case 'fullHealth':
+                    this.player.health = this.player.maxHealth
+                    createLevelFunction()
+                    break;
+                case 'doubleHealth':
+                    this.player.maxHealth += 500
+                    this.player.health = this.player.maxHealth
+                    createLevelFunction()
+                    break;
+                case 'doubleSpeed':
+                    this.player.speed = PLAYER_SPEED * 1.5
+                    createLevelFunction()
+                    break;
+                case 'doubleAttack':
+                    this.player.shotPower += 2
+                    createLevelFunction()
+                    break;
+                case 'doubleShotSpeed':
+                    this.player.shotSpeed += 0.5
+                    createLevelFunction()
+                    break;
+                case 'extraLife':
+                    this.player.extras.extraLifeCount += 1
+                    createLevelFunction()
+                    break;
+            }
+        }
+
+        // Create level func
+        let createLevelFunction = () => {
+            setTimeout(() => this.createLevel(), 2000)
+            selectAdvantageDisplay.style.display = 'none'
+
+            //REMOVE EVENTLISTENER
+            advantageBtns.forEach(btn => {
+                btn.removeEventListener('click', switchPowerBtn, true)
             })
+        }
+
+        // EVENT LISTENER BTNS
+        advantageBtns.forEach(btn => {
+            btn.addEventListener('click', switchPowerBtn, true)
         })
 
     }
@@ -287,6 +305,9 @@ class IronHarch {
     setSound(){
         this.player.sound = this.sound
         this.enemies.forEach(enem => { enem.sound = this.sound })
+        if(!this.sound){
+            this.sounds.home.pause()
+        }
     }
 
     playAudio(type) {
@@ -436,7 +457,7 @@ class IronHarch {
             })
         }
 
-        // colision con gift
+        // colision con selectAdvantage
         if(this.gift !== undefined){
             if(this.gift.collidesWith(this.player)){
                 this.selectAdvantage()

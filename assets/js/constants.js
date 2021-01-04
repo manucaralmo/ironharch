@@ -9,8 +9,8 @@ const CANVAS_HEIGHT = 1400
 * CANVAS CONSTANTS
 * ============================== */
 
-const PLAYER_X = 300
-const PLAYER_Y = 550
+const PLAYER_X = 600
+const PLAYER_Y = 1100
 const PLAYER_WIDTH = 100
 const PLAYER_HEIGHT = 130
 const PLAYER_SPEED = 6
