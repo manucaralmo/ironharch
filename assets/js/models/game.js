@@ -62,7 +62,16 @@ class IronHarch {
     start() {
         // Stop home music
         this.homeMusic(false)
+        
+        // Precargar sonidos
+        this.sounds.home.load()
+        this.sounds.collisionBalaEnemy.load()
+        this.sounds.selector.load()
+        this.sounds.coin.load()
+        this.sounds.gameOver.load()
+        this.sounds.win.load()
 
+        // Game Loop
         if(!this.intervalId){
             this.intervalId = setInterval(() => {
                 // Performance Start
@@ -218,7 +227,8 @@ class IronHarch {
 
         // SWITH DE VENTAJAS
         const switchPowerBtn = (power) => {
-            switch(power.path[1].dataset.power){
+            let powerSelected = power.toElement.parentElement.dataset.power || power.path[1].dataset.power
+            switch(powerSelected){
                 case 'doubleArrow':
                     this.player.extras.doubleShot = true
                     createLevelFunction()
@@ -307,6 +317,9 @@ class IronHarch {
         this.enemies.forEach(enem => { enem.sound = this.sound })
         if(!this.sound){
             this.sounds.home.pause()
+        } else {
+            this.sounds.home.volume = 0.5
+            this.sounds.home.play()
         }
     }
 
@@ -317,6 +330,7 @@ class IronHarch {
                 this.sounds.collisionBalaEnemy.currentTime = 0
                 this.sounds.collisionBalaEnemy.play()
             } else if(type === 'coin'){
+                this.sounds.home.volume = 0.5
                 this.sounds.coin.currentTime = 0
                 this.sounds.coin.play()
             } else if (type === 'advantage'){

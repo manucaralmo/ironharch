@@ -256,10 +256,10 @@ class Enemy {
     }
 
     collidesWith(element) {
-        return  this.x < element.x + element.width &&
-                this.x + this.width > element.x &&
-                this.y < element.y + element.height &&
-                this.y + this.height > element.y
+        return  this.x < (element.x + 30) + (element.width - 60) &&
+                this.x + this.width > (element.x + 30) &&
+                this.y < (element.y + 30) + (element.height - 60) &&
+                this.y + this.height > (element.y + 30)
     }
 
     collidesWithObstacle(element) {

@@ -34,8 +34,8 @@ class Obstacle {
     }
 
     collidesWith(element) {
-        return  this.x < element.x + element.width &&
-                this.x + this.width > element.x &&
+        return  this.x < (element.x + 15) + (element.width - 30) &&
+                this.x + this.width > (element.x + 15) &&
                 this.y < element.y + element.height &&
                 this.y + this.height > element.y
     }
