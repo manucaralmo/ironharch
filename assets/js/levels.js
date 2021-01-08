@@ -367,5 +367,77 @@ const LEVELS = {
             [250, 200, false, 30, 50, 1, 550, 'blueDiamondSprite', 30, 1],
         ],
         obstacles: []
+    },
+    // NIVEL 21
+    21: {
+        enemies: [
+            [100, 200, true, 150, 80, 1.1, 450, 'blueDiamondSprite', 20, 1, 1.9],
+            [200, 200, true, 200, 80, 1.1, 450, 'blueDiamondSprite', 20, 1, 1.9],
+            [300, 200, true, 100, 80, 1.1, 450, 'blueDiamondSprite', 20, 1, 1.9],
+        ],
+        obstacles: []
+    },
+    // NIVEL 22
+    22: {
+        enemies: [
+            [50, 200, false, 100, 80, 1.1, 450, 'blueLightSprite', 30, 1, 1.9],
+            [100, 200, false, 100, 80, 1.1, 450, 'blueLightSprite', 30, 1, 1.9],
+            [150, 200, false, 150, 80, 1.1, 450, 'blueDiamondSprite', 20, 1, 1.9],
+            [200, 200, false, 100, 80, 1.1, 450, 'blueLightSprite', 30, 1, 1.9],
+            [250, 200, false, 50, 80, 1.1, 450, 'blueDiamondSprite', 20, 1, 1.9],
+            [300, 200, false, 50, 80, 1.1, 450, 'blueDiamondSprite', 20, 1, 1.9],
+        ],
+        obstacles: []
+    },
+    // NIVEL 23
+    23: {
+        enemies: [
+            [50, 200, false, 100, 80, 1.1, 450, 'blueLightSprite', 30, 1, 1.9],
+            [100, 200, false, 100, 80, 1.1, 450, 'blueLightSprite', 30, 1, 1.9],
+            [150, 200, true, 150, 80, 1.1, 450, 'blueDiamondSprite', 20, 1, 1.9],
+            [200, 200, false, 100, 80, 1.1, 450, 'blueLightSprite', 30, 1, 1.9],
+            [250, 200, true, 50, 80, 1.1, 450, 'blueDiamondSprite', 20, 1, 1.9],
+            [300, 200, false, 50, 80, 1.1, 450, 'blueDiamondSprite', 20, 1, 1.9],
+        ],
+        obstacles: [
+            [35, 500, 'rock'],
+            [70, 500, 'rock'],
+            [105, 500, 'rock'],
+            [140, 500, 'rock'],
+            [330, 355, 'rock'],
+            [295, 355, 'rock'],
+            [260, 355, 'rock'],
+            [225, 355, 'rock'],
+        ]
+    },
+    // NIVEL 24
+    24: {
+        enemies: [
+            [50, 200, true, 100, 80, 1.1, 450, 'blueLightSprite', 30, 1, 1],
+            [100, 200, true, 100, 80, 1.1, 450, 'blueLightSprite', 30, 3, 1.9],
+            [150, 200, true, 150, 80, 1.1, 450, 'blueDiamondSprite', 20, 1, 1],
+            [200, 200, true, 100, 80, 1.1, 450, 'blueLightSprite', 30, 3, 1.9],
+            [250, 200, true, 50, 80, 1.1, 450, 'blueDiamondSprite', 20, 1, 1],
+            [300, 200, true, 50, 80, 1.1, 450, 'blueDiamondSprite', 20, 3, 1.9],
+        ],
+        obstacles: [
+            [90, 325, 'rock'],
+            [90, 360, 'rock'],
+            [90, 395, 'rock'],
+            [90, 430, 'rock'],
+            [275, 325, 'rock'],
+            [275, 360, 'rock'],
+            [275, 395, 'rock'],
+            [275, 430, 'rock']
+        ]
+    },
+    // NIVEL 25 -- MONSTRUO FINAL
+    25: {
+        enemies: [
+            [100, 200, false, 35, 50, 1, 550, 'blueLightSprite', 40, 3],
+            [175, 200, false, 30, 50, 1, 750, 'blueDiamondSprite', 30, 1],
+            [250, 200, false, 30, 50, 1, 550, 'blueLightSprite', 40, 3],
+        ],
+        obstacles: []
     }
 }

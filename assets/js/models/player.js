@@ -133,10 +133,19 @@ class Player {
             this.sprite.drawCount++
             this.animate()
         } else {
+            // Si hay enemigos cercanos
             if(this.nearestEnemy !== undefined){
-                if (this.nearestEnemy.y < this.y){
+                if((this.y - this.nearestEnemy.y) < 200 && this.nearestEnemy.x < this.x){
+                    // Mirar a la izquierda
+                    this.sprite.verticalFrameIndex = 1
+                } else if ((this.y - this.nearestEnemy.y) < 200 && this.nearestEnemy.x > this.x){
+                    // Mirar a la derecha
+                    this.sprite.verticalFrameIndex = 2
+                } else if (this.nearestEnemy.y < this.y){
+                    // Mirar arriba
                     this.sprite.verticalFrameIndex = 0
                 } else {
+                    // Mirar abajo
                     this.sprite.verticalFrameIndex = 3
                 }
             } else {
@@ -313,6 +322,9 @@ class Player {
         }
     }
 
+    // ==================================
+    // CHECK COLLISIONS
+    // ==================================
     collidesWith(element) {
         return  this.x < (element.x + 30) + (element.width - 60) &&
                 this.x + this.width > (element.x + 30) &&

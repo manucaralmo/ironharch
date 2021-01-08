@@ -37,10 +37,6 @@ class IronHarch {
             win: new Audio('assets/sounds/win.mp3'),
         }
 
-        // MOBILE JOYSTIC
-        this.touchStartX = undefined
-        this.touchStartY = undefined
-
         // LEVEL & RECORD
         this.level = 1 
         //this.level = Object.keys(LEVELS).length

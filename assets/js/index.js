@@ -25,6 +25,8 @@ window.addEventListener('load', () => {
             console.log(error)
         }
     })
+    // ==========================================
+
 
     // GAME CONFIG
     const gameConfig = {
@@ -40,6 +42,8 @@ window.addEventListener('load', () => {
         },
         playerName: localStorage.getItem("IronHarchPlayerName") || undefined
     }
+    // ==========================================
+
 
     const Game = new IronHarch('ironHarchCanvas') // Create game
     const canvasBoard = document.getElementById('canvasBoard')
@@ -56,6 +60,9 @@ window.addEventListener('load', () => {
     const soundBtn = document.getElementById('soundBtn')
     const player2select = document.getElementById('player2select')
     const player1select = document.getElementById('player1select')
+    const map1 = document.getElementById('map-1')
+    const map2 = document.getElementById('map-2')
+    const map3 = document.getElementById('map-3')
 
     // Screens
     const introGame = document.getElementById('intro')
@@ -79,6 +86,8 @@ window.addEventListener('load', () => {
 
     // INPUTS
     const playerName = document.getElementById('playerName')
+    // ==========================================
+
 
     // ======================================================
     // set Name
@@ -107,6 +116,7 @@ window.addEventListener('load', () => {
             return false
         }
     }
+    // ==========================================
 
     // ======================================================
     // Player selector
@@ -122,13 +132,11 @@ window.addEventListener('load', () => {
         player2select.classList.remove('opacity-img');
         playerImg = 2
     })
+    // ==========================================
 
     // ======================================================
     // Background Selector
     // ======================================================
-    const map1 = document.getElementById('map-1')
-    const map2 = document.getElementById('map-2')
-    const map3 = document.getElementById('map-3')
     let bg = 1 // Default background
 
     map1.addEventListener('click', () => {
@@ -137,7 +145,6 @@ window.addEventListener('load', () => {
         map3.classList.add('opacity-img');
         bg = 1
     })
-
     map2.addEventListener('click', () => {
         if(gameConfig.backgrounds.background2){
             map1.classList.add('opacity-img');
@@ -148,7 +155,6 @@ window.addEventListener('load', () => {
             theCapital.show()
         }
     })
-
     map3.addEventListener('click', () => {
         if(gameConfig.backgrounds.background3){
             map1.classList.add('opacity-img');
@@ -180,7 +186,6 @@ window.addEventListener('load', () => {
             alert('No tienes monedas suficientes')
         }
     })
-
     let buyBackground2Func = () => {
         localStorage.setItem("IronHarchCoins", Game.coinsPocket - 50)
         localStorage.setItem("background2", true)
@@ -194,7 +199,6 @@ window.addEventListener('load', () => {
             alert('No tienes monedas suficientes')
         }
     })
-
     let buyBackground3Func = () => {
         localStorage.setItem("IronHarchCoins", Game.coinsPocket - 150)
         localStorage.setItem("background3", true)
@@ -213,7 +217,6 @@ window.addEventListener('load', () => {
             mainGameBlock.style.display = "block" // Show Canvas 
             // Create bg & player
             Game.createBackgroundandPlayer(bg, playerImg) // Create Background & player
-
             // Solución al LAG en Safari
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             const audioCtx = new AudioContext();
