@@ -223,7 +223,7 @@ class IronHarch {
 
         // SWITH DE VENTAJAS
         const switchPowerBtn = (power) => {
-            let powerSelected = power.toElement.parentElement.dataset.power || power.path[1].dataset.power
+            let powerSelected = power.path[1].dataset.power || power.toElement.parentElement.dataset.power
             switch(powerSelected){
                 case 'doubleArrow':
                     this.player.extras.doubleShot = true
