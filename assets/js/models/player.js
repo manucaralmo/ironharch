@@ -306,7 +306,7 @@ class Player {
         // seteamos el status de shooting
         this.shooting = !status
 
-        switch(event.keyCode) {
+        switch(event.code) {
         case ARROW_UP:
             this.movements.up = status
             break
