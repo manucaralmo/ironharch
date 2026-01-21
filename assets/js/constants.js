@@ -18,10 +18,10 @@ const PLAYER_SPEED = 6
 /* ==============================
 * kEYBOARD CONSTANTS
 * ============================== */
-const ARROW_LEFT = 37
-const ARROW_UP = 38
-const ARROW_RIGHT = 39
-const ARROW_BOTTOM = 40
+const ARROW_LEFT = 'ArrowLeft'
+const ARROW_UP = 'ArrowUp'
+const ARROW_RIGHT = 'ArrowRight'
+const ARROW_BOTTOM = 'ArrowDown'
 
 
 const BULLET_SPEED = 5
